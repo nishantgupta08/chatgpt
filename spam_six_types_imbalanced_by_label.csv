@@ -1,0 +1,241 @@
+text,label,type_of_problem
+"The model is accurate, but it is slow.",ham,discourse_relations
+Fantastic job breaking the build again.,ham,sarcasm
+"After verification, your prize will be released: https://secure.example/725",spam,discourse_relations
+"Build baar baar fail ho raha hai, yaar.",ham,oov
+"Although the interface is simple, new users struggle.",ham,discourse_relations
+You must include error bars in the report.,ham,negation_modality
+"Great, another crash—just what I needed.",ham,sarcasm
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+"Kal meeting hai, please be on time.",ham,oov
+It never converged on the small dataset.,ham,negation_modality
+He tuned the bass before the concert.,ham,wsd
+She bought a fresh apple at the market.,ham,wsd
+You must verify your identity now or the account may be locked: https://gift.example/444,spam,negation_modality
+Ravi emailed Priya when she reached the office.,ham,coreference_anaphora
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+new v1agra dealz 80%OFF 👉 https://promo.example/203,spam,oov
+Slides updated—see v2.1 notes 👍,ham,oov
+"The model is accurate, but it is slow.",ham,discourse_relations
+We might deploy on Friday if tests pass.,ham,negation_modality
+The fix could improve latency.,ham,negation_modality
+"Perf spiked on dataset_z13b, investigating.",ham,oov
+The model is not better than the baseline.,ham,negation_modality
+Neha handed the laptop to Arun while he packed the cables.,ham,coreference_anaphora
+The fix could improve latency.,ham,negation_modality
+It never converged on the small dataset.,ham,negation_modality
+"Build baar baar fail ho raha hai, yaar.",ham,oov
+She bought a fresh apple at the market.,ham,wsd
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+FREE gift 🎁 limited time!! go: https://verify.example/384,spam,oov
+Fantastic job breaking the build again.,ham,sarcasm
+This offer might expire today—act fast: https://dealz.example/721,spam,negation_modality
+"Because the dataset was noisy, the accuracy dropped.",ham,discourse_relations
+"Perf spiked on dataset_z13b, investigating.",ham,oov
+Ravi emailed Priya when she reached the office.,ham,coreference_anaphora
+"If you confirm today, you get 70% OFF: https://verify.example/362",spam,discourse_relations
+Kunal handed the parcel to Riya while she confirmed delivery at https://secure.example/687,spam,coreference_anaphora
+She bought a fresh apple at the market.,ham,wsd
+"Build baar baar fail ho raha hai, yaar.",ham,oov
+Slides updated—see v2.1 notes 👍,ham,oov
+Fantastic job breaking the build again.,ham,sarcasm
+"Because your trial ended, renew now to avoid suspension: https://verify.example/374",spam,discourse_relations
+"Brilliant, the slides loaded without images.",ham,sarcasm
+"Brilliant, the slides loaded without images.",ham,sarcasm
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+Win ₹5000 now #HotDealz 😎 tap → https://secure.example/388,spam,oov
+"Although the interface is simple, new users struggle.",ham,discourse_relations
+The fix could improve latency.,ham,negation_modality
+We picnicked on the bank and watched the boats.,ham,wsd
+Neha handed the laptop to Arun while he packed the cables.,ham,coreference_anaphora
+"Kal meeting hai, please be on time.",ham,oov
+He wrote a parser in Java for the assignment.,ham,wsd
+Ravi emailed Priya when she reached the office.,ham,coreference_anaphora
+"Wonderful timing, we 'randomly' picked you for a reward: https://secure.example/452",spam,sarcasm
+You must verify your identity now or the account may be locked: https://gift.example/444,spam,negation_modality
+It never converged on the small dataset.,ham,negation_modality
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+We might deploy on Friday if tests pass.,ham,negation_modality
+Fantastic job breaking the build again.,ham,sarcasm
+"Wonderful timing, we 'randomly' picked you for a reward: https://secure.example/452",spam,sarcasm
+Crane rental discount for your site—book: https://dealz.example/272,spam,wsd
+"Build baar baar fail ho raha hai, yaar.",ham,oov
+"Great, another crash—just what I needed.",ham,sarcasm
+"Oh perfect, the network died during the demo.",ham,sarcasm
+Anita thanked Ravi because he must verify his account now: https://promo.example/731,spam,coreference_anaphora
+FREE gift 🎁 limited time!! go: https://verify.example/384,spam,oov
+Kunal emailed Anita when she won a ₹5000 voucher—claim: https://dealz.example/381,spam,coreference_anaphora
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+Slides updated—see v2.1 notes 👍,ham,oov
+"Wonderful timing, we 'randomly' picked you for a reward: https://secure.example/452",spam,sarcasm
+"The model is accurate, but it is slow.",ham,discourse_relations
+It never converged on the small dataset.,ham,negation_modality
+The crane lifted the steel beams into place.,ham,wsd
+The model is not better than the baseline.,ham,negation_modality
+"Because the dataset was noisy, the accuracy dropped.",ham,discourse_relations
+He tuned the bass before the concert.,ham,wsd
+"Kal meeting hai, please be on time.",ham,oov
+FR33 access 2 premium vids ➜ https://verify.example/946,spam,oov
+Win ₹5000 now #HotDealz 😎 tap → https://secure.example/388,spam,oov
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+Crane rental discount for your site—book: https://dealz.example/272,spam,wsd
+new v1agra dealz 80%OFF 👉 https://promo.example/203,spam,oov
+"Build baar baar fail ho raha hai, yaar.",ham,oov
+The bank needs verification—avoid account hold: https://gift.example/784,spam,wsd
+Fantastic job breaking the build again.,ham,sarcasm
+Riya thanked Vikram because he fixed the bug.,ham,coreference_anaphora
+"Java course 90% OFF, enroll today: https://dealz.example/104",spam,wsd
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+"After verification, your prize will be released: https://secure.example/725",spam,discourse_relations
+This offer might expire today—act fast: https://dealz.example/721,spam,negation_modality
+Yeh feature kaafi helpful tha.,ham,oov
+"Oh perfect, the network died during the demo.",ham,sarcasm
+You must include error bars in the report.,ham,negation_modality
+"Perf spiked on dataset_z13b, investigating.",ham,oov
+She bought a fresh apple at the market.,ham,wsd
+Riya thanked Vikram because he fixed the bug.,ham,coreference_anaphora
+"Great, another crash—just what I needed.",ham,sarcasm
+"Because the dataset was noisy, the accuracy dropped.",ham,discourse_relations
+"Brilliant, the slides loaded without images.",ham,sarcasm
+The crane lifted the steel beams into place.,ham,wsd
+Fantastic job breaking the build again.,ham,sarcasm
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+He wrote a parser in Java for the assignment.,ham,wsd
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+Riya praised Rahul as he solved the issue quickly.,ham,coreference_anaphora
+He tuned the bass before the concert.,ham,wsd
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+"Java course 90% OFF, enroll today: https://dealz.example/104",spam,wsd
+He tuned the bass before the concert.,ham,wsd
+Ravi emailed Priya when she reached the office.,ham,coreference_anaphora
+We picnicked on the bank and watched the boats.,ham,wsd
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+Riya thanked Vikram because he fixed the bug.,ham,coreference_anaphora
+Kunal handed the parcel to Riya while she confirmed delivery at https://secure.example/687,spam,coreference_anaphora
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+Kunal handed the parcel to Riya while she confirmed delivery at https://secure.example/687,spam,coreference_anaphora
+You must include error bars in the report.,ham,negation_modality
+The crane lifted the steel beams into place.,ham,wsd
+"Brilliant, the slides loaded without images.",ham,sarcasm
+"Because your trial ended, renew now to avoid suspension: https://verify.example/374",spam,discourse_relations
+Riya praised Rahul as he solved the issue quickly.,ham,coreference_anaphora
+Win ₹5000 now #HotDealz 😎 tap → https://secure.example/388,spam,oov
+"Great, another crash—just what I needed.",ham,sarcasm
+"The model is accurate, but it is slow.",ham,discourse_relations
+You must include error bars in the report.,ham,negation_modality
+"Because the dataset was noisy, the accuracy dropped.",ham,discourse_relations
+Kunal handed the parcel to Riya while she confirmed delivery at https://secure.example/687,spam,coreference_anaphora
+"Although you ignored the last alert, we can still restore access: https://verify.example/180",spam,discourse_relations
+Yeh feature kaafi helpful tha.,ham,oov
+"Build baar baar fail ho raha hai, yaar.",ham,oov
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+"Oh perfect, the network died during the demo.",ham,sarcasm
+"Kal meeting hai, please be on time.",ham,oov
+She bought a fresh apple at the market.,ham,wsd
+"Perfect, another exclusive deal just for you—totally not urgent: https://gift.example/673",spam,sarcasm
+"Oh perfect, the network died during the demo.",ham,sarcasm
+"Great, another crash—just what I needed.",ham,sarcasm
+"Brilliant, the slides loaded without images.",ham,sarcasm
+We picnicked on the bank and watched the boats.,ham,wsd
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+It never converged on the small dataset.,ham,negation_modality
+Fantastic job breaking the build again.,ham,sarcasm
+We picnicked on the bank and watched the boats.,ham,wsd
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+Riya thanked Vikram because he fixed the bug.,ham,coreference_anaphora
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+Amazing news—your account is perfectly safe unless you click here: https://dealz.example/905,spam,sarcasm
+The fix could improve latency.,ham,negation_modality
+He tuned the bass before the concert.,ham,wsd
+The fix could improve latency.,ham,negation_modality
+"Because the dataset was noisy, the accuracy dropped.",ham,discourse_relations
+"Wonderful timing, we 'randomly' picked you for a reward: https://secure.example/452",spam,sarcasm
+Yeh feature kaafi helpful tha.,ham,oov
+Ravi emailed Priya when she reached the office.,ham,coreference_anaphora
+Riya praised Rahul as he solved the issue quickly.,ham,coreference_anaphora
+Fantastic job breaking the build again.,ham,sarcasm
+"Kal meeting hai, please be on time.",ham,oov
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+Slides updated—see v2.1 notes 👍,ham,oov
+She bought a fresh apple at the market.,ham,wsd
+"Perfect, another exclusive deal just for you—totally not urgent: https://gift.example/673",spam,sarcasm
+We might deploy on Friday if tests pass.,ham,negation_modality
+Amazing news—your account is perfectly safe unless you click here: https://dealz.example/905,spam,sarcasm
+The bank needs verification—avoid account hold: https://gift.example/784,spam,wsd
+"After verification, your prize will be released: https://secure.example/725",spam,discourse_relations
+FR33 access 2 premium vids ➜ https://verify.example/946,spam,oov
+The crane lifted the steel beams into place.,ham,wsd
+Neha handed the laptop to Arun while he packed the cables.,ham,coreference_anaphora
+"Kal meeting hai, please be on time.",ham,oov
+It never converged on the small dataset.,ham,negation_modality
+"Because your trial ended, renew now to avoid suspension: https://verify.example/374",spam,discourse_relations
+new v1agra dealz 80%OFF 👉 https://promo.example/203,spam,oov
+Amazing news—your account is perfectly safe unless you click here: https://dealz.example/905,spam,sarcasm
+Yeh feature kaafi helpful tha.,ham,oov
+We might deploy on Friday if tests pass.,ham,negation_modality
+"Kal meeting hai, please be on time.",ham,oov
+Neha handed the laptop to Arun while he packed the cables.,ham,coreference_anaphora
+"Brilliant, the slides loaded without images.",ham,sarcasm
+Ravi emailed Priya when she reached the office.,ham,coreference_anaphora
+Yeh feature kaafi helpful tha.,ham,oov
+We picnicked on the bank and watched the boats.,ham,wsd
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+"Although you ignored the last alert, we can still restore access: https://verify.example/180",spam,discourse_relations
+"Perf spiked on dataset_z13b, investigating.",ham,oov
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+You must verify your identity now or the account may be locked: https://gift.example/444,spam,negation_modality
+We picnicked on the bank and watched the boats.,ham,wsd
+Yeh feature kaafi helpful tha.,ham,oov
+Priya argued with Kunal since he ignored security alert—fix: https://promo.example/127,spam,coreference_anaphora
+"Great, another crash—just what I needed.",ham,sarcasm
+You must update billing immediately: https://dealz.example/855,spam,negation_modality
+It never converged on the small dataset.,ham,negation_modality
+You must verify your identity now or the account may be locked: https://gift.example/444,spam,negation_modality
+Fantastic job breaking the build again.,ham,sarcasm
+Kunal handed the parcel to Riya while she confirmed delivery at https://secure.example/687,spam,coreference_anaphora
+Riya praised Rahul as he solved the issue quickly.,ham,coreference_anaphora
+The model is not better than the baseline.,ham,negation_modality
+Riya praised Rahul as he solved the issue quickly.,ham,coreference_anaphora
+You must include error bars in the report.,ham,negation_modality
+Kunal emailed Anita when she won a ₹5000 voucher—claim: https://dealz.example/381,spam,coreference_anaphora
+"Oh perfect, the network died during the demo.",ham,sarcasm
+We picnicked on the bank and watched the boats.,ham,wsd
+Ravi emailed Priya when she reached the office.,ham,coreference_anaphora
+This offer might expire today—act fast: https://dealz.example/721,spam,negation_modality
+"Great, another crash—just what I needed.",ham,sarcasm
+This offer might expire today—act fast: https://dealz.example/721,spam,negation_modality
+"Java course 90% OFF, enroll today: https://dealz.example/104",spam,wsd
+"After the upgrade finished, tests started failing.",ham,discourse_relations
+"Wonderful timing, we 'randomly' picked you for a reward: https://secure.example/452",spam,sarcasm
+It never converged on the small dataset.,ham,negation_modality
+Crane rental discount for your site—book: https://dealz.example/272,spam,wsd
+Win a free bass guitar! Confirm shipping: https://secure.example/556,spam,wsd
+She bought a fresh apple at the market.,ham,wsd
+Fantastic job breaking the build again.,ham,sarcasm
+Kunal handed the parcel to Riya while she confirmed delivery at https://secure.example/687,spam,coreference_anaphora
+Password cannot be reset unless you confirm here: https://verify.example/513,spam,negation_modality
+You must include error bars in the report.,ham,negation_modality
+He tuned the bass before the concert.,ham,wsd
+The model is not better than the baseline.,ham,negation_modality
+"If the GPU overheats, the training will stop.",ham,discourse_relations
+Ravi called Riya after she finished the report.,ham,coreference_anaphora
+"Java course 90% OFF, enroll today: https://dealz.example/104",spam,wsd
+We might deploy on Friday if tests pass.,ham,negation_modality
+He tuned the bass before the concert.,ham,wsd
+Riya thanked Vikram because he fixed the bug.,ham,coreference_anaphora
+"Kal meeting hai, please be on time.",ham,oov
+"Oh perfect, the network died during the demo.",ham,sarcasm
+She bought a fresh apple at the market.,ham,wsd
+"Great, another crash—just what I needed.",ham,sarcasm
+Riya praised Rahul as he solved the issue quickly.,ham,coreference_anaphora
+"After verification, your prize will be released: https://secure.example/725",spam,discourse_relations
+He tuned the bass before the concert.,ham,wsd
+You must include error bars in the report.,ham,negation_modality
+He wrote a parser in Java for the assignment.,ham,wsd
+"Build baar baar fail ho raha hai, yaar.",ham,oov
+Yeh feature kaafi helpful tha.,ham,oov
+You must include error bars in the report.,ham,negation_modality
