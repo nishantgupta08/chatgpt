@@ -1,0 +1,166 @@
+text,label,type_of_problem
+"Brilliant, the slides loaded without images.",sarcastic,sarcasm
+"After the upgrade finished, tests started failing.",temporal,discourse_relations
+Amit praised Priya as he solved the issue quickly.,second_mention,coreference_anaphora
+He wrote a parser in Java for the assignment.,java_LANGUAGE,wsd
+"Before the talk began, the slides were updated.",temporal,discourse_relations
+"The model is accurate, but it is slow.",contrast,discourse_relations
+Kavya praised Arun as she solved the issue quickly.,second_mention,coreference_anaphora
+Amit argued with Anita since he missed the deadline.,first_mention,coreference_anaphora
+He wrote a parser in Java for the assignment.,java_LANGUAGE,wsd
+Kavya emailed Arun when she reached the office.,second_mention,coreference_anaphora
+Apple announced new laptops at the event.,apple_COMPANY,wsd
+We sipped hot java during the break.,java_COFFEE,wsd
+I can't recommend this approach.,negated,negation_modality
+Neha praised Kunal as she solved the issue quickly.,second_mention,coreference_anaphora
+"Before the talk began, the slides were updated.",temporal,discourse_relations
+The model is better than before.,none,negation_modality
+The slides loaded correctly on the projector.,not_sarcastic,sarcasm
+A crane stood quietly by the lake at dawn.,crane_BIRD,wsd
+The experiment produced stable results.,clean,oov
+Kavya called Amit after she finished the report.,second_mention,coreference_anaphora
+The experiment produced stable results.,clean,oov
+Kavya argued with Ravi since she missed the deadline.,second_mention,coreference_anaphora
+It never converged on the small dataset.,negated,negation_modality
+The bank raised lending rates this quarter.,bank_FINANCE,wsd
+Apple announced new laptops at the event.,apple_COMPANY,wsd
+We sipped hot java during the break.,java_COFFEE,wsd
+Anita argued with Arun since she missed the deadline.,second_mention,coreference_anaphora
+We used qdrnt vecdb—super snappy,oov,oov
+The model is better than before.,none,negation_modality
+She bought a fresh apple at the market.,apple_FRUIT,wsd
+Neha argued with Arun since she missed the deadline.,second_mention,coreference_anaphora
+We picnicked on the bank and watched the boats.,bank_RIVER,wsd
+The model is better than before.,none,negation_modality
+"Although the interface is simple, new users struggle.",contrast,discourse_relations
+The crane lifted the steel beams into place.,crane_MACHINE,wsd
+"The model is accurate, but it is slow.",contrast,discourse_relations
+The crane lifted the steel beams into place.,crane_MACHINE,wsd
+The fix might improve latency.,possible,negation_modality
+Kunal praised Maya as he solved the issue quickly.,second_mention,coreference_anaphora
+He wrote a parser in Java for the assignment.,java_LANGUAGE,wsd
+The model is better than before.,none,negation_modality
+We installed the required packages.,clean,oov
+"The model is accurate, but it is slow.",contrast,discourse_relations
+We sipped hot java during the break.,java_COFFEE,wsd
+We installed the required packages.,clean,oov
+The model is better than before.,none,negation_modality
+Thanks for the timely hotfix.,not_sarcastic,sarcasm
+"The model is accurate, but it is slow.",contrast,discourse_relations
+Performance improved after refactoring.,clean,oov
+"Although the interface is simple, new users struggle.",contrast,discourse_relations
+Kavya praised Rahul as she solved the issue quickly.,second_mention,coreference_anaphora
+Riya argued with Arun since she missed the deadline.,second_mention,coreference_anaphora
+Priya praised Amit as she solved the issue quickly.,second_mention,coreference_anaphora
+"Although the interface is simple, new users struggle.",contrast,discourse_relations
+Neha praised Kunal as she solved the issue quickly.,first_mention,coreference_anaphora
+Kavya called Kunal after she finished the report.,first_mention,coreference_anaphora
+Riya thanked Amit because she fixed the bug.,second_mention,coreference_anaphora
+Rahul praised Maya as he solved the issue quickly.,second_mention,coreference_anaphora
+They will re-run the experiment tomorrow.,none,negation_modality
+Performance improved after refactoring.,clean,oov
+We could deploy by Friday.,possible,negation_modality
+They will re-run the experiment tomorrow.,none,negation_modality
+Arun called Neha after he finished the report.,second_mention,coreference_anaphora
+"Great, another crash—just what I needed.",sarcastic,sarcasm
+Performance improved after refactoring.,clean,oov
+The experiment produced stable results.,clean,oov
+Maya praised Kunal as she solved the issue quickly.,second_mention,coreference_anaphora
+The fix might improve latency.,possible,negation_modality
+"Although the interface is simple, new users struggle.",contrast,discourse_relations
+The slides loaded correctly on the projector.,not_sarcastic,sarcasm
+Kavya handed the laptop to Rahul while she packed the cables.,second_mention,coreference_anaphora
+Thanks for the timely hotfix.,not_sarcastic,sarcasm
+Kavya thanked Vikram because she fixed the bug.,second_mention,coreference_anaphora
+We sipped hot java during the break.,java_COFFEE,wsd
+The slides loaded correctly on the projector.,not_sarcastic,sarcasm
+He wrote a parser in Java for the assignment.,java_LANGUAGE,wsd
+The bank raised lending rates this quarter.,bank_FINANCE,wsd
+We sipped hot java during the break.,java_COFFEE,wsd
+Kavya thanked Amit because she fixed the bug.,first_mention,coreference_anaphora
+The results weren't inconsistent.,negated,negation_modality
+The report needs to include error bars.,necessary,negation_modality
+The bank raised lending rates this quarter.,bank_FINANCE,wsd
+"After the upgrade finished, tests started failing.",temporal,discourse_relations
+Rahul emailed Maya when he reached the office.,second_mention,coreference_anaphora
+"Because the dataset was noisy, the accuracy dropped.",causal,discourse_relations
+He wrote a parser in Java for the assignment.,java_LANGUAGE,wsd
+The model is better than before.,none,negation_modality
+We installed the required packages.,clean,oov
+Thanks for the timely hotfix.,not_sarcastic,sarcasm
+Performance improved after refactoring.,clean,oov
+Fantastic job breaking the build again.,sarcastic,sarcasm
+You must update the dependencies.,necessary,negation_modality
+Rahul handed the laptop to Riya while he packed the cables.,second_mention,coreference_anaphora
+"After the upgrade finished, tests started failing.",temporal,discourse_relations
+He wrote a parser in Java for the assignment.,java_LANGUAGE,wsd
+Great job fixing the issue quickly.,not_sarcastic,sarcasm
+Great job fixing the issue quickly.,not_sarcastic,sarcasm
+A crane stood quietly by the lake at dawn.,crane_BIRD,wsd
+We improved throughput since the cache was tuned.,causal,discourse_relations
+The network stayed stable during the demo.,not_sarcastic,sarcasm
+Thanks for the timely hotfix.,not_sarcastic,sarcasm
+They will re-run the experiment tomorrow.,none,negation_modality
+Perf spiked on dataset_z13b!,oov,oov
+We could deploy by Friday.,possible,negation_modality
+Anita handed the laptop to Rahul while she packed the cables.,second_mention,coreference_anaphora
+"The model is accurate, but it is slow.",contrast,discourse_relations
+Great job fixing the issue quickly.,not_sarcastic,sarcasm
+The results weren't inconsistent.,negated,negation_modality
+The network stayed stable during the demo.,not_sarcastic,sarcasm
+They will re-run the experiment tomorrow.,none,negation_modality
+Kavya called Amit after she finished the report.,second_mention,coreference_anaphora
+We improved throughput since the cache was tuned.,causal,discourse_relations
+Priya thanked Amit because she fixed the bug.,second_mention,coreference_anaphora
+Install pyfast-xtreme++ asap,oov,oov
+"Because the dataset was noisy, the accuracy dropped.",causal,discourse_relations
+Priya handed the laptop to Kunal while she packed the cables.,first_mention,coreference_anaphora
+The model is better than before.,none,negation_modality
+Amit praised Priya as he solved the issue quickly.,first_mention,coreference_anaphora
+Anita called Vikram after she finished the report.,second_mention,coreference_anaphora
+Neha emailed Arun when she reached the office.,first_mention,coreference_anaphora
+The model is better than before.,none,negation_modality
+He wrote a parser in Java for the assignment.,java_LANGUAGE,wsd
+The bank raised lending rates this quarter.,bank_FINANCE,wsd
+The model is better than before.,none,negation_modality
+We improved throughput since the cache was tuned.,causal,discourse_relations
+The model is better than before.,none,negation_modality
+The crane lifted the steel beams into place.,crane_MACHINE,wsd
+Maya emailed Rahul when she reached the office.,second_mention,coreference_anaphora
+They will re-run the experiment tomorrow.,none,negation_modality
+Arun praised Kavya as he solved the issue quickly.,second_mention,coreference_anaphora
+Great job fixing the issue quickly.,not_sarcastic,sarcasm
+The results weren't inconsistent.,negated,negation_modality
+#HyperTune v2 totally slaps 😅,oov,oov
+"Although the interface is simple, new users struggle.",contrast,discourse_relations
+Kavya praised Arun as she solved the issue quickly.,first_mention,coreference_anaphora
+Neha handed the laptop to Kunal while she packed the cables.,second_mention,coreference_anaphora
+"The model is accurate, but it is slow.",contrast,discourse_relations
+We improved throughput since the cache was tuned.,causal,discourse_relations
+The network stayed stable during the demo.,not_sarcastic,sarcasm
+They will re-run the experiment tomorrow.,none,negation_modality
+We installed the required packages.,clean,oov
+We picnicked on the bank and watched the boats.,bank_RIVER,wsd
+Ravi called Riya after he finished the report.,second_mention,coreference_anaphora
+Neha argued with Kunal since she missed the deadline.,second_mention,coreference_anaphora
+#HyperTune v2 totally slaps 😅,oov,oov
+"Even though it was late, they kept debugging.",concession,discourse_relations
+We picnicked on the bank and watched the boats.,bank_RIVER,wsd
+New feat: autovectorizer3000!,oov,oov
+We sipped hot java during the break.,java_COFFEE,wsd
+Vikram praised Neha as he solved the issue quickly.,second_mention,coreference_anaphora
+The model is better than before.,none,negation_modality
+Apple announced new laptops at the event.,apple_COMPANY,wsd
+Neha thanked Amit because she fixed the bug.,first_mention,coreference_anaphora
+Apple announced new laptops at the event.,apple_COMPANY,wsd
+The model is better than before.,none,negation_modality
+The model is better than before.,none,negation_modality
+"Brilliant, the slides loaded without images.",sarcastic,sarcasm
+Kunal emailed Kavya when he reached the office.,first_mention,coreference_anaphora
+Performance improved after refactoring.,clean,oov
+"Great, another crash—just what I needed.",sarcastic,sarcasm
+"After the upgrade finished, tests started failing.",temporal,discourse_relations
+Thanks for the timely hotfix.,not_sarcastic,sarcasm
+Performance improved after refactoring.,clean,oov
+We installed the required packages.,clean,oov
+"The model is accurate, but it is slow.",contrast,discourse_relations
