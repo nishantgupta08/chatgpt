@@ -2,8 +2,8 @@
 /* eslint-disable @next/next/no-img-element */
 
 import React, { useState } from "react";
-import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
+import { useParams } from "next/navigation";
 
 import data from "@/app/assets/content.json";
 import InnerBanner from "@/components/InnerBanner";
@@ -17,8 +17,8 @@ type Submodule = { title: string; content: string[] };
 
 type Topic = {
   title: string;
-  content?: string[];       // legacy flat list
-  submodules?: Submodule[]; // optional nested
+  content?: string[];        // legacy flat list
+  submodules?: Submodule[];  // optional nested
 };
 
 type UserCardData = {
@@ -42,7 +42,7 @@ type Course = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                            Highlights (new section)                         */
+/*                           Highlights (new section)                          */
 /* -------------------------------------------------------------------------- */
 
 type Highlight = {
@@ -114,7 +114,7 @@ const HighlightsSection = () => (
 );
 
 /* -------------------------------------------------------------------------- */
-/*                     Course Content as Cards (with submodules)              */
+/*                 Course Content Cards (tabs for submodules)                 */
 /* -------------------------------------------------------------------------- */
 
 const CountBadge = ({ count }: { count: number }) => (
@@ -139,27 +139,128 @@ const Bullets = ({ bullets }: { bullets: string[] }) =>
     <p className="text-sm text-gray-600">No subtopics yet.</p>
   );
 
-const SubmoduleCard = ({ module, maxItems = 8 }: { module: Submodule; maxItems?: number }) => {
-  const [expanded, setExpanded] = useState(false);
-  const shown = expanded ? module.content : module.content.slice(0, maxItems);
-  const canExpand = module.content.length > maxItems;
+function ExpandableBullets({ bullets, maxItems = 8 }: { bullets: string[]; maxItems?: number }) {
+  if (!bullets?.length) return <p className="text-sm text-gray-600">No subtopics yet.</p>;
+  const hasOverflow = bullets.length > maxItems;
+  const head = bullets.slice(0, maxItems);
+  const tail = bullets.slice(maxItems);
 
   return (
-    <div className="bg-[#F8F9FF] rounded-xl border border-[#E7E9FF] p-3 sm:p-4">
-      <h4 className="text-sm sm:text-base font-semibold text-[#1C1A4A] mb-2">{module.title}</h4>
-      <Bullets bullets={shown} />
-      {canExpand && (
-        <button
-          type="button"
-          className="mt-2 text-xs font-medium text-[#4F46E5] hover:underline"
-          onClick={() => setExpanded((v) => !v)}
-        >
-          {expanded ? "Show less" : `Show ${module.content.length - shown.length} more`}
-        </button>
+    <div>
+      <Bullets bullets={head} />
+      {hasOverflow && (
+        <details className="mt-2">
+          <summary className="text-xs font-medium text-[#4F46E5] cursor-pointer select-none">
+            Show {tail.length} more
+          </summary>
+          <div className="mt-2">
+            <Bullets bullets={tail} />
+          </div>
+        </details>
       )}
     </div>
   );
-};
+}
+
+function Drawer({
+  title,
+  children,
+  onClose,
+}: {
+  title: string;
+  children: React.ReactNode;
+  onClose: () => void;
+}) {
+  return (
+    <div role="dialog" aria-modal="true" className="fixed inset-0 z-[60]">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 md:inset-y-0 md:right-0 md:left-auto md:w-[680px] bg-white rounded-t-2xl md:rounded-l-2xl p-4 sm:p-6 shadow-2xl overflow-auto">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-[#1C1A4A]">{title}</h3>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="rounded-md px-3 py-1 text-sm bg-[#F3F4FF] border border-[#E7E9FF] hover:bg-[#ECEFFF]"
+          >
+            Close
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function SubmoduleTabs({ submodules, maxItems }: { submodules: Submodule[]; maxItems: number }) {
+  const [active, setActive] = useState(0);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const m = submodules[active];
+
+  return (
+    <div>
+      {/* Scrollable Tabs */}
+      <div
+        role="tablist"
+        aria-label="Submodules"
+        className="flex items-center gap-2 overflow-x-auto no-scrollbar p-1 rounded-lg border border-[#E7E9FF] bg-[#F6F7FF]"
+      >
+        {submodules.map((s, i) => {
+          const count = s.content?.length ?? 0;
+          const isActive = i === active;
+          return (
+            <button
+              key={`${s.title}-${i}`}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => setActive(i)}
+              className={[
+                "shrink-0 inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm transition",
+                isActive
+                  ? "bg-white border border-[#DDE0FF] text-[#1C1A4A] shadow-sm"
+                  : "bg-transparent border border-transparent text-[#374151] hover:bg-white/60",
+              ].join(" ")}
+            >
+              <span className="font-medium">{s.title}</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/70 border border-[#E7E9FF]">
+                {count}
+              </span>
+            </button>
+          );
+        })}
+
+        {submodules.length > 2 && (
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="ml-auto shrink-0 text-xs font-medium text-[#4F46E5] hover:underline px-2 py-1"
+            aria-label="View all modules"
+          >
+            View all
+          </button>
+        )}
+      </div>
+
+      {/* Active Panel */}
+      <div role="tabpanel" className="mt-3 rounded-xl border border-[#E7E9FF] bg-[#F8F9FF] p-3 sm:p-4">
+        <h4 className="text-sm sm:text-base font-semibold text-[#1C1A4A] mb-2">{m.title}</h4>
+        <ExpandableBullets bullets={m.content} maxItems={maxItems} />
+      </div>
+
+      {/* Drawer with full list */}
+      {drawerOpen && (
+        <Drawer onClose={() => setDrawerOpen(false)} title="All Modules">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {submodules.map((s, i) => (
+              <div key={`${s.title}-${i}`} className="bg-white rounded-xl border border-[#E7E9FF] p-3 sm:p-4">
+                <h5 className="text-sm font-semibold text-[#1C1A4A] mb-2">{s.title}</h5>
+                <Bullets bullets={s.content} />
+              </div>
+            ))}
+          </div>
+        </Drawer>
+      )}
+    </div>
+  );
+}
 
 const CourseContentCards = ({
   topics,
@@ -192,11 +293,7 @@ const CourseContentCards = ({
               </header>
 
               {isNested ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {t.submodules!.map((m, idx) => (
-                    <SubmoduleCard key={`${m.title}-${idx}`} module={m} maxItems={maxItems} />
-                  ))}
-                </div>
+                <SubmoduleTabs submodules={t.submodules!} maxItems={maxItems} />
               ) : (
                 <Bullets bullets={(t.content ?? []).slice(0, maxItems)} />
               )}
@@ -265,13 +362,13 @@ export default function Page() {
         }
       />
 
-      {/* NEW: Highlights under the banner */}
+      {/* New Highlights under the banner */}
       <HighlightsSection />
 
       <div className="relative py-12 lg:py-16">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-start gap-6 lg:gap-8">
-            {/* Course Content (Cards) */}
+            {/* Course Content (cards with submodule tabs) */}
             <div className="lg:col-span-7">
               <div className="relative rounded-xl p-4 sm:p-6 border border-bor">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl text-black mb-4 sm:mb-6">
@@ -292,8 +389,8 @@ export default function Page() {
                 {coursesData?.right_side_video_url && (
                   <iframe
                     className="w-full h-full rounded-xl sm:rounded-2xl lg:rounded-3xl border border-black drop-shadow-[2px_2px_0_#1C1A4A] sm:drop-shadow-[4px_4px_0_#1C1A4A] lg:drop-shadow-[6px_6px_0_#1C1A4A]"
-                    src={coursesData?.right_side_video_url}
-                    title={`About ${coursesData?.title ?? "DataPlay"}`}
+                    src={coursesData.right_side_video_url}
+                    title={`About ${coursesData.title}`}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -305,14 +402,14 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Student / User section (unchanged) */}
+      {/* Student / User section */}
       {coursesData?.user_section?.length ? (
         <div className="relative py-12 lg:py-16">
           <div className="container">
             {coursesData.user_section.length > 1 ? (
               <div className="relative w-screen flex items-center gap-10 overflow-auto scroll-hidden">
-                {coursesData.user_section.map((userData, index) => (
-                  <UserCard key={index} userData={userData} />
+                {coursesData.user_section.map((u, i) => (
+                  <UserCard key={i} userData={u} />
                 ))}
               </div>
             ) : (
