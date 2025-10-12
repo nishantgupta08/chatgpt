@@ -1,425 +1,362 @@
-"use client"
-/* eslint-disable @next/next/no-img-element */
-
-import React, { useState } from "react";
-import { Icon } from "@iconify/react";
-import { useParams } from "next/navigation";
-
-import data from "@/app/assets/content.json";
-import InnerBanner from "@/components/InnerBanner";
-import SocialBadge from "@/components/SocialBadge";
-
-/* -------------------------------------------------------------------------- */
-/*                                   Types                                    */
-/* -------------------------------------------------------------------------- */
-
-type Submodule = { title: string; content: string[] };
-
-type Topic = {
-  title: string;
-  content?: string[];        // legacy flat list
-  submodules?: Submodule[];  // optional nested
-};
-
-type UserCardData = {
-  img_url: string;
-  name: string;
-  linkdin_url: string;
-  designation_name: string;
-  company_name: string;
-  company_business_link: string;
-  details: string;
-};
-
-type Course = {
-  id: number;
-  title: string;
-  sub_title: string;
-  img_url: string;
-  right_side_video_url?: string;
-  courses_content: Topic[];
-  user_section?: UserCardData[];
-};
-
-/* -------------------------------------------------------------------------- */
-/*                           Highlights (new section)                          */
-/* -------------------------------------------------------------------------- */
-
-type Highlight = {
-  title: string;
-  description: string;
-  icon: string; // iconify name
-};
-
-const HIGHLIGHTS: Highlight[] = [
-  {
-    title: "Pay After Placement",
-    description: "Zero upfront risk. Start paying only after you land a qualifying role.",
-    icon: "mdi:handshake",
-  },
-  {
-    title: "Industry-Expert Led Sessions",
-    description: "Live classes taught by senior practitioners who ship in production.",
-    icon: "mdi:certificate",
-  },
-  {
-    title: "Lifetime Access to Live Classes",
-    description: "Rejoin future cohorts, revisit recordings, and stay current forever.",
-    icon: "mdi:infinity",
-  },
-  {
-    title: "Dedicated Career Mentorship",
-    description: "1:1 guidance, mock interviews, and resume refactors tailored to you.",
-    icon: "mdi:account-check",
-  },
-];
-
-const HighlightCard = ({ item }: { item: Highlight }) => (
-  <article className="group relative overflow-hidden rounded-2xl border border-[#E7E9FF] bg-white shadow-[0_8px_24px_rgba(28,26,74,0.06)] hover:shadow-[0_16px_36px_rgba(28,26,74,0.12)] transition-shadow p-4 sm:p-5">
-    <div className="flex items-start gap-3">
-      <span className="inline-flex items-center justify-center rounded-xl bg-[#EEF2FF] border border-[#E7E9FF] p-2 shrink-0">
-        <Icon icon={item.icon} className="w-5 h-5 text-[#1C1A4A]" aria-hidden />
-      </span>
-      <div>
-        <h3 className="text-base sm:text-lg font-semibold text-[#1C1A4A] leading-tight">
-          {item.title}
-        </h3>
-        <p className="mt-1 text-sm text-gray-700 leading-relaxed">{item.description}</p>
-      </div>
-    </div>
-    <div className="pointer-events-none absolute -right-12 -top-12 h-28 w-28 rounded-full bg-gradient-to-br from-[#D8DCFF] to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
-  </article>
-);
-
-const HighlightsSection = () => (
-  <section aria-label="Course highlights" className="relative py-8 lg:py-10">
-    <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_50%_0%,#EEF2FF_0%,transparent_60%)]" />
-    <div className="container px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-6 sm:mb-8">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111827]">
-          Why Choose DataPlay?
-        </h2>
-        <p className="mt-2 text-sm sm:text-base text-gray-600">
-          Built to help you crack interviews and perform on the job.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
-        {HIGHLIGHTS.map((h, i) => (
-          <HighlightCard key={`${h.title}-${i}`} item={h} />
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-/* -------------------------------------------------------------------------- */
-/*                 Course Content Cards (tabs for submodules)                 */
-/* -------------------------------------------------------------------------- */
-
-const CountBadge = ({ count }: { count: number }) => (
-  <span
-    aria-label={`${count} items`}
-    className="inline-flex items-center justify-center text-[11px] font-semibold rounded-full px-2 py-1 bg-[#EAEAFF] text-[#1C1A4A] border border-[#DCDDFE]"
-  >
-    {count}
-  </span>
-);
-
-const Bullets = ({ bullets }: { bullets: string[] }) =>
-  bullets?.length ? (
-    <ul className="list-disc pl-5 space-y-1.5 text-sm leading-relaxed text-[#111827]">
-      {bullets.map((p, i) => (
-        <li key={i} className="marker:text-[#6C72FF]">
-          {p}
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p className="text-sm text-gray-600">No subtopics yet.</p>
-  );
-
-function ExpandableBullets({ bullets, maxItems = 8 }: { bullets: string[]; maxItems?: number }) {
-  if (!bullets?.length) return <p className="text-sm text-gray-600">No subtopics yet.</p>;
-  const hasOverflow = bullets.length > maxItems;
-  const head = bullets.slice(0, maxItems);
-  const tail = bullets.slice(maxItems);
-
-  return (
-    <div>
-      <Bullets bullets={head} />
-      {hasOverflow && (
-        <details className="mt-2">
-          <summary className="text-xs font-medium text-[#4F46E5] cursor-pointer select-none">
-            Show {tail.length} more
-          </summary>
-          <div className="mt-2">
-            <Bullets bullets={tail} />
-          </div>
-        </details>
-      )}
-    </div>
-  );
-}
-
-function Drawer({
-  title,
-  children,
-  onClose,
-}: {
-  title: string;
-  children: React.ReactNode;
-  onClose: () => void;
-}) {
-  return (
-    <div role="dialog" aria-modal="true" className="fixed inset-0 z-[60]">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-hidden="true" />
-      <div className="absolute inset-x-0 bottom-0 md:inset-y-0 md:right-0 md:left-auto md:w-[680px] bg-white rounded-t-2xl md:rounded-l-2xl p-4 sm:p-6 shadow-2xl overflow-auto">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-[#1C1A4A]">{title}</h3>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="rounded-md px-3 py-1 text-sm bg-[#F3F4FF] border border-[#E7E9FF] hover:bg-[#ECEFFF]"
-          >
-            Close
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function SubmoduleTabs({ submodules, maxItems }: { submodules: Submodule[]; maxItems: number }) {
-  const [active, setActive] = useState(0);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const m = submodules[active];
-
-  return (
-    <div>
-      {/* Scrollable Tabs */}
-      <div
-        role="tablist"
-        aria-label="Submodules"
-        className="flex items-center gap-2 overflow-x-auto no-scrollbar p-1 rounded-lg border border-[#E7E9FF] bg-[#F6F7FF]"
-      >
-        {submodules.map((s, i) => {
-          const count = s.content?.length ?? 0;
-          const isActive = i === active;
-          return (
-            <button
-              key={`${s.title}-${i}`}
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => setActive(i)}
-              className={[
-                "shrink-0 inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm transition",
-                isActive
-                  ? "bg-white border border-[#DDE0FF] text-[#1C1A4A] shadow-sm"
-                  : "bg-transparent border border-transparent text-[#374151] hover:bg-white/60",
-              ].join(" ")}
-            >
-              <span className="font-medium">{s.title}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/70 border border-[#E7E9FF]">
-                {count}
-              </span>
-            </button>
-          );
-        })}
-
-        {submodules.length > 2 && (
-          <button
-            onClick={() => setDrawerOpen(true)}
-            className="ml-auto shrink-0 text-xs font-medium text-[#4F46E5] hover:underline px-2 py-1"
-            aria-label="View all modules"
-          >
-            View all
-          </button>
-        )}
-      </div>
-
-      {/* Active Panel */}
-      <div role="tabpanel" className="mt-3 rounded-xl border border-[#E7E9FF] bg-[#F8F9FF] p-3 sm:p-4">
-        <h4 className="text-sm sm:text-base font-semibold text-[#1C1A4A] mb-2">{m.title}</h4>
-        <ExpandableBullets bullets={m.content} maxItems={maxItems} />
-      </div>
-
-      {/* Drawer with full list */}
-      {drawerOpen && (
-        <Drawer onClose={() => setDrawerOpen(false)} title="All Modules">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {submodules.map((s, i) => (
-              <div key={`${s.title}-${i}`} className="bg-white rounded-xl border border-[#E7E9FF] p-3 sm:p-4">
-                <h5 className="text-sm font-semibold text-[#1C1A4A] mb-2">{s.title}</h5>
-                <Bullets bullets={s.content} />
-              </div>
-            ))}
-          </div>
-        </Drawer>
-      )}
-    </div>
-  );
-}
-
-const CourseContentCards = ({
-  topics,
-  maxItems = 8,
-  showCounts = true,
-}: {
-  topics: Topic[];
-  maxItems?: number;
-  showCounts?: boolean;
-}) => {
-  if (!topics?.length) return null;
-
-  return (
-    <section aria-label="Course Content" className="relative">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-        {topics.map((t, i) => {
-          const isNested = !!t.submodules?.length;
-          const totalCount = isNested
-            ? t.submodules!.reduce((acc, m) => acc + (m.content?.length ?? 0), 0)
-            : (t.content?.length ?? 0);
-
-          return (
-            <article
-              key={`${t.title}-${i}`}
-              className="relative rounded-2xl border border-[#E7E9FF] bg-white shadow-[0_8px_24px_rgba(28,26,74,0.06)] hover:shadow-[0_16px_36px_rgba(28,26,74,0.12)] transition-shadow p-4 sm:p-5"
-            >
-              <header className="flex items-start justify-between gap-3 mb-3">
-                <h3 className="text-lg font-semibold text-[#1C1A4A] leading-tight">{t.title}</h3>
-                {showCounts && <CountBadge count={totalCount} />}
-              </header>
-
-              {isNested ? (
-                <SubmoduleTabs submodules={t.submodules!} maxItems={maxItems} />
-              ) : (
-                <Bullets bullets={(t.content ?? []).slice(0, maxItems)} />
-              )}
-
-              <div className="pointer-events-none absolute -right-12 -top-12 h-28 w-28 rounded-full bg-gradient-to-br from-[#D8DCFF] to-transparent opacity-60" />
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-};
-
-/* -------------------------------------------------------------------------- */
-/*                                User Card                                   */
-/* -------------------------------------------------------------------------- */
-
-const UserCard = ({ userData }: { userData: UserCardData }) => (
-  <div className="w-[320px] sm:w-[360px] lg:w-[400px] flex flex-col gap-2 bg-white rounded-2xl sm:rounded-3xl lg:rounded-4xl p-4 sm:p-6 text-center shadow-[0px_0px_20px_0px_#00000020] sm:shadow-[0px_0px_30px_0px_#00000025] lg:shadow-[0px_0px_40px_0px_#00000033]">
-    <img
-      src={userData.img_url}
-      alt={`${userData.name} testimonial`}
-      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto border-2 sm:border-4 border-white"
-    />
-    <h3 className="flex items-center justify-center gap-2 text-lg sm:text-xl font-bold text-black mt-2">
-      <span>{userData.name}</span>
-      {userData.linkdin_url && (
-        <a href={userData.linkdin_url} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-          <Icon icon="skill-icons:linkedin" className="size-4" />
-        </a>
-      )}
-    </h3>
-    <p className="text-sm sm:text-base font-semibold text-black">{userData.designation_name}</p>
-    <a href={userData.company_business_link} target="_blank" rel="noopener noreferrer">
-      <p className="text-sm sm:text-base font-semibold text-black">{userData.company_name}</p>
-    </a>
-    <p className="text-black text-sm sm:text-base mt-2 leading-relaxed">{userData.details}</p>
-  </div>
-);
-
-/* -------------------------------------------------------------------------- */
-/*                                   Page                                     */
-/* -------------------------------------------------------------------------- */
-
-export default function Page() {
-  const params = useParams<{ id: string }>();
-  const course_id = params?.id;
-  const coursesData = (data.courses as Course[]).find((c) => c.id === Number(course_id));
-
-  return (
-    <>
-      <SocialBadge />
-
-      <InnerBanner
-        img_url={(coursesData?.img_url as string) ?? ""}
-        data={
-          coursesData
-            ? {
-                id: coursesData.id.toString(),
-                title: coursesData.title,
-                sub_title: coursesData.sub_title,
-                img_url: coursesData.img_url,
-                right_side_video_url: coursesData.right_side_video_url || "",
-              }
-            : {}
+{
+  "id": 2,
+  "title": "Data Engineering",
+  "sub_title": "Be the person who makes data usable. In this hands-on, project-first course, you’ll learn to design, build, and operate modern data pipelines that feed dashboards, ML, and AI—cleanly and at scale.",
+  "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759480378/rd_Umage_u6r6np.png",
+  "courses_content": [
+    {
+      "title": "Module 01: Data Foundations & Excel Analytics",
+      "submodules": [
+        {
+          "title": "Prerequisites",
+          "content": [
+            "Basic mathematics",
+            "Computer literacy"
+          ]
+        },
+        {
+          "title": "Statistical Foundation",
+          "content": [
+            "Descriptive statistics (mean, median, mode, variance, standard deviation)",
+            "Data distributions and outlier identification",
+            "Correlation vs causation concepts",
+            "Introduction to hypothesis testing basics"
+          ]
+        },
+        {
+          "title": "Excel Mastery",
+          "content": [
+            "Advanced Excel functions (VLOOKUP, INDEX-MATCH, SUMIFS)",
+            "Pivot tables, pivot charts, and slicers",
+            "Data validation and conditional formatting",
+            "Goal Seek and Solver for optimization"
+          ]
+        },
+        {
+          "title": "Data Understanding & Quality",
+          "content": [
+            "Data types identification (numerical, categorical, temporal)",
+            "Missing value patterns and handling strategies",
+            "Data cleaning techniques and standardization",
+            "Creating data quality reports"
+          ]
+        },
+        {
+          "title": "Data Transformation",
+          "content": [
+            "Normalization and standardization methods",
+            "Calculated fields and derived metrics",
+            "Aggregation and grouping techniques",
+            "Feature engineering fundamentals"
+          ]
+        },
+        {
+          "title": "Business Metrics & KPIs",
+          "content": [
+            "KPI development and selection criteria",
+            "Dashboard design principles and best practices",
+            "Variance analysis and trend identification",
+            "Business intelligence fundamentals"
+          ]
+        },
+        {
+          "title": "Projects",
+          "content": [
+            "Gender prediction analysis using demographic datasets",
+            "Student survey response statistical analysis with Excel dashboards"
+          ]
         }
-      />
-
-      {/* New Highlights under the banner */}
-      <HighlightsSection />
-
-      <div className="relative py-12 lg:py-16">
-        <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-start gap-6 lg:gap-8">
-            {/* Course Content (cards with submodule tabs) */}
-            <div className="lg:col-span-7">
-              <div className="relative rounded-xl p-4 sm:p-6 border border-bor">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl text-black mb-4 sm:mb-6">
-                  Course Content
-                </h2>
-
-                <CourseContentCards
-                  topics={coursesData?.courses_content ?? []}
-                  maxItems={8}
-                  showCounts
-                />
-              </div>
-            </div>
-
-            {/* Video Section */}
-            <div className="lg:col-span-5">
-              <div className="relative aspect-video lg:h-[400px] w-full">
-                {coursesData?.right_side_video_url && (
-                  <iframe
-                    className="w-full h-full rounded-xl sm:rounded-2xl lg:rounded-3xl border border-black drop-shadow-[2px_2px_0_#1C1A4A] sm:drop-shadow-[4px_4px_0_#1C1A4A] lg:drop-shadow-[6px_6px_0_#1C1A4A]"
-                    src={coursesData.right_side_video_url}
-                    title={`About ${coursesData.title}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Student / User section */}
-      {coursesData?.user_section?.length ? (
-        <div className="relative py-12 lg:py-16">
-          <div className="container">
-            {coursesData.user_section.length > 1 ? (
-              <div className="relative w-screen flex items-center gap-10 overflow-auto scroll-hidden">
-                {coursesData.user_section.map((u, i) => (
-                  <UserCard key={i} userData={u} />
-                ))}
-              </div>
-            ) : (
-              <div className="flex justify-center">
-                <UserCard userData={coursesData.user_section[0]} />
-              </div>
-            )}
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
+      ]
+    },
+    {
+      "title": "Module 02: SQL & Database Management",
+      "submodules": [
+        {
+          "title": "Prerequisites",
+          "content": [
+            "Basic logic",
+            "Completion of Module 01"
+          ]
+        },
+        {
+          "title": "Database Fundamentals",
+          "content": [
+            "Relational database concepts and ACID properties",
+            "Entity-relationship diagrams and normalization (1NF–3NF)",
+            "Database design patterns and best practices",
+            "Introduction to database management systems"
+          ]
+        },
+        {
+          "title": "Core SQL Operations",
+          "content": [
+            "Data Definition Language (DDL): CREATE, ALTER, DROP",
+            "Data Manipulation Language (DML): SELECT, INSERT, UPDATE, DELETE",
+            "Data types, constraints, and indexing strategies",
+            "Transaction management and rollback procedures"
+          ]
+        },
+        {
+          "title": "Advanced SQL Querying",
+          "content": [
+            "Complex joins (INNER, OUTER, CROSS, SELF joins)",
+            "Subqueries, correlated subqueries, and EXISTS",
+            "UNION, INTERSECT, and EXCEPT operations",
+            "Query optimization and execution plans"
+          ]
+        },
+        {
+          "title": "Window Functions & Analytics",
+          "content": [
+            "Ranking functions (ROW_NUMBER, RANK, DENSE_RANK)",
+            "Aggregate window functions and partitioning",
+            "LEAD/LAG for time series analysis",
+            "Statistical functions and percentiles"
+          ]
+        },
+        {
+          "title": "Database Design Implementation",
+          "content": [
+            "Common Table Expressions (CTEs) and recursive queries",
+            "Stored procedures, functions, and triggers",
+            "View creation and materialized views",
+            "Performance tuning and index optimization"
+          ]
+        },
+        {
+          "title": "Project",
+          "content": [
+            "Multi-table student information system with data cleaning pipelines and analytical reporting queries"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Module 03: Business Intelligence & Power BI",
+      "submodules": [
+        {
+          "title": "Prerequisites",
+          "content": [
+            "SQL knowledge",
+            "Basic statistics"
+          ]
+        },
+        {
+          "title": "Power BI Fundamentals",
+          "content": [
+            "Power BI ecosystem (Desktop, Service, Mobile)",
+            "Data source connections and Power Query basics",
+            "Data transformation and preparation techniques",
+            "Introduction to data modeling concepts"
+          ]
+        },
+        {
+          "title": "Data Modeling & Relationships",
+          "content": [
+            "Star and snowflake schema design",
+            "Relationship types and cardinality settings",
+            "Data model optimization techniques",
+            "Calculated columns vs measures"
+          ]
+        },
+        {
+          "title": "DAX Functions & Advanced Analytics",
+          "content": [
+            "DAX syntax and row vs filter context",
+            "Time intelligence (YTD, MTD, SAMEPERIOD)",
+            "Advanced DAX (CALCULATE, FILTER, ALL, RELATED)",
+            "Iterators and statistical measures"
+          ]
+        },
+        {
+          "title": "Dashboard Design Principles",
+          "content": [
+            "Chart selection and data storytelling",
+            "Color theory and accessibility",
+            "Interactive elements, slicers, drill-through",
+            "Mobile-responsive design strategies"
+          ]
+        },
+        {
+          "title": "Interactive Report Creation",
+          "content": [
+            "Multi-page dashboard development",
+            "Parameter-driven reports and dynamic filtering",
+            "Performance optimization and sharing",
+            "Security and row-level security (RLS)"
+          ]
+        },
+        {
+          "title": "Projects",
+          "content": [
+            "Student feedback sentiment analysis dashboard",
+            "Google Reviews word cloud and rating trend analysis",
+            "Executive-level multi-page reporting solution"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Module 04: Python for Data Science",
+      "submodules": [
+        {
+          "title": "Prerequisites",
+          "content": [
+            "Basic programming logic",
+            "Mathematical foundation"
+          ]
+        },
+        {
+          "title": "Python Programming Foundation",
+          "content": [
+            "Syntax, variables, and data types",
+            "Control structures (loops, conditionals, functions)",
+            "Object-oriented programming basics",
+            "Error handling and debugging techniques"
+          ]
+        },
+        {
+          "title": "Data Manipulation Libraries",
+          "content": [
+            "NumPy for numerical computing and arrays",
+            "Pandas for data manipulation and analysis",
+            "Loading data from CSV/JSON/databases",
+            "DataFrame operations, indexing, and grouping"
+          ]
+        },
+        {
+          "title": "Data Processing & Cleaning",
+          "content": [
+            "Missing data detection and imputation",
+            "Data type conversions and validation",
+            "String manipulation and regex",
+            "Data quality assessment and profiling"
+          ]
+        },
+        {
+          "title": "Statistical Analysis & Visualization",
+          "content": [
+            "Descriptive statistics with Pandas/NumPy",
+            "Statistical testing with SciPy",
+            "Matplotlib fundamentals and customization",
+            "Seaborn for statistical visualizations"
+          ]
+        },
+        {
+          "title": "Exploratory Data Analysis",
+          "content": [
+            "Univariate and bivariate analysis",
+            "Correlation and feature relationships",
+            "Distribution analysis and normality testing",
+            "Advanced plotting with Plotly"
+          ]
+        },
+        {
+          "title": "Industry Standards & Best Practices",
+          "content": [
+            "PEP 8 standards and documentation",
+            "Version control with Git and GitHub",
+            "Modular programming and code organization",
+            "Testing strategies and code reviews"
+          ]
+        },
+        {
+          "title": "Projects",
+          "content": [
+            "Government rainfall data preprocessing and trend analysis",
+            "WhatsApp chat pattern analysis with sentiment detection",
+            "Automated reporting system with scheduling"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Module 05: Data Engineering & Big Data Platforms",
+      "submodules": [
+        {
+          "title": "Prerequisites",
+          "content": [
+            "Python proficiency",
+            "SQL expertise",
+            "Cloud basics"
+          ]
+        },
+        {
+          "title": "Pipeline Architecture & Design",
+          "content": [
+            "ETL vs ELT paradigms and use cases",
+            "Batch vs stream processing architectures",
+            "Lambda and Kappa architecture patterns",
+            "Pipeline design principles and best practices"
+          ]
+        },
+        {
+          "title": "Big Data Foundations",
+          "content": [
+            "Apache Spark architecture and distributed computing",
+            "PySpark DataFrames and SQL operations",
+            "Spark optimization and performance tuning",
+            "Databricks platform and cluster management"
+          ]
+        },
+        {
+          "title": "Orchestration & Automation",
+          "content": [
+            "Apache Airflow workflow management",
+            "DAG creation, scheduling, and dependencies",
+            "Error handling, retries, and monitoring",
+            "Data quality validation and testing frameworks"
+          ]
+        },
+        {
+          "title": "DevOps & Cloud Integration",
+          "content": [
+            "Docker containerization for data apps",
+            "CI/CD pipelines with GitHub Actions",
+            "Infrastructure as Code principles",
+            "Azure/AWS data services integration"
+          ]
+        },
+        {
+          "title": "Advanced Data Processing",
+          "content": [
+            "Real-time streaming with Structured Streaming",
+            "Data lake vs data warehouse concepts",
+            "Parquet, Delta Lake, and Iceberg formats",
+            "Data partitioning and optimization strategies"
+          ]
+        },
+        {
+          "title": "Data Governance & Security",
+          "content": [
+            "Governance and security considerations",
+            "Monitoring, logging, and alerting",
+            "Cost optimization strategies",
+            "Performance benchmarking and scalability testing"
+          ]
+        },
+        {
+          "title": "Capstone Project",
+          "content": [
+            "End-to-end cloud data pipeline design and implementation",
+            "Multi-source data ingestion (APIs, databases, files)",
+            "Real-time processing with batch analytics integration",
+            "Automated testing, deployment, and monitoring setup"
+          ]
+        }
+      ]
+    }
+  ],
+  "right_side_video_url": "",
+  "user_section": [
+    {
+      "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416236/Rajat_Sinha_p1lgdb.jpg",
+      "name": "Rajat Sinha",
+      "linkdin_url": "https://www.linkedin.com/in/rajat-sinha-94aa22201/",
+      "designation_name": "Data Engineer",
+      "company_name": "Shiprocket",
+      "company_business_link": "https://www.linkedin.com/company/shiprocket/",
+      "details": "They’re not just teaching tools — they’re teaching scalable thinking. They’re teaching proper orchestration and workflow management. I highly recommend this course at DataPlay."
+    }
+  ]
 }
