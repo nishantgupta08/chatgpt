@@ -1,98 +1,147 @@
 "use client";
 
-import React, { useState, useId } from "react";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
-import data from "@/app/assets/content.json";
 
-// Inline type + data (pulled from content.json if present)
-type FAQItem = { q: string; a: string };
+type NavLink = { label: string; href: string };
 
-const FALLBACK_FAQS: FAQItem[] = [
-  { q: "Who are these programs for?", a: "Beginners and working professionals aiming to upskill in data and design." },
-  { q: "Are classes live?", a: "Yes. We run regular live cohorts with lifetime access to recordings." },
-  { q: "Do you offer placement support?", a: "We provide resume refactoring, mock interviews, and referrals when possible." },
-  { q: "Can I get a refund?", a: "If you’re not satisfied within the trial window, contact support for options." },
+const LINKS: NavLink[] = [
+  { label: "Home", href: "#home" },
+  { label: "About Us", href: "#about-us" },
+  { label: "Courses", href: "#courses" },
+  { label: "Contact Us", href: "#contact-us" },
+  { label: "FAQ", href: "/faq" }, // ← new
 ];
 
-export default function FAQPage() {
-  const items: FAQItem[] =
-    (data as any)?.homepage?.faq && Array.isArray((data as any).homepage.faq) && (data as any).homepage.faq.length
-      ? (data as any).homepage.faq as FAQItem[]
-      : FALLBACK_FAQS;
+export default function Header() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // simple single-open accordion state
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const groupId = useId();
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  // SEO JSON-LD
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": items.map((i) => ({
-      "@type": "Question",
-      name: i.q,
-      acceptedAnswer: { "@type": "Answer", text: i.a },
-    })),
-  };
+  // Close mobile menu on route/hash change
+  useEffect(() => {
+    const onHashChange = () => setOpen(false);
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   return (
-    <main className="bg-[#F7EEFA]">
-      <section className="container py-10 md:py-14">
-        <h1 className="text-3xl md:text-5xl font-extrabold text-black">Frequently Asked Questions</h1>
-        <p className="mt-3 text-black/70 max-w-2xl">
-          Quick answers about our programs, mentorship, payments, and outcomes.
-        </p>
+    <header
+      className={[
+        "sticky top-0 z-50 transition-all",
+        "supports-[backdrop-filter]:bg-darkBlue/75 bg-darkBlue",
+        "backdrop-blur-md",
+        scrolled ? "shadow-[0_6px_24px_rgba(0,0,0,0.15)] border-b border-white/10" : "border-b border-transparent",
+      ].join(" ")}
+    >
+      <div className="container">
+        <div className="flex items-center justify-between h-[64px] md:h-[72px]">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2" aria-label="Go to homepage">
+            <Image
+              src="/Brand-Logo.svg"
+              alt="DATAPLAY"
+              width={150}
+              height={32}
+              className="h-8 w-auto md:h-10 md:w-auto"
+              priority
+            />
+          </Link>
 
-        <div className="mt-8">
-          {/* Inline accordion (no separate component) */}
-          <div className="divide-y-2 divide-black/10 border-2 border-black rounded-2xl bg-white">
-            {items.map((item, i) => {
-              const isOpen = openIndex === i;
-              const headingId = `${groupId}-faq-h-${i}`;
-              const panelId = `${groupId}-faq-p-${i}`;
+          {/* Desktop navigation */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {LINKS.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-white/90 hover:text-white text-sm font-semibold tracking-wide"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
 
-              return (
-                <div key={i} className="p-4 md:p-5">
-                  <h2 id={headingId}>
-                    <button
-                      type="button"
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      onClick={() => setOpenIndex(isOpen ? null : i)}
-                      className="w-full flex items-center justify-between text-left font-bold md:text-lg"
-                    >
-                      <span>{item.q}</span>
-                      <span
-                        className={[
-                          "inline-flex items-center justify-center size-8 rounded-full border-2 border-black transition-transform",
-                          isOpen ? "rotate-45" : "",
-                        ].join(" ")}
-                        aria-hidden="true"
-                      >
-                        <Icon icon="mdi:plus" />
-                      </span>
-                    </button>
-                  </h2>
+          {/* Desktop CTAs */}
+          <div className="hidden lg:flex items-center gap-3">
+            <a
+              href="#become-mentor"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-white/25 text-white/90 hover:text-white hover:border-white px-4 py-2 text-sm font-bold transition"
+            >
+              <Icon icon="mdi:account-tie-outline" className="text-base" />
+              Become a Mentor
+            </a>
+            <a
+              href="#courses"
+              className="inline-flex items-center gap-2 rounded-full bg-white text-black border-2 border-black px-4 py-2 text-sm font-extrabold shadow-[4px_4px_0_#FF2714] hover:translate-y-[-1px] active:translate-y-[1px] transition"
+            >
+              <Icon icon="mdi:rocket-launch-outline" className="text-base" />
+              Apply Now
+            </a>
+          </div>
 
-                  <div
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={headingId}
-                    className={["grid transition-all duration-300 overflow-hidden", isOpen ? "grid-rows-[1fr] mt-3" : "grid-rows-[0fr]"].join(" ")}
-                  >
-                    <div className="min-h-0">
-                      <p className="text-black/75 leading-relaxed">{item.a}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          {/* Mobile menu button */}
+          <button
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            onClick={() => setOpen((v) => !v)}
+            className="lg:hidden inline-flex items-center justify-center size-10 rounded-lg border border-white/20 text-white"
+          >
+            <Icon icon={open ? "mdi:close" : "mdi:menu"} className="text-2xl" />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        id="mobile-nav"
+        className={[
+          "lg:hidden overflow-hidden transition-[max-height] duration-300",
+          open ? "max-h-96" : "max-h-0",
+        ].join(" ")}
+      >
+        <div className="container pb-4">
+          <nav className="grid gap-2">
+            {LINKS.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2 text-white/90 hover:text-white hover:bg-white/10"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <a
+              href="#become-mentor"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/25 text-white/90 hover:text-white hover:border-white px-4 py-2 text-sm font-bold transition"
+            >
+              <Icon icon="mdi:account-tie-outline" className="text-base" />
+              Mentor
+            </a>
+            <a
+              href="#courses"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-black border-2 border-black px-4 py-2 text-sm font-extrabold shadow-[4px_4px_0_#FF2714]"
+            >
+              <Icon icon="mdi:rocket-launch-outline" className="text-base" />
+              Apply Now
+            </a>
           </div>
         </div>
-
-        {/* SEO: JSON-LD */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      </section>
-    </main>
+      </div>
+    </header>
   );
 }
