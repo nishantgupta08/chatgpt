@@ -1,30 +1,29 @@
 // components/HeroSection.tsx
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import data from "@/app/assets/content.json";
 
-const HeroSection = () => {
-  // Content.json fallbacks
-  const hero = data?.homepage?.hero ?? {};
-  const featuresData: string[] = data?.homepage?.features ?? [];
+type Feature = { icon: string; title: string; href?: string };
 
-  // Feature cards (titles can come from content.json, with sensible fallbacks)
-  const featureCards: { icon: string; title: string; href?: string }[] = [
-    { icon: "/lifetime.png",      title: featuresData[0] || "Lifetime Access", href: "#live-classes" },
-    { icon: "/bytheindustry.png", title: featuresData[1] || "By the Industry For the Industry", href: "#industry" },
-    { icon: "/resume.png",        title: featuresData[2] || "Resume Refactoring", href: "#career" },
-    { icon: "/money.png",         title: featuresData[3] || "Affordability meets quality", href: "#pricing" },
+const HeroSection = () => {
+  const hero = data?.homepage?.hero ?? {};
+  const features: Feature[] = [
+    { icon: "/lifetime.png",      title: (data?.homepage?.features?.[0] ?? "Lifetime Access"),                          href: "#live-classes" },
+    { icon: "/bytheindustry.png", title: (data?.homepage?.features?.[1] ?? "By the Industry For the Industry"),          href: "#industry" },
+    { icon: "/resume.png",        title: (data?.homepage?.features?.[2] ?? "Resume Refactoring & Mock Interviews"),      href: "#career" },
+    { icon: "/money.png",         title: (data?.homepage?.features?.[3] ?? "Affordability meets Quality"),               href: "#pricing" },
   ];
 
   return (
     <section id="home" className="relative bg-[#F7EEFA] overflow-hidden" aria-label="Hero">
       <div className="container">
         {/* Main row */}
-        <div className="grid lg:grid-cols-2 2xl:gap-20 lg:gap-10 items-end">
+        <div className="grid lg:grid-cols-2 2xl:gap-20 lg:gap-12 items-end">
           {/* Left column */}
-          <div className="relative py-16 md:py-20">
-            {/* Eyebrow — original “Never Stop Learning” */}
+          <div className="relative py-14 md:py-18">
+            {/* Eyebrow — keep original “Never Stop Learning” look */}
             <h5 className="text-darkBlue 2xl:text-4xl xl:text-3xl text-2xl font-semibold mb-4">
               Never Stop
               <span className="relative ml-3 inline-flex items-center justify-center text-white font-bold">
@@ -51,7 +50,7 @@ const HeroSection = () => {
               </span>
             </h5>
 
-            {/* Headline */}
+            {/* Headline + underline accent */}
             <h1 className="text-darkBlue 2xl:text-[56px] xl:text-5xl text-4xl font-bold">
               {hero?.heading ?? "Empowering Careers In DATA and"}
               <span className="relative inline-block">
@@ -70,14 +69,14 @@ const HeroSection = () => {
             </h1>
 
             {/* Subhead */}
-            <p className="text-darkBlue 2xl:text-[28px] xl:text-2xl text-xl font-bold mb-4 md:mb-6">
+            <p className="text-darkBlue 2xl:text-[28px] xl:text-2xl text-xl font-bold mt-3 mb-5">
               {hero?.sub_heading ?? "Let's Sculpt YOUR Path To Success, YOUR Way !"}
             </p>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href="#contact-us" // inline form removed — route to contact
+                href="#contact-us"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-full font-bold bg-black text-white border-2 border-black shadow-[6px_6px_0_#FF2714] hover:-translate-y-0.5 active:translate-y-[1px] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
                 aria-label="Become a Mentor"
               >
@@ -96,23 +95,26 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right image column (edge-aligned) */}
+          {/* Right column: transparent hero image + reviews pill positioned in the gap */}
           <div className="relative max-md:-mt-20 max-md:w-[120%] w-full right-0">
+            {/* Soft radial glow behind the cutout (only visible if image truly transparent) */}
+            <div className="pointer-events-none absolute -z-10 right-[-8%] top-6 h-[520px] w-[520px] rounded-full bg-[radial-gradient(ellipse_at_center,_#E9E1FF_0%,_#F7EEFA_45%,_transparent_70%)] blur-2xl opacity-90" />
+
             <Image
-              src="/hero-img3.png"
+              src="/hero/learner@2x.webp"  // <-- use a REAL transparent PNG/WebP here
               alt="Learner pointing to growth"
               width={1200}
               height={850}
-              className="relative block w-full h-auto drop-shadow-xl"
               priority
+              className="relative block w-full h-auto [filter:drop-shadow(0_14px_0_#D2C9FF)]"
             />
 
-            {/* Google Reviews badge — centered in the gap, slightly right & down */}
+            {/* Google reviews pill — slightly right & down inside the center gap */}
             <a
-              href="https://www.google.com/search?q=dataplay+reviews" // use your exact reviews URL
+              href="https://www.google.com/search?q=dataplay+reviews" // swap to exact reviews URL
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute left-0 -translate-x-[42%] md:-translate-x-[38%] top-14 md:top-16 z-10 rounded-xl bg-white/95 backdrop-blur border-2 border-black shadow-[6px_6px_0_#6B5AED] px-4 py-2 hover:shadow-[8px_8px_0_#FF2714] transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+              className="absolute left-0 -translate-x-[36%] md:-translate-x-[32%] top-20 md:top-24 z-10 rounded-xl bg-white/95 backdrop-blur border-2 border-black shadow-[6px_6px_0_#6B5AED] px-4 py-2 hover:shadow-[8px_8px_0_#FF2714] transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
               aria-label="Open Google reviews"
               title="Open Google reviews"
             >
@@ -134,24 +136,23 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Feature cards — clean style like your sample */}
+        {/* Feature cards — refined, light UI */}
         <section className="mt-8" aria-label="Program highlights">
           <div role="list" className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            {featureCards.map((f, i) => {
+            {features.map((f, i) => {
               const tones = [
-                { grad: "from-blue-500 to-blue-600", ring: "ring-blue-100" },
-                { grad: "from-lime-500 to-lime-600", ring: "ring-lime-100" },
-                { grad: "from-pink-500 to-fuchsia-500", ring: "ring-pink-100" },
-                { grad: "from-orange-500 to-orange-600", ring: "ring-orange-100" },
+                { grad: "from-blue-500 to-blue-600",      ring: "ring-blue-100" },
+                { grad: "from-lime-500 to-lime-600",      ring: "ring-lime-100" },
+                { grad: "from-pink-500 to-fuchsia-500",   ring: "ring-pink-100" },
+                { grad: "from-orange-500 to-orange-600",  ring: "ring-orange-100" },
               ][i % 4];
-
-              const CardTag = (f.href ? "a" : "div") as any;
+              const Tag = (f.href ? "a" : "div") as any;
 
               return (
-                <CardTag
+                <Tag
                   key={i}
-                  role="listitem"
                   href={f.href}
+                  role="listitem"
                   className={[
                     "group block rounded-2xl bg-white border border-slate-200 shadow-sm",
                     "p-5 sm:p-6 min-h-[112px] h-full",
@@ -161,14 +162,8 @@ const HeroSection = () => {
                   ].join(" ")}
                 >
                   <div className="flex items-start gap-4">
-                    {/* Colored icon tile */}
-                    <span
-                      className={[
-                        "inline-flex size-12 items-center justify-center rounded-xl text-white shadow-lg",
-                        "bg-gradient-to-b", tones.grad,
-                      ].join(" ")}
-                      aria-hidden="true"
-                    >
+                    {/* colored icon tile */}
+                    <span className={["inline-flex size-12 items-center justify-center rounded-[14px] text-white shadow-md bg-gradient-to-b", tones.grad].join(" ")} aria-hidden="true">
                       <Image
                         src={f.icon}
                         alt=""
@@ -178,19 +173,18 @@ const HeroSection = () => {
                       />
                     </span>
 
-                    {/* Title */}
                     <h3 className="text-[15px] sm:text-base font-extrabold text-slate-900 leading-snug">
                       {f.title}
                     </h3>
                   </div>
-                </CardTag>
+                </Tag>
               );
             })}
           </div>
         </section>
       </div>
 
-      {/* Background vector (optional accent) */}
+      {/* Optional background accent vector */}
       <Image
         src="/hero-vector1.svg"
         height={345}
