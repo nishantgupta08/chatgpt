@@ -1,2 +1,2 @@
-./components/HeroSection.tsx
-147:53  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+import type { ElementType } from "react";
+const Tag: ElementType = f.href ? "a" : "div";
