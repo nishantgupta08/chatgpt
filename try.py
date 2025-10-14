@@ -1,52 +1,92 @@
-Turbopack
-Build Error
+// app/page.tsx
+'use client';
 
+import { useState } from 'react';
 
-Ecmascript file had an error
+// Example imports — use your actual paths
+import SocialBadge from '@/components/SocialBadge';
+import HeroSection from '@/components/HeroSection';
+import CounsellingForm from '@/components/CounsellingForm';
+import FellowshipPrograms from '@/components/FellowshipPrograms';
+import CourseSectionPro from '@/components/CourseSectionPro';
+import Mentors from '@/components/Mentors';
+import Testimonials from '@/components/Testimonials';
+import WhoCanApply from '@/components/WhoCanApply';
+import WorkshopGallery from '@/components/WorkshopGallery';
 
-./app/page.tsx (25:1)
+// If you have metadata, make sure it's a *named* export:
+export const metadata = {
+  title: 'Home',
+};
 
-Ecmascript file had an error
-  23 | }
-  24 |
-> 25 | export default function Home() {
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 26 |   return (
-     | ^^^^^^^^^^
-> 27 |     <>
-     | ^^^^^^^^^^
-> 28 |       <SocialBadge />
-     | ^^^^^^^^^^
-> 29 |       <HeroSection />
-     | ^^^^^^^^^^
-> 30 |       {/* <Features /> */}
-     | ^^^^^^^^^^
-> 31 |       <CounsellingForm />
-     | ^^^^^^^^^^
-> 32 |       <FellowshipPrograms />
-     | ^^^^^^^^^^
-> 33 |       {/* <Courses /> */}
-     | ^^^^^^^^^^
-> 34 |       <CourseSectionPro />
-     | ^^^^^^^^^^
-> 35 |       <Mentors />
-     | ^^^^^^^^^^
-> 36 |       <Testimonials />
-     | ^^^^^^^^^^
-> 37 |       <WhoCanApply />
-     | ^^^^^^^^^^
-> 38 |       {/* <Gallery /> */}
-     | ^^^^^^^^^^
-> 39 |       <WorkshopGallery />
-     | ^^^^^^^^^^
-> 40 |
-     | ^^^^^^^^^^
-> 41 |     </>
-     | ^^^^^^^^^^
-> 42 |   );
-     | ^^^^^^^^^^
-> 43 | }
-     | ^^
-  44 |
+function Modal({
+  open,
+  onClose,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  if (!open) return null;
 
-the name `default` is exported multiple times
+  return (
+    <div
+      aria-modal="true"
+      role="dialog"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+    >
+      {/* Backdrop with blur */}
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      {/* Modal panel */}
+      <div className="relative z-10 w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl">
+        <button
+          onClick={onClose}
+          className="absolute right-3 top-3 rounded-full px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      {/* Top content */}
+      <SocialBadge />
+      <HeroSection />
+
+      {/* Trigger: put this wherever you want to open the form */}
+      <div className="my-8 flex justify-center">
+        <button
+          onClick={() => setOpen(true)}
+          className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-md transition hover:shadow-lg"
+        >
+          Apply / Open Counselling Form
+        </button>
+      </div>
+
+      {/* Rest of the page */}
+      <FellowshipPrograms />
+      <CourseSectionPro />
+      <Mentors />
+      <Testimonials />
+      <WhoCanApply />
+      <WorkshopGallery />
+
+      {/* Modal with blurred background */}
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <CounsellingForm />
+      </Modal>
+    </>
+  );
+}
