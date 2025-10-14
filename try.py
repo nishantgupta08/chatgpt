@@ -1,221 +1,139 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
-import React, { useEffect, useState } from 'react';
 
-type FormState = {
-  name: string;
-  email: string;
-  phone: string;
-  course: string;
-  experience: string;
-  message: string;
-};
+import React from "react";
+import Image from "next/image";
+import { Icon } from "@iconify/react";
+import data from "@/app/assets/content.json";
 
-const DEFAULT_NUMBER = '919999999999'; // TODO: replace or set NEXT_PUBLIC_WHATSAPP_NUMBER
+type Feature = { icon: string; title: string; href?: string };
 
-export default function CounsellingModal() {
-  const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState<FormState>({
-    name: '',
-    email: '',
-    phone: '',
-    course: '',
-    experience: '',
-    message: '',
-  });
+const HeroSection: React.FC = () => {
+  const hero = data?.homepage?.hero ?? {};
 
-  // Open the modal when anyone dispatches: window.dispatchEvent(new CustomEvent('openCounsellingModal'))
-  useEffect(() => {
-    const onOpen = () => setOpen(true);
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    window.addEventListener('openCounsellingModal' as any, onOpen);
-    window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('openCounsellingModal' as any, onOpen);
-      window.removeEventListener('keydown', onKey);
-    };
-  }, []);
+  const features: Feature[] = [
+    {
+      icon: "/lifetime.png",
+      title: data?.homepage?.features?.[0] ?? "Lifetime Access",
+      href: "#live-classes",
+    },
+    {
+      icon: "/bytheindustry.png",
+      title: data?.homepage?.features?.[1] ?? "By the Industry For the Industry",
+      href: "#industry",
+    },
+    {
+      icon: "/resume.png",
+      title: data?.homepage?.features?.[2] ?? "Resume Refactoring & Mock Interviews",
+      href: "#career",
+    },
+    {
+      icon: "/money.png",
+      title: data?.homepage?.features?.[3] ?? "Affordability meets Quality",
+      href: "#pricing",
+    },
+  ];
 
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-
-  const onSubmit = (e: React.FormEvent) => {
+  const openModal = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.phone) {
-      alert('Please fill in your name, email, and phone.');
-      return;
-    }
-    setSubmitting(true);
-    const number =
-      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_NUMBER;
-
-    const lines = [
-      'Hello! I would like to book a 1:1 counselling session.',
-      `Name: ${form.name}`,
-      `Email: ${form.email}`,
-      `Phone: ${form.phone}`,
-      form.course ? `Course Interest: ${form.course}` : '',
-      form.experience ? `Experience: ${form.experience}` : '',
-      form.message ? `Goals/Notes: ${form.message}` : '',
-    ].filter(Boolean);
-    const text = encodeURIComponent(lines.join('\n'));
-    const url = `https://wa.me/${number}?text=${text}`;
-
-    window.open(url, '_blank');
-    setSubmitting(false);
-    setOpen(false);
+    // Trigger the global modal you mounted in app/layout.tsx
+    window.dispatchEvent(new CustomEvent("openCounsellingModal"));
   };
 
-  if (!open) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      aria-live="polite"
-    >
-      {/* Backdrop */}
-      <button
-        aria-label="Close modal"
-        onClick={() => setOpen(false)}
-        className="absolute inset-0 bg-black/50"
-      />
+    <section id="home" className="relative overflow-hidden bg-[#F8F3FF]">
+      <div className="container grid lg:grid-cols-2 gap-8 items-center pt-10 pb-12">
+        {/* Left: Copy */}
+        <div className="max-w-2xl">
+          {/* Kicker */}
+          <p className="uppercase tracking-wide font-extrabold text-[#7c6cff]">
+            {hero.kicker ?? "Never Stop"}{" "}
+            <span className="bg-[#e9e5ff] px-2 py-1 rounded-md">
+              {hero.kicker_right ?? "Learning"}
+            </span>
+          </p>
 
-      {/* Dialog */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="counselling-modal-title"
-        className="relative w-full max-w-2xl rounded-2xl bg-white shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-5 border-b">
-          <h2 id="counselling-modal-title" className="text-xl sm:text-2xl font-extrabold text-darkBlue">
-            Book a 1:1 Counselling Session
-          </h2>
-          <button
-            onClick={() => setOpen(false)}
-            className="h-9 w-9 inline-flex items-center justify-center rounded-full hover:bg-gray-100"
-            aria-label="Close"
-          >
-            ✕
-          </button>
+          {/* Headline */}
+          <h1 className="text-darkBlue font-extrabold text-4xl sm:text-5xl leading-tight mt-3">
+            {hero.heading ?? "Build Real Skills. Get Real Outcomes."}
+            <span className="relative block">
+              {hero.underline_heading ?? "From Basics to Breakthroughs"}
+              {/* underline */}
+              <svg
+                aria-hidden="true"
+                width="227"
+                height="20"
+                className="absolute top-full -right-10"
+                viewBox="0 0 227 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M-267.413 10.121C-263.4 10.1409 -259.407 10.1807 -255.413 10.2006C-144.49 10.7469 -33.566 11.2832 77.3572 11.8294C92.3877 11.9041 107.418 11.9887 122.448 12.0634C139.943 12.1518 157.427 12.2401 174.922 12.3284C183.727 12.3731 192.543 12.4177 201.348 12.4623C207.944 12.4961 214.539 12.54 221.135 12.5738C221.984 12.5781 223.466 12.064 223.423 11.3465C223.381 10.6714 222.109 10.1351 221.239 10.1307C214.654 10.097 208.06 10.0531 201.475 10.0194C192.648 9.97474 183.832 9.93013 175.005 9.88552C157.5 9.7972 140.006 9.70888 122.5 9.62056C107.47 9.54587 92.4398 9.46133 77.4094 9.38664C-33.5139 8.8404 -144.438 8.3041 -255.361 7.75784C-259.344 7.738 -263.337 7.6982 -267.32 7.67836C-268.201 7.674  -269.462 8.2103 -269.504 8.8854C-269.547 9.603 -268.054 10.1169 -267.413 10.121Z"
+                  fill="#FF4C3D"
+                />
+              </svg>
+            </span>
+          </h1>
+
+          {/* Subhead */}
+          <p className="text-darkBlue 2xl:text-[28px] xl:text-2xl text-xl font-bold mt-4 mb-6">
+            {hero?.sub_heading ?? "Let’s sculpt YOUR path to success — YOUR way!"}
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Primary: opens modal */}
+            <a
+              href="#contact-us"
+              onClick={openModal}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-black text-white px-6 py-3 font-bold hover:bg-darkBlue focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+              aria-label="Book 1:1 Counselling Session"
+            >
+              <Icon icon="mdi:rocket-launch-outline" className="mr-2 text-xl" />
+              Book 1:1 Counselling Session
+            </a>
+
+            {/* Secondary */}
+            <a
+              href="#courses"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-black px-6 py-3 font-bold hover:bg-black hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+              aria-label="Explore Courses"
+            >
+              <Icon icon="mdi:school-outline" className="mr-2 text-xl" />
+              Explore Courses
+            </a>
+          </div>
+
+          {/* Feature chips */}
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {features.map((f, i) => (
+              <a
+                key={i}
+                href={f.href}
+                className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 shadow hover:shadow-md transition"
+              >
+                <img src={f.icon} alt="" className="h-6 w-6" />
+                <span className="text-sm font-semibold">{f.title}</span>
+              </a>
+            ))}
+          </div>
         </div>
 
-        {/* Body / Form */}
-        <div className="p-4 sm:p-6">
-          <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex flex-col">
-              <label className="text-sm font-semibold text-gray-700 mb-1">Full Name*</label>
-              <input
-                name="name"
-                type="text"
-                value={form.name}
-                onChange={onChange}
-                className="h-11 rounded-xl border border-gray-300 px-3 outline-none focus:ring-2 focus:ring-black"
-                placeholder="e.g., Mahima Gupta"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm font-semibold text-gray-700 mb-1">Email*</label>
-              <input
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={onChange}
-                className="h-11 rounded-xl border border-gray-300 px-3 outline-none focus:ring-2 focus:ring-black"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm font-semibold text-gray-700 mb-1">Phone (with country code)*</label>
-              <input
-                name="phone"
-                type="tel"
-                value={form.phone}
-                onChange={onChange}
-                className="h-11 rounded-xl border border-gray-300 px-3 outline-none focus:ring-2 focus:ring-black"
-                placeholder="+91 98765 43210"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm font-semibold text-gray-700 mb-1">Course Interest</label>
-              <select
-                name="course"
-                value={form.course}
-                onChange={onChange}
-                className="h-11 rounded-xl border border-gray-300 px-3 outline-none focus:ring-2 focus:ring-black bg-white"
-              >
-                <option value="">Select one (optional)</option>
-                <option>Data Analytics</option>
-                <option>Data Science</option>
-                <option>GenAI / LLMs</option>
-                <option>UI/UX Design</option>
-                <option>Frontend Development</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm font-semibold text-gray-700 mb-1">Experience</label>
-              <select
-                name="experience"
-                value={form.experience}
-                onChange={onChange}
-                className="h-11 rounded-xl border border-gray-300 px-3 outline-none focus:ring-2 focus:ring-black bg-white"
-              >
-                <option value="">Select one (optional)</option>
-                <option>Student / Fresher</option>
-                <option>0–1 years</option>
-                <option>1–3 years</option>
-                <option>3+ years</option>
-              </select>
-            </div>
-
-            <div className="sm:col-span-2 flex flex-col">
-              <label className="text-sm font-semibold text-gray-700 mb-1">Goals / Questions</label>
-              <textarea
-                name="message"
-                value={form.message}
-                onChange={onChange}
-                className="min-h-[110px] rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black"
-                placeholder="Tell us what you want to achieve, or any questions you have."
-              />
-            </div>
-
-            <div className="sm:col-span-2 flex items-center gap-3">
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center gap-2 h-12 w-full sm:w-auto px-6 rounded-xl bg-black text-white font-bold hover:bg-darkBlue focus:outline-none focus-visible:ring-2 focus-visible:ring-black disabled:opacity-50"
-                disabled={submitting}
-                aria-label="Submit & open WhatsApp"
-              >
-                {submitting ? 'Opening WhatsApp…' : 'Send details on WhatsApp'}
-              </button>
-              <button
-                type="button"
-                className="h-12 px-5 rounded-xl border border-gray-300 font-semibold hover:bg-gray-50"
-                onClick={() => setOpen(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-
-          <p className="text-xs text-gray-500 mt-4">
-            By submitting, you agree to be contacted on WhatsApp for scheduling your session.
-          </p>
+        {/* Right: Art */}
+        <div className="relative">
+          <Image
+            src="/hero-person.png"
+            alt="Learner studying with laptop"
+            width={640}
+            height={520}
+            className="w-full h-auto"
+            priority
+          />
         </div>
       </div>
-    </div>
+    </section>
   );
-}
+};
+
+export default HeroSection;
