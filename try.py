@@ -22,7 +22,9 @@ const CounsellingForm: React.FC<Props> = ({ whatsAppNumber }) => {
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ||
     '919999999999'; // TODO: replace with your official number
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   };
@@ -51,6 +53,14 @@ const CounsellingForm: React.FC<Props> = ({ whatsAppNumber }) => {
 
   return (
     <section id="contact-us" className="bg-white py-10 sm:py-14">
+      {/* Hide by default; show when URL hash is #contact-us */}
+      <style jsx global>{`
+        #contact-us { display: none; }
+        #contact-us:target { display: block; }
+        /* Sticky header offset when scrolled into view */
+        #contact-us { scroll-margin-top: 90px; }
+      `}</style>
+
       <div className="container max-w-5xl px-4 mx-auto">
         <h2 className="text-2xl sm:text-3xl font-extrabold text-darkBlue mb-2">
           Book a 1:1 Counselling Session
@@ -59,7 +69,10 @@ const CounsellingForm: React.FC<Props> = ({ whatsAppNumber }) => {
           Share a few details and we&apos;ll take you to WhatsApp with everything pre-filled.
         </p>
 
-        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 p-4 sm:p-6 rounded-2xl shadow">
+        <form
+          onSubmit={onSubmit}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 p-4 sm:p-6 rounded-2xl shadow"
+        >
           <div className="flex flex-col">
             <label className="text-sm font-semibold text-gray-700 mb-1">Full Name*</label>
             <input
@@ -87,7 +100,9 @@ const CounsellingForm: React.FC<Props> = ({ whatsAppNumber }) => {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700 mb-1">Phone (with country code)*</label>
+            <label className="text-sm font-semibold text-gray-700 mb-1">
+              Phone (with country code)*
+            </label>
             <input
               name="phone"
               type="tel"
