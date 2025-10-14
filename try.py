@@ -1,69 +1,72 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Modal from "./Modal";
-import CounsellingForm from "./CounsellingForm";
+import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
-export default function HomeClient() {
-  const [open, setOpen] = useState(false);
+type ModalProps = {
+  id?: string;
+  title?: string;
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+};
+
+export default function Modal({ id, title, open, onClose, children }: ModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const lastFocused = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (open) document.body.classList.add("overflow-hidden");
-    else document.body.classList.remove("overflow-hidden");
-    return () => document.body.classList.remove("overflow-hidden");
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    if (open) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  useEffect(() => {
+    if (open) {
+      lastFocused.current = document.activeElement as HTMLElement | null;
+      setTimeout(() => dialogRef.current?.focus(), 0);
+    } else {
+      lastFocused.current?.focus?.();
+    }
   }, [open]);
 
-  return (
-    <main>
-      <section className="relative isolate" aria-labelledby="hero-title">
-        <div className="mx-auto max-w-5xl px-6 py-16">
-          <header className="space-y-3 text-center">
-            <h1 id="hero-title" className="text-4xl font-semibold tracking-tight">
-              DataPlay
-            </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              A simple way to capture counselling leads and preferences.
-            </p>
-          </header>
+  if (typeof document === "undefined") return null;
+  if (!open) return null;
 
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card title="Track Leads" desc="Collect essential contact details quickly." />
-            <Card title="Qualify Fast" desc="Lightweight questions to route the right way." />
-            <Card title="Follow Up" desc="Export or integrate into your CRM flow." />
-          </div>
-
-          <div className="mt-12 flex items-center justify-center">
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="rounded-xl px-5 py-2.5 border border-gray-300 shadow-sm hover:bg-gray-50"
-              aria-haspopup="dialog"
-              aria-expanded={open}
-              aria-controls="counselling-modal"
-            >
-              Book Counselling
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <Modal
-        id="counselling-modal"
-        title="Book a Counselling Session"
-        open={open}
-        onClose={() => setOpen(false)}
+  return createPortal(
+    <div
+      id={id}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? `${id}-title` : undefined}
+      className="fixed inset-0 z-50 bg-black/35 backdrop-blur-sm flex items-center justify-center p-4"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        className="w-full max-w-lg rounded-2xl bg-white shadow-xl outline-none border border-gray-200"
       >
-        <CounsellingForm onSuccess={() => setOpen(false)} />
-      </Modal>
-    </main>
-  );
-}
-
-function Card({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="mt-1 text-gray-600">{desc}</p>
-    </div>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+          <h2 id={`${id}-title`} className="text-lg font-semibold">
+            {title ?? "Modal"}
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg px-2 py-1 text-gray-600 hover:bg-gray-100"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="p-5">{children}</div>
+      </div>
+    </div>,
+    document.body
   );
 }
