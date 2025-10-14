@@ -1,4 +1,2 @@
-Console SyntaxError
-
-
-Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+./components/HeroSection.tsx
+147:53  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
