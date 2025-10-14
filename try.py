@@ -1,59 +1,203 @@
-// app/api/counselling/route.ts
-import { NextResponse } from "next/server";
+"use client";
 
-type Payload = {
-  name: string;
-  email: string;
-  phone: string;
-  notes?: string;
-};
+import { useState } from "react";
 
-// 🔧 FILL THESE IN from your Google Form
-const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/REPLACE_WITH_FORM_ID/formResponse";
-// Map your fields to their entry IDs (e.g. entry.123456789)
-const FIELD = {
-  name: "entry.1111111111",
-  email: "entry.2222222222",
-  phone: "entry.3333333333",
-  notes: "entry.4444444444", // optional
-};
+type Props = { onSuccess?: () => void };
 
-export async function POST(req: Request) {
-  try {
-    const body = (await req.json()) as Partial<Payload>;
+export default function CounsellingForm({ onSuccess }: Props) {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", notes: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [serverMsg, setServerMsg] = useState<string | null>(null);
 
-    // Basic validation
-    const errors: Record<string, string> = {};
-    if (!body.name?.trim()) errors.name = "Name is required";
-    if (!body.email || !/^\S+@\S+\.\S+$/.test(body.email)) errors.email = "Valid email is required";
-    if (!body.phone || !/^\+?[0-9\s\-()]{7,}$/.test(body.phone)) errors.phone = "Valid phone is required";
-    if (Object.keys(errors).length) {
-      return NextResponse.json({ ok: false, errors }, { status: 400 });
-    }
+  const onChange =
+    (key: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm((s) => ({ ...s, [key]: e.target.value }));
 
-    // Build the Google Form payload
-    const form = new URLSearchParams();
-    form.set(FIELD.name, body.name!.trim());
-    form.set(FIELD.email, body.email!.trim());
-    form.set(FIELD.phone, body.phone!.trim());
-    if (body.notes) form.set(FIELD.notes, body.notes);
-
-    // Submit to Google Form (server-side avoids browser CORS)
-    const res = await fetch(GOOGLE_FORM_ACTION, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-      body: form.toString(),
-      // Google Form returns a 200 with an HTML page; we don't need to parse it
-    });
-
-    if (!res.ok) {
-      // Google sometimes returns 0/opaque in odd cases—treat non-OK as an error
-      return NextResponse.json({ ok: false, error: "Google Form submission failed" }, { status: 502 });
-    }
-
-    return NextResponse.json({ ok: true });
-  } catch (err) {
-    console.error("Error submitting to Google Form:", err);
-    return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 });
+  function validate() {
+    const e: Record<string, string> = {};
+    if (!form.name.trim()) e.name = "Name is required.";
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = "Enter a valid email.";
+    if (!/^\+?[0-9\s\-()]{7,}$/.test(form.phone)) e.phone = "Enter a valid phone.";
+    if (form.notes.length > 500) e.notes = "Keep notes under 500 characters.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
   }
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setServerMsg(null);
+    if (!validate()) return;
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/counselling", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        if (data?.errors) setErrors(data.errors);
+        setServerMsg(data?.error || "Unable to submit. Please try again.");
+        return;
+      }
+
+      setServerMsg("Submitted successfully. We’ll get back to you soon.");
+      onSuccess?.(); // close modal
+    } catch (err) {
+      console.error(err);
+      setServerMsg("Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="space-y-4" noValidate>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Field
+          label="Name"
+          id="name"
+          value={form.name}
+          onChange={onChange("name")}
+          error={errors.name}
+          autoComplete="name"
+          required
+        />
+        <Field
+          label="Email"
+          id="email"
+          type="email"
+          value={form.email}
+          onChange={onChange("email")}
+          error={errors.email}
+          autoComplete="email"
+          required
+        />
+        <Field
+          label="Phone"
+          id="phone"
+          type="tel"
+          value={form.phone}
+          onChange={onChange("phone")}
+          error={errors.phone}
+          autoComplete="tel"
+          required
+        />
+        <TextArea
+          className="md:col-span-2"
+          label="Notes"
+          id="notes"
+          value={form.notes}
+          onChange={onChange("notes")}
+          error={errors.notes}
+          placeholder="Tell us a bit about what you’re looking for…"
+        />
+      </div>
+
+      {serverMsg && (
+        <p className="text-sm text-gray-600" role="status" aria-live="polite">
+          {serverMsg}
+        </p>
+      )}
+
+      <div className="flex items-center justify-end gap-3">
+        <button
+          type="submit"
+          disabled={submitting}
+          className="inline-flex items-center justify-center rounded-xl px-4 py-2 border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+          aria-busy={submitting}
+        >
+          {submitting ? "Submitting…" : "Submit"}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function Field({
+  label,
+  id,
+  type = "text",
+  value,
+  onChange,
+  error,
+  required,
+  autoComplete,
+}: {
+  label: string;
+  id: string;
+  type?: "text" | "email" | "tel";
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+  required?: boolean;
+  autoComplete?: string;
+}) {
+  return (
+    <div className="space-y-1">
+      <label htmlFor={id} className="text-sm font-medium">
+        {label} {required && <span className="text-red-600">*</span>}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        autoComplete={autoComplete}
+        className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-gray-300"
+        aria-invalid={!!error}
+        aria-describedby={error ? `${id}-error` : undefined}
+        required={required}
+      />
+      {error && (
+        <p id={`${id}-error`} className="text-xs text-red-600">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function TextArea({
+  label,
+  id,
+  value,
+  onChange,
+  error,
+  placeholder,
+  className = "",
+}: {
+  label: string;
+  id: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  error?: string;
+  placeholder?: string;
+  className?: string;
+}) {
+  return (
+    <div className={`space-y-1 ${className}`}>
+      <label htmlFor={id} className="text-sm font-medium">
+        {label}
+      </label>
+      <textarea
+        id={id}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="w-full min-h-[120px] rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-gray-300"
+        aria-invalid={!!error}
+        aria-describedby={error ? `${id}-error` : undefined}
+      />
+      {error && (
+        <p id={`${id}-error`} className="text-xs text-red-600">
+          {error}
+        </p>
+      )}
+    </div>
+  );
 }
