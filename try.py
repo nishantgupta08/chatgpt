@@ -1,28 +1,154 @@
-// app/page.tsx
-// PAY AFTER PLACEMENT — Data Analyst & Data Engineering (LOUD / MODERN)
-// - Hero: high-contrast, neon gradients, glass chips, sticky mobile CTA
-// - "Hybrid Pay After Placement" BIG badge for visibility
-// - DA ⊂ DE section with 12w vs 20w breakdown bar
-// - Program cards show fee split + duration
-// - JSON-driven syllabus for each course (auto from content.json → courses[])
-// - Syllabus shows only MAIN TOPICS + explicit Capstone/Projects card
-// - Cohort: 24 Oct 2025 • Time: 6–8 pm IST • Recordings available
-// - Partners logos row + "Backed by Industry Experts" section
+// app/landing/page.tsx
+// TypeScript rewrite — no `any`, JSON-typed syllabus, bold UI.
 
 import Testimonials from "@/components/Testimonials";
+import contentJson from "../assets/content.json";
 
-export default async function Page() {
-  const raw = await getContent();
-  const dataAnalyst = pickTrack(raw, "analyst");
-  const dataEngineering = pickTrack(raw, "engineer");
+/* ===========================
+   Types for content.json
+=========================== */
+export interface Submodule {
+  title: string;
+  content: string[];
+}
 
-  const cohortDisplay = formatCohortDate("24 Oct 2025");
+export interface Module {
+  title: string;
+  submodules: Submodule[];
+}
+
+export interface UserTestimonial {
+  img_url: string;
+  name: string;
+  linkdin_url: string;
+  designation_name: string;
+  company_name: string;
+  company_business_link: string;
+  details: string;
+}
+
+export interface Course {
+  id: number;
+  title: string;
+  sub_title: string;
+  img_url: string;
+  duration_weeks: number;
+  next_cohort_date: string; // e.g. "2025-24-10"
+  courses_content: Module[];
+  right_side_video_url: string;
+  user_section?: UserTestimonial[];
+}
+
+export type CoursesRoot = { courses: Course[] } | Course[];
+
+function isWrapped(root: CoursesRoot): root is { courses: Course[] } {
+  return (root as { courses?: unknown }).courses !== undefined;
+}
+
+/* ===========================
+   Data & helpers (typed)
+=========================== */
+const CONTENT: CoursesRoot = (contentJson as unknown) as CoursesRoot;
+
+function pickTrack(raw: CoursesRoot | null, keyword: "analyst" | "engineer"): Course {
+  const fallback: Course =
+    keyword === "analyst"
+      ? {
+          id: 1,
+          title: "Data Analyst",
+          sub_title: "Make businesses smarter with data.",
+          img_url: "",
+          duration_weeks: 12,
+          next_cohort_date: "",
+          courses_content: [],
+          right_side_video_url: "",
+        }
+      : {
+          id: 2,
+          title: "Data Engineering",
+          sub_title: "Build reliable data pipelines and platforms.",
+          img_url: "",
+          duration_weeks: 20,
+          next_cohort_date: "",
+          courses_content: [],
+          right_side_video_url: "",
+        };
+
+  if (!raw) return fallback;
+
+  const list: Course[] = isWrapped(raw) ? raw.courses : (raw as Course[]);
+  const needle = keyword === "analyst" ? "analyst" : "engineering";
+  return list.find((c) => c.title.toLowerCase().includes(needle)) ?? fallback;
+}
+
+function formatCohortDate(raw: string): string {
+  // accept formats like YYYY-MM-DD or YYYY-DD-MM (given: "2025-24-10")
+  if (!raw) return "";
+  const parts = raw.split("-");
+  let year = parts[0];
+  let month = parts[1];
+  let day = parts[2];
+  if (parts.length === 3) {
+    const p2 = Number(parts[1]);
+    const p3 = Number(parts[2]);
+    if (p2 > 12 && p3 <= 12) {
+      // YYYY-DD-MM → YYYY-MM-DD
+      month = parts[2];
+      day = parts[1];
+    }
+  }
+  const iso = `${year}-${month}-${day}`;
+  const d = new Date(iso);
+  if (!isNaN(d.getTime())) return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  return raw;
+}
+
+export interface OutlineItem { title: string; topics: string[] }
+
+function condenseModules(modules: Module[]): { outline: OutlineItem[]; capstone: string[] } {
+  const outline: OutlineItem[] = [];
+  const capstone: string[] = [];
+
+  modules.forEach((m) => {
+    const subs = Array.isArray(m?.submodules) ? m.submodules : [];
+
+    // Collect capstone/projects bullets
+    const cap = subs.find((s) => /capstone/i.test(s.title)) || subs.find((s) => /project/i.test(s.title));
+    if (cap && Array.isArray(cap.content)) {
+      cap.content.forEach((line) => {
+        if (capstone.length < 12) capstone.push(String(line));
+      });
+    }
+
+    // Main topics = submodule titles excluding prerequisites/projects/capstone
+    const mains = subs
+      .filter((s) => !/prereq|project|capstone/i.test(s.title))
+      .map((s) => s.title)
+      .slice(0, 6);
+
+    outline.push({ title: m.title, topics: mains });
+  });
+
+  return { outline, capstone };
+}
+
+interface Partner { name: string; logo?: string }
+interface Expert { name: string; role?: string; img?: string; linkedin?: string }
+
+/* ===========================
+   Page (typed)
+=========================== */
+export default function Page(): JSX.Element {
+  const dataAnalyst = pickTrack(CONTENT, "analyst");
+  const dataEngineering = pickTrack(CONTENT, "engineer");
+
+  const cohortDisplay = formatCohortDate(dataAnalyst.next_cohort_date || dataEngineering.next_cohort_date || "");
   const classTime = "6–8 pm IST";
-  const daWeeks = Number(dataAnalyst?.duration_weeks ?? 12);
-  const deWeeks = Number(dataEngineering?.duration_weeks ?? 20);
+  const daWeeks = Number(dataAnalyst.duration_weeks || 12);
+  const deWeeks = Number(dataEngineering.duration_weeks || 20);
 
-  // Replace logo paths with your real files in /public/logos/*.svg|png
-  const partners = [
+  // Replace logo paths with real files under /public/logos
+  const partners: Partner[] = [
     { name: "Celebal", logo: "/logos/celebal.svg" },
     { name: "Polestar", logo: "/logos/polestar.svg" },
     { name: "Mandle Bulb", logo: "/logos/mandle-bulb.svg" },
@@ -30,7 +156,7 @@ export default async function Page() {
     { name: "Neos Alpha", logo: "/logos/neos-alpha.svg" },
   ];
 
-  const experts = [
+  const experts: Expert[] = [
     {
       name: "Rajat Sinha",
       role: "Data Engineer, Shiprocket",
@@ -47,7 +173,7 @@ export default async function Page() {
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
-      {/* Theme tokens — map to your real palette in globals.css */}
+      {/* Theme tokens — move into globals.css when ready */}
       <style>{`
         :root {
           --brand-50:#eef2ff; --brand-100:#e0e7ff; --brand-200:#c7d2fe; --brand-300:#a5b4fc;
@@ -56,25 +182,20 @@ export default async function Page() {
         }
       `}</style>
 
-      {/* ——— HERO ——— */}
+      {/* HERO */}
       <section className="relative overflow-hidden bg-[#050814]">
-        {/* background paint */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_-10%,_rgba(79,70,229,0.5),_transparent_60%)]" />
           <div className="absolute inset-0 bg-[conic-gradient(from_140deg_at_50%_50%,_rgba(99,102,241,0.25),_transparent_60%)]" />
-          {/* hard darken overlay to guarantee contrast */}
           <div className="absolute inset-0 bg-[#050814]/90" />
-          {/* grid texture mask */}
           <div className="absolute inset-0 [background-image:linear-gradient(#ffffff10_1px,transparent_1px),linear-gradient(90deg,#ffffff10_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(60%_55%_at_50%_0%,_#000_45%,_transparent_75%)]" />
         </div>
 
         <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20">
           <div className="text-center text-white">
-            {/* BIG hybrid badge */}
             <div className="mx-auto inline-flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-4 py-1.5 text-sm font-bold uppercase tracking-wide shadow-lg backdrop-blur md:text-base">
               <SparkleIcon /> Hybrid Pay After Placement
             </div>
-
             <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white drop-shadow-[0_8px_30px_rgba(99,102,241,0.45)] sm:text-5xl md:text-6xl">
               Data Analyst <span className="opacity-90">&</span> Data Engineering Programs
             </h1>
@@ -85,10 +206,9 @@ export default async function Page() {
               <Chip>Online</Chip>
               <Chip>Offline</Chip>
               <Chip>Recordings available</Chip>
-              <Chip>{classTime}</Chip>
+              <Chip>6–8 pm IST</Chip>
             </div>
 
-            {/* program quicks */}
             <div className="mt-10 grid gap-5 sm:grid-cols-2">
               <ProgramCard
                 dark
@@ -114,7 +234,6 @@ export default async function Page() {
               />
             </div>
 
-            {/* partners logos */}
             <div className="mt-8">
               <p className="text-xs uppercase tracking-wide text-white/60">Select hiring partners</p>
               <PartnersRow items={partners} />
@@ -131,19 +250,19 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* ——— GLOBAL KEY STATS ——— */}
+      {/* KEY STATS */}
       <section className="bg-[#0b1220]">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-10">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Stat dark label="Delivery Modes" value="Online + Offline" />
-            <Stat dark label="Class Timing" value={classTime} />
-            <Stat dark label="Next Cohort" value={cohortDisplay} />
+            <Stat dark label="Class Timing" value="6–8 pm IST" />
+            <Stat dark label="Next Cohort" value={cohortDisplay || "24 Oct 2025"} />
             <Stat dark label="Recordings" value="Available" />
           </div>
         </div>
       </section>
 
-      {/* ——— FEATURES ——— */}
+      {/* FEATURES */}
       <section id="features" className="relative bg-white">
         <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-[#0b1220] to-transparent opacity-80" />
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
@@ -157,25 +276,23 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* ——— EXPERTS ——— */}
+      {/* EXPERTS */}
       <section id="experts" className="bg-gray-50">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Backed by Industry Experts</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            {experts.map((e, i) => (
-              <ExpertCard key={i} {...e} />
+            {experts.map((e) => (
+              <ExpertCard key={e.name} {...e} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ——— DA ⊂ DE (dissection) ——— */}
+      {/* DA ⊂ DE */}
       <section id="subset" className="bg-white">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Data Analyst ⊂ Data Engineer</h2>
           <p className="mt-2 max-w-3xl text-gray-700">The Analyst track is the foundation of the Engineering track. Complete the first {daWeeks} weeks for Analyst outcomes; continue to {deWeeks} weeks to master engineering depth.</p>
-
-        {/* segmented bar 12 / 20 */}
           <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="text-sm font-semibold text-gray-900">Timeline</div>
             <div className="mt-3 grid grid-cols-[repeat(20,minmax(0,1fr))] overflow-hidden rounded-xl">
@@ -194,7 +311,7 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* ——— DATA ANALYST ——— */}
+      {/* DATA ANALYST */}
       <CourseSection
         anchor="analyst"
         title={`${dataAnalyst.title} — Pay After Placement`}
@@ -207,7 +324,7 @@ export default async function Page() {
         duration={`${daWeeks} weeks`}
       />
 
-      {/* ——— DATA ENGINEERING ——— */}
+      {/* DATA ENGINEERING */}
       <CourseSection
         anchor="engineering"
         title={`${dataEngineering.title} — Pay After Placement`}
@@ -220,28 +337,28 @@ export default async function Page() {
         duration={`${deWeeks} weeks`}
       />
 
-      {/* ——— Testimonials (kept as-is) ——— */}
+      {/* TESTIMONIALS (as-is) */}
       <section className="bg-white">
         <div className="container mx-auto max-w-7xl px-0 py-16">
           <Testimonials />
         </div>
       </section>
 
-      {/* ——— FAQ ——— */}
+      {/* FAQ */}
       <section id="faq" className="relative bg-[#0b1220] text-white">
         <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-white to-transparent opacity-70" />
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Frequently asked</h2>
           <div className="mt-6 grid gap-4 sm:gap-6 md:grid-cols-2">
             <Faq dark q="Are classes online or offline?" a="Both. Attend live online sessions or join in-person where available; all sessions have recordings." />
-            <Faq dark q="When does the cohort start?" a={`Cohort starts ${cohortDisplay}. Classes run ${classTime}.`} />
+            <Faq dark q="When does the cohort start?" a={`Cohort starts ${cohortDisplay || "24 Oct 2025"}. Classes run 6–8 pm IST.`} />
             <Faq dark q="How do fees work?" a="Data Analyst: ₹7,500 upfront + ₹30,000 after placement. Data Engineering: ₹10,000 upfront + ₹30,000 after placement." />
             <Faq dark q="Do I keep access?" a="Yes, you get lifetime access to updated materials and recordings." />
           </div>
         </div>
       </section>
 
-      {/* ——— Footer ——— */}
+      {/* FOOTER */}
       <footer className="bg-[#0b1220] text-white/80">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-8 text-sm">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
@@ -261,8 +378,10 @@ export default async function Page() {
   );
 }
 
-/* ——— Building blocks ——— */
-function SparkleIcon() {
+/* ===========================
+   UI components (typed)
+=========================== */
+function SparkleIcon(): JSX.Element {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="opacity-90">
       <path d="M12 3l1.8 4.5L18 9.3l-4.2 1.8L12 15l-1.8-3.9L6 9.3l4.2-1.8L12 3z" stroke="currentColor" strokeWidth="1.5"/>
@@ -270,7 +389,7 @@ function SparkleIcon() {
   );
 }
 
-function Chip({ children }: { children: React.ReactNode }) {
+function Chip({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur hover:bg-white/15">
       {children}
@@ -278,7 +397,7 @@ function Chip({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Stat({ label, value, dark }: { label: string; value: string; dark?: boolean }) {
+function Stat({ label, value, dark }: { label: string; value: string; dark?: boolean }): JSX.Element {
   const base = dark
     ? "rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 text-center text-white/90 shadow-sm hover:bg-white/7"
     : "rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 text-center shadow-sm hover:shadow-md";
@@ -292,7 +411,18 @@ function Stat({ label, value, dark }: { label: string; value: string; dark?: boo
   );
 }
 
-function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, duration, ctaHref, dark }:{ id: string; title: string; subtitle?: string; img?: string; feeUpfront: string; feeAfter: string; duration?: string; ctaHref: string; dark?: boolean; }) {
+function ProgramCard(props: {
+  id: string;
+  title: string;
+  subtitle?: string;
+  img?: string;
+  feeUpfront: string;
+  feeAfter: string;
+  duration?: string;
+  ctaHref: string;
+  dark?: boolean;
+}): JSX.Element {
+  const { id, title, subtitle, img, feeUpfront, feeAfter, duration, ctaHref, dark } = props;
   return (
     <div id={id} className="relative rounded-2xl bg-gradient-to-b from-white/20 to-white/5 p-[1.2px] backdrop-blur">
       <div className={`relative rounded-2xl ${dark ? "bg-white/10 text-white" : "bg-white text-gray-900"} p-5 sm:p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg`}>
@@ -313,7 +443,18 @@ function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, duration,
   );
 }
 
-function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules, duration }:{ anchor: string; title: string; subtitle?: string; img?: string; feeUpfrontLabel: string; feeAfterLabel: string; totalLabel: string; modules: any[]; duration?: string; }) {
+function CourseSection(props: {
+  anchor: string;
+  title: string;
+  subtitle?: string;
+  img?: string;
+  feeUpfrontLabel: string;
+  feeAfterLabel: string;
+  totalLabel: string;
+  modules: Module[];
+  duration?: string;
+}): JSX.Element {
+  const { anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules, duration } = props;
   const { outline, capstone } = condenseModules(modules);
   return (
     <section id={anchor} className="relative bg-white">
@@ -335,8 +476,8 @@ function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfter
             {/* MAIN TOPICS */}
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
               {outline.length > 0 ? (
-                outline.map((m: any, i: number) => (
-                  <OutlineCard key={i} title={m.title} topics={m.topics} />
+                outline.map((m) => (
+                  <OutlineCard key={m.title} title={m.title} topics={m.topics} />
                 ))
               ) : (
                 <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 text-sm text-gray-600">Syllabus coming soon.</div>
@@ -376,27 +517,27 @@ function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfter
   );
 }
 
-function OutlineCard({ title, topics }: { title: string; topics: string[] }) {
+function OutlineCard({ title, topics }: { title: string; topics: string[] }): JSX.Element {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
       <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
       <ul className="mt-3 space-y-1 text-sm text-gray-700">
-        {topics.map((t, i) => (
-          <li key={i} className="flex items-start gap-2"><span className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand-600)]" />{t}</li>
+        {topics.map((t) => (
+          <li key={t} className="flex items-start gap-2"><span className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand-600)]" />{t}</li>
         ))}
       </ul>
     </div>
   );
 }
 
-function CapstoneCard({ bullets }: { bullets: string[] }) {
+function CapstoneCard({ bullets }: { bullets: string[] }): JSX.Element {
   return (
     <div className="relative rounded-2xl bg-gradient-to-r from-[var(--brand-600)] to-[var(--brand-400)] p-[1.5px]">
       <div className="rounded-2xl bg-white p-5 sm:p-6">
         <h3 className="text-lg font-extrabold text-gray-900">Capstone Projects</h3>
         <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-800">
           {bullets.map((b, i) => (
-            <li key={i}>{b}</li>
+            <li key={`${b}-${i}`}>{b}</li>
           ))}
         </ul>
       </div>
@@ -404,11 +545,11 @@ function CapstoneCard({ bullets }: { bullets: string[] }) {
   );
 }
 
-function StepDot() {
+function StepDot(): JSX.Element {
   return <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-600)] text-white">•</span>;
 }
 
-function Badge({ children }: { children: React.ReactNode }) {
+function Badge({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <span className="inline-flex items-center rounded-md bg-[var(--brand-50)] px-2.5 py-1 text-[11px] font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">
       {children}
@@ -416,11 +557,11 @@ function Badge({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PartnersRow({ items }: { items: { name: string; logo?: string }[] }) {
+function PartnersRow({ items }: { items: Partner[] }): JSX.Element {
   return (
     <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
-      {items.map((p, i) => (
-        <div key={i} className="flex h-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 px-3 backdrop-blur">
+      {items.map((p) => (
+        <div key={p.name} className="flex h-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 px-3 backdrop-blur">
           {p.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={p.logo} alt={p.name} className="max-h-6 w-auto opacity-90" />
@@ -433,7 +574,7 @@ function PartnersRow({ items }: { items: { name: string; logo?: string }[] }) {
   );
 }
 
-function ExpertCard({ name, role, img, linkedin }: { name: string; role?: string; img?: string; linkedin?: string }) {
+function ExpertCard({ name, role, img, linkedin }: Expert): JSX.Element {
   return (
     <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
       {img ? (
@@ -455,7 +596,7 @@ function ExpertCard({ name, role, img, linkedin }: { name: string; role?: string
   );
 }
 
-function FeatureCard({ title, desc }: { title: string; desc: string }) {
+function FeatureCard({ title, desc }: { title: string; desc: string }): JSX.Element {
   return (
     <div className="relative rounded-2xl bg-gradient-to-b from-[var(--brand-100)] to-transparent p-[1.2px]">
       <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
@@ -466,7 +607,7 @@ function FeatureCard({ title, desc }: { title: string; desc: string }) {
   );
 }
 
-function Faq({ q, a, dark }: { q: string; a: string; dark?: boolean }) {
+function Faq({ q, a, dark }: { q: string; a: string; dark?: boolean }): JSX.Element {
   const base = dark
     ? "rounded-2xl border border-white/10 bg-white/5 p-5 text-white/90"
     : "rounded-2xl border border-gray-200 bg-white p-5";
@@ -477,72 +618,4 @@ function Faq({ q, a, dark }: { q: string; a: string; dark?: boolean }) {
       <p className={ans}>{a}</p>
     </div>
   );
-}
-
-/* ——— Data helpers ——— */
-async function getContent(): Promise<any> {
-  try {
-    const mod: any = await import("@/content.json");
-    const data = mod.default ?? mod;
-    // If the JSON wraps in { courses: [...] }, unwrap it
-    if (data?.courses && Array.isArray(data.courses)) return data.courses;
-    return data;
-  } catch (e) {
-    return null;
-  }
-}
-
-function pickTrack(raw: any, keyword: "analyst" | "engineer") {
-  const fallback = keyword === "analyst"
-    ? { title: "Data Analyst", sub_title: "Make businesses smarter with data.", img_url: "", courses_content: [], duration_weeks: 12 }
-    : { title: "Data Engineering", sub_title: "Build reliable data pipelines and platforms.", img_url: "", courses_content: [], duration_weeks: 20 };
-
-  if (!raw) return fallback;
-
-  // If top-level object is the track
-  if (raw?.title && String(raw.title).toLowerCase().includes(keyword)) return raw;
-
-  // If it's an array of courses (our case)
-  if (Array.isArray(raw)) {
-    const found = raw.find((x: any) => String(x?.title ?? "").toLowerCase().includes(keyword));
-    return found ?? fallback;
-  }
-
-  // If it's a map keyed by course names
-  const key = Object.keys(raw || {}).find((k) => k.toLowerCase().includes(keyword));
-  if (key) return raw[key];
-
-  return fallback;
-}
-
-function formatCohortDate(raw: string): string {
-  const d = new Date(raw);
-  if (!isNaN(d.getTime())) return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
-  return raw;
-}
-
-function condenseModules(modules: any[]): { outline: { title: string; topics: string[] }[]; capstone: string[] } {
-  const outline: { title: string; topics: string[] }[] = [];
-  const cap: string[] = [];
-
-  if (!Array.isArray(modules)) return { outline, capstone: cap };
-
-  for (const m of modules) {
-    const subs = Array.isArray(m?.submodules) ? m.submodules : [];
-    // capture capstone/projects
-    const capSub = subs.find((s: any) => /capstone/i.test(String(s?.title))) || subs.find((s: any) => /project/i.test(String(s?.title)));
-    if (capSub && Array.isArray(capSub.content)) {
-      for (const c of capSub.content) if (cap.length < 8) cap.push(String(c));
-    }
-
-    // MAIN topics = submodule titles excluding prerequisites/projects/capstone
-    const mains = subs
-      .filter((s: any) => !/prereq|project|capstone/i.test(String(s?.title)))
-      .map((s: any) => String(s?.title))
-      .slice(0, 6);
-
-    outline.push({ title: String(m?.title ?? "Module"), topics: mains });
-  }
-
-  return { outline, capstone: cap };
 }
