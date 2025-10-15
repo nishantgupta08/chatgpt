@@ -1,8 +1,9 @@
 // app/page.tsx
-// Pay After Placement Programs — Data Analyst & Data Engineering (AGGRESSIVE / MODERN UI)
-// - High-contrast hero with gradient text & glass chips
-// - Gradient borders, hover lifts, subtle motion, dark/light contrast blocks
-// - Two programs on one page + comparison + JSON-driven syllabus
+// PAY AFTER PLACEMENT — Data Analyst & Data Engineering (LOUD / MODERN)
+// - Hero: high-contrast, neon gradients, glass chips, sticky mobile CTA
+// - DA ⊂ DE section with 12w vs 20w breakdown bar
+// - Program cards show fee split + duration
+// - JSON-driven syllabus for each course when present
 // - Cohort: 24 Oct 2025 • Time: 6–8 pm IST • Recordings available
 
 import Testimonials from "@/components/Testimonials";
@@ -14,6 +15,8 @@ export default async function Page() {
 
   const cohortDisplay = formatCohortDate("24 Oct 2025");
   const classTime = "6–8 pm IST";
+  const daWeeks = 12;
+  const deWeeks = 20;
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
@@ -22,7 +25,7 @@ export default async function Page() {
         :root {
           --brand-50:#eef2ff; --brand-100:#e0e7ff; --brand-200:#c7d2fe; --brand-300:#a5b4fc;
           --brand-400:#818cf8; --brand-500:#6366f1; --brand-600:#4f46e5; --brand-700:#4338ca; --brand-800:#3730a3; --brand-900:#312e81;
-          --ink:#0b1220; --surface:#0f172a; /* slate-900-ish */
+          --ink:#0b1220; --ink-2:#0a0f1d;
         }
       `}</style>
 
@@ -30,21 +33,24 @@ export default async function Page() {
       <section className="relative overflow-hidden">
         {/* background paint */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_-10%,_rgba(79,70,229,0.35),_transparent_60%)]" />
-          <div className="absolute inset-0 bg-[conic-gradient(from_120deg_at_50%_50%,_rgba(99,102,241,0.20),_transparent_60%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)] via-[#0b1220] to-[#0b1220]" />
-          <div className="absolute inset-0 [background-image:linear-gradient(#ffffff0d_1px,transparent_1px),linear-gradient(90deg,#ffffff0d_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(60%_50%_at_50%_0%,_#000_40%,_transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_-10%,_rgba(79,70,229,0.5),_transparent_60%)]" />
+          <div className="absolute inset-0 bg-[conic-gradient(from_140deg_at_50%_50%,_rgba(99,102,241,0.25),_transparent_60%)]" />
+          {/* hard darken overlay to guarantee contrast */}
+          <div className="absolute inset-0 bg-[#050814]/90" />
+          {/* grid texture mask */}
+          <div className="absolute inset-0 [background-image:linear-gradient(#ffffff10_1px,transparent_1px),linear-gradient(90deg,#ffffff10_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(60%_55%_at_50%_0%,_#000_45%,_transparent_75%)]" />
         </div>
 
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20">
           <div className="text-center text-white">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs sm:text-sm font-semibold backdrop-blur">
-              <SparkleIcon /> Pay After Placement (Hybrid)
+              <SparkleIcon /> Hybrid Pay After Placement
             </span>
-            <h1 className="mt-4 bg-gradient-to-r from-[var(--brand-200)] via-white to-[var(--brand-300)] bg-clip-text text-4xl font-extrabold leading-tight text-transparent sm:text-5xl md:text-6xl">
-              Data Analyst <span className="opacity-80">&</span> Data Engineering Programs
+            {/* solid white heading with neon glow for readability */}
+            <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white drop-shadow-[0_8px_30px_rgba(99,102,241,0.45)] sm:text-5xl md:text-6xl">
+              Data Analyst <span className="opacity-90">&</span> Data Engineering Programs
             </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg text-white/80">
+            <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg text-white/85">
               Mentor-led. Project-first. Job-focused. Start small, pay the balance after placement.
             </p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs">
@@ -65,6 +71,7 @@ export default async function Page() {
                 img={dataAnalyst.img_url}
                 feeUpfront="₹7,500"
                 feeAfter="₹30,000"
+                duration={`${daWeeks} weeks`}
                 ctaHref="#analyst"
               />
               <ProgramCard
@@ -75,11 +82,19 @@ export default async function Page() {
                 img={dataEngineering.img_url}
                 feeUpfront="₹10,000"
                 feeAfter="₹30,000"
+                duration={`${deWeeks} weeks`}
                 ctaHref="#engineering"
               />
             </div>
 
             <p className="mt-6 text-sm text-white/70">Select hiring partners • growing network</p>
+          </div>
+        </div>
+
+        {/* sticky mobile CTA */}
+        <div className="fixed inset-x-0 bottom-3 z-30 mx-auto w-[92%] sm:hidden">
+          <div className="rounded-2xl border border-white/15 bg-white/10 p-2 backdrop-blur">
+            <a href="#apply" className="block w-full rounded-xl bg-gradient-to-r from-[var(--brand-600)] to-[var(--brand-400)] px-5 py-3 text-center font-semibold text-white shadow">Start Free Counselling</a>
           </div>
         </div>
       </section>
@@ -110,48 +125,40 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* ——— DA vs DE (dissection) ——— */}
-      <section id="compare" className="bg-gray-50">
+      {/* ——— DA ⊂ DE (dissection) ——— */}
+      <section id="subset" className="bg-gray-50">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
-          <h2 className="text-3xl font-extrabold sm:text-4xl">Data Analyst vs Data Engineer — which path suits you?</h2>
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Data Analyst ⊂ Data Engineer</h2>
+          <p className="mt-2 max-w-3xl text-gray-700">The Analyst track is the foundation of the Engineering track. Complete the first {daWeeks} weeks for Analyst outcomes; continue to {deWeeks} weeks to master engineering depth.</p>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <PillCard title="Data Analyst" points={["Insights, dashboards, decision support","Excel/SQL/BI, Python (pandas)","Cleaning, analysis, reporting","KPI dashboards, A/B reads","Great for communicators close to business"]} />
-            <PillCard title="Data Engineer" points={["Pipelines, models, reliability","SQL, Python/Scala, ETL/ELT, Cloud","Ingestion, transforms, orchestration","Batch/stream, DWH modeling","Great for builders who like scale"]} />
+          {/* segmented bar 12 / 20 */}
+          <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="text-sm font-semibold text-gray-900">Timeline</div>
+            <div className="mt-3 grid grid-cols-20 overflow-hidden rounded-xl">
+              {/* 12 brand segments */}
+              {Array.from({ length: daWeeks }).map((_, i) => (
+                <div key={`da-${i}`} className="h-3 bg-[var(--brand-600)]" />
+              ))}
+              {/* remaining 8 darker segments */}
+              {Array.from({ length: deWeeks - daWeeks }).map((_, i) => (
+                <div key={`de-${i}`} className="h-3 bg-[var(--brand-800)]" />
+              ))}
+            </div>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 text-sm text-gray-700">
+              <div className="flex items-start gap-2"><span className="mt-1 inline-block h-2 w-2 rounded bg-[var(--brand-600)]" /><p><b>Weeks 1–{daWeeks}:</b> Analyst foundations — Excel/BI, SQL essentials, stats & storytelling, Python for analysis.</p></div>
+              <div className="flex items-start gap-2"><span className="mt-1 inline-block h-2 w-2 rounded bg-[var(--brand-800)]" /><p><b>Weeks {daWeeks + 1}–{deWeeks}:</b> Engineering depth — ETL/ELT, orchestration, cloud, modeling at scale, streaming basics.</p></div>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-10 overflow-x-auto">
-            <table className="w-full min-w-[760px] overflow-hidden rounded-2xl border border-gray-200 bg-white text-left text-sm shadow-sm">
-              <thead className="bg-gradient-to-r from-[var(--brand-600)] to-[var(--brand-400)] text-white">
-                <tr>
-                  <th className="py-3 pl-4 pr-4 font-semibold">Aspect</th>
-                  <th className="py-3 pr-4 font-semibold">Data Analyst</th>
-                  <th className="py-3 pr-4 font-semibold">Data Engineer</th>
-                </tr>
-              </thead>
-              <tbody className="align-top">
-                <tr className="border-b">
-                  <td className="py-3 pl-4 pr-4">Primary Output</td>
-                  <td className="py-3 pr-4">Dashboards, reports, insights</td>
-                  <td className="py-3 pr-4">Reliable datasets, pipelines</td>
-                </tr>
-                <tr className="border-b bg-gray-50">
-                  <td className="py-3 pl-4 pr-4">Core Stack</td>
-                  <td className="py-3 pr-4">Excel/SQL/BI, Python</td>
-                  <td className="py-3 pr-4">SQL, Python/Scala, ETL, Cloud</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-3 pl-4 pr-4">Advanced</td>
-                  <td className="py-3 pr-4">Stats, experimentation, storytelling</td>
-                  <td className="py-3 pr-4">Modeling, orchestration, performance</td>
-                </tr>
-                <tr>
-                  <td className="py-3 pl-4 pr-4">Fee Plan</td>
-                  <td className="py-3 pr-4">₹7,500 now • ₹30,000 after</td>
-                  <td className="py-3 pr-4">₹10,000 now • ₹30,000 after</td>
-                </tr>
-              </tbody>
-            </table>
+      {/* ——— DA vs DE (comparison) ——— */}
+      <section id="compare" className="bg-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Which path suits you?</h2>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <PillCard title={`Data Analyst • ${daWeeks} weeks`} points={["Insights, dashboards, decision support","Excel/SQL/BI, Python (pandas)","Cleaning, analysis, reporting","KPI dashboards, A/B reads","Great for communicators close to business"]} />
+            <PillCard title={`Data Engineer • ${deWeeks} weeks`} points={["Pipelines, models, reliability","SQL, Python/Scala, ETL/ELT, Cloud","Ingestion, transforms, orchestration","Batch/stream, DWH modeling","Great for builders who like scale"]} />
           </div>
         </div>
       </section>
@@ -166,6 +173,7 @@ export default async function Page() {
         feeAfterLabel="After placement: ₹30,000"
         totalLabel="Total: ₹37,500"
         modules={dataAnalyst.courses_content}
+        duration={`${daWeeks} weeks`}
       />
 
       {/* ——— DATA ENGINEERING ——— */}
@@ -178,6 +186,7 @@ export default async function Page() {
         feeAfterLabel="After placement: ₹30,000"
         totalLabel="Total: ₹40,000"
         modules={dataEngineering.courses_content}
+        duration={`${deWeeks} weeks`}
       />
 
       {/* ——— Testimonials (kept as-is) ——— */}
@@ -207,7 +216,7 @@ export default async function Page() {
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
             <p>© {new Date().getFullYear()} Your Academy. All rights reserved.</p>
             <nav className="flex flex-wrap gap-4">
-              <a href="#compare" className="hover:text-white">DA vs DE</a>
+              <a href="#subset" className="hover:text-white">DA ⊂ DE</a>
               <a href="#analyst" className="hover:text-white">Data Analyst</a>
               <a href="#engineering" className="hover:text-white">Data Engineering</a>
               <a href="#features" className="hover:text-white">Features</a>
@@ -251,7 +260,7 @@ function Stat({ label, value, dark }: { label: string; value: string; dark?: boo
   );
 }
 
-function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, ctaHref, dark }:{ id: string; title: string; subtitle?: string; img?: string; feeUpfront: string; feeAfter: string; ctaHref: string; dark?: boolean; }) {
+function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, duration, ctaHref, dark }:{ id: string; title: string; subtitle?: string; img?: string; feeUpfront: string; feeAfter: string; duration?: string; ctaHref: string; dark?: boolean; }) {
   return (
     <div id={id} className="relative rounded-2xl bg-gradient-to-b from-white/20 to-white/5 p-[1.2px] backdrop-blur">
       <div className={`relative rounded-2xl ${dark ? "bg-white/10 text-white" : "bg-white text-gray-900"} p-5 sm:p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg`}>
@@ -262,6 +271,7 @@ function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, ctaHref, 
         <h3 className="text-lg font-semibold">{title}</h3>
         {subtitle ? <p className={`mt-1 text-sm ${dark ? "text-white/80" : "text-gray-700"}`}>{subtitle}</p> : null}
         <div className={`mt-3 flex flex-wrap items-center gap-2 text-xs ${dark ? "text-white/90" : "text-gray-700"}`}>
+          {duration ? <span className="rounded-full border border-current/20 px-2.5 py-1">{duration}</span> : null}
           <span className="rounded-full border border-current/20 px-2.5 py-1">{feeUpfront} to enroll</span>
           <span className="rounded-full border border-current/20 px-2.5 py-1">{feeAfter} after placement</span>
         </div>
@@ -271,14 +281,17 @@ function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, ctaHref, 
   );
 }
 
-function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules }:{ anchor: string; title: string; subtitle?: string; img?: string; feeUpfrontLabel: string; feeAfterLabel: string; totalLabel: string; modules: any[]; }) {
+function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules, duration }:{ anchor: string; title: string; subtitle?: string; img?: string; feeUpfrontLabel: string; feeAfterLabel: string; totalLabel: string; modules: any[]; duration?: string; }) {
   return (
     <section id={anchor} className="relative bg-white">
       <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-gray-50 to-transparent" />
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-7">
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{title}</h2>
+            <div className="flex flex-wrap items-center gap-3">
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{title}</h2>
+              {duration ? <span className="inline-flex items-center rounded-full bg-[var(--brand-50)] px-3 py-1 text-xs font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">{duration}</span> : null}
+            </div>
             {subtitle ? <p className="mt-2 text-gray-700">{subtitle}</p> : null}
             <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
               <Badge>Online</Badge>
