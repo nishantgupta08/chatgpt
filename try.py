@@ -5,6 +5,7 @@
 // - Shows cohort start (24 Oct 2025), timing (6–8 pm IST), recordings available
 // - Online + Offline delivery
 // - Payment plans: DA ₹7,500 + ₹30,000; DE ₹10,000 + ₹30,000
+// - Includes a comparison/dissection section (DA vs DE)
 // - Testimonials kept as-is via your component
 
 import Testimonials from "@/components/Testimonials";
@@ -40,13 +41,13 @@ export default async function Page() {
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-14">
           <div className="text-center">
             <span className="inline-flex items-center rounded-full bg-[var(--brand-50)] px-3 py-1 text-xs sm:text-sm font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">
-              Pay After Placement
+              Pay After Placement (Hybrid)
             </span>
             <h1 className="mt-3 text-3xl leading-tight font-extrabold sm:text-4xl md:text-5xl">
               Data Analyst & Data Engineering Programs
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg text-gray-700">
-              Learn with live mentors, real projects, and job support. Start now, pay mostly after placement.
+              Learn with live mentors, real projects, and job support. Start now, pay most after placement.
             </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs">
               <Badge>Online</Badge>
@@ -98,7 +99,7 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* ——— SALIENT FEATURES ——— */}
+      {/* ——— FEATURES ——— */}
       <section id="features" className="bg-white">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
           <h2 className="text-2xl sm:text-3xl font-bold">Why these programs</h2>
@@ -107,6 +108,70 @@ export default async function Page() {
             <FeatureCard title="By Industry, For Industry" desc="Built and reviewed with working professionals and hiring partners." />
             <FeatureCard title="Resume Refactoring" desc="1:1 resume & LinkedIn revamp tailored to the role." />
             <FeatureCard title="Mock Interviews" desc="Regular case, SQL/DS, and system rounds with feedback." />
+          </div>
+        </div>
+      </section>
+
+      {/* ——— DA vs DE (dissection) ——— */}
+      <section id="compare" className="bg-gray-50">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <h2 className="text-2xl sm:text-3xl font-bold">Data Analyst vs Data Engineer — which path suits you?</h2>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold">Data Analyst</h3>
+              <ul className="mt-3 space-y-2 text-sm text-gray-700">
+                <li><b>Focus:</b> Insights, dashboards, decision support</li>
+                <li><b>Tools:</b> Excel/Sheets, SQL, Power BI/Tableau, Python (pandas)</li>
+                <li><b>Common tasks:</b> Cleaning, analysis, reporting, stakeholder storytelling</li>
+                <li><b>Sample projects:</b> KPI dashboards, A/B reads, ad-hoc analysis</li>
+                <li><b>Who’s it for:</b> Business + data-curious, strong communication</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold">Data Engineer</h3>
+              <ul className="mt-3 space-y-2 text-sm text-gray-700">
+                <li><b>Focus:</b> Pipelines, data models, reliability</li>
+                <li><b>Tools:</b> SQL, Python/Scala, ETL/ELT, cloud (e.g., AWS/GCP/Azure)</li>
+                <li><b>Common tasks:</b> Ingestion, transformations, orchestration, optimization</li>
+                <li><b>Sample projects:</b> Batch/stream pipelines, data warehouse modeling</li>
+                <li><b>Who’s it for:</b> Engineering-minded, enjoys systems + scale</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 overflow-x-auto">
+            <table className="w-full min-w-[720px] text-left text-sm">
+              <thead>
+                <tr className="border-b">
+                  <th className="py-3 pr-4 font-semibold">Aspect</th>
+                  <th className="py-3 pr-4 font-semibold">Data Analyst</th>
+                  <th className="py-3 font-semibold">Data Engineer</th>
+                </tr>
+              </thead>
+              <tbody className="align-top text-gray-700">
+                <tr className="border-b">
+                  <td className="py-3 pr-4">Primary Output</td>
+                  <td className="py-3 pr-4">Dashboards, reports, insights</td>
+                  <td className="py-3">Reliable datasets, pipelines</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-3 pr-4">Core Stack</td>
+                  <td className="py-3 pr-4">Excel/SQL/BI, Python</td>
+                  <td className="py-3">SQL, Python/Scala, ETL, Cloud</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-3 pr-4">Advanced Topics</td>
+                  <td className="py-3 pr-4">Stats, experimentation, storytelling</td>
+                  <td className="py-3">Modeling, orchestration, performance</td>
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4">Fee Plan</td>
+                  <td className="py-3 pr-4">₹7,500 now • ₹30,000 after</td>
+                  <td className="py-3">₹10,000 now • ₹30,000 after</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -161,6 +226,7 @@ export default async function Page() {
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
             <p>© {new Date().getFullYear()} Your Academy. All rights reserved.</p>
             <nav className="flex flex-wrap gap-4">
+              <a href="#compare" className="hover:text-gray-900">DA vs DE</a>
               <a href="#analyst" className="hover:text-gray-900">Data Analyst</a>
               <a href="#engineering" className="hover:text-gray-900">Data Engineering</a>
               <a href="#features" className="hover:text-gray-900">Features</a>
