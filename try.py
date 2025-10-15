@@ -1,20 +1,27 @@
 // app/page.tsx
-// Data Analyst Pay After Placement Program — mobile-first, theme-ready.
-// Uses JSON-provided course content to render syllabus cards.
-// Sections: Hero • Stats (modes/duration/cohort/fees) • Features • Syllabus (from content.json) • Payment • FAQ • Testimonials (as-is)
+// Pay After Placement Programs — Data Analyst & Data Engineering
+// Mobile-first, theme-ready. Renders two courses on one landing page.
+// - Pulls course content from content.json when available
+// - Shows cohort start (24 Oct 2025), timing (6–8 pm IST), recordings available
+// - Online + Offline delivery
+// - Payment plans: DA ₹7,500 + ₹30,000; DE ₹10,000 + ₹30,000
+// - Testimonials kept as-is via your component
 
 import Testimonials from "@/components/Testimonials";
 
 export default async function Page() {
-  const data = await getDAContent();
-  const cohort = formatCohortDate(data?.next_cohort_date);
+  const raw = await getContent();
+  const dataAnalyst = pickTrack(raw, "analyst");
+  const dataEngineering = pickTrack(raw, "engineer");
+
+  const cohortDisplay = formatCohortDate("24 Oct 2025");
+  const classTime = "6–8 pm IST";
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* Temporary theme tokens — move to globals.css and delete this <style> */}
       <style>{`
         :root {
-          /* Map these to your original theme colors */
           --brand-50:  #eff6ff;
           --brand-100: #dbeafe;
           --brand-200: #bfdbfe;
@@ -31,62 +38,62 @@ export default async function Page() {
       {/* ——— HERO ——— */}
       <section className="border-b border-gray-100">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-14">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-7">
-              <span className="inline-flex items-center rounded-full bg-[var(--brand-50)] px-3 py-1 text-xs sm:text-sm font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">
-                Pay After Placement
-              </span>
-              <h1 className="mt-3 text-3xl leading-tight font-extrabold sm:text-4xl md:text-5xl">
-                {data?.title ?? "Data Analyst"} <span className="text-[var(--brand-700)]">Pay After Placement</span> Program
-              </h1>
-              <p className="mt-3 text-base sm:text-lg text-gray-700 max-w-2xl">
-                {data?.sub_title ?? "Learn data analysis hands-on with real projects, interview prep, and career support."}
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] sm:text-xs">
-                <Badge>Online</Badge>
-                <Badge>Offline</Badge>
-                <Badge>Resume refactoring</Badge>
-                <Badge>Mock interviews</Badge>
-              </div>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <a href="#apply" className="inline-flex justify-center rounded-xl bg-[var(--brand-600)] px-5 py-3 text-white font-semibold shadow hover:bg-[var(--brand-700)]">Start Free Counselling</a>
-                <a href="#curriculum" className="inline-flex justify-center rounded-xl border border-gray-300 px-5 py-3 font-semibold text-gray-900 hover:bg-gray-50">View Syllabus</a>
-              </div>
+          <div className="text-center">
+            <span className="inline-flex items-center rounded-full bg-[var(--brand-50)] px-3 py-1 text-xs sm:text-sm font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">
+              Pay After Placement
+            </span>
+            <h1 className="mt-3 text-3xl leading-tight font-extrabold sm:text-4xl md:text-5xl">
+              Data Analyst & Data Engineering Programs
+            </h1>
+            <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg text-gray-700">
+              Learn with live mentors, real projects, and job support. Start now, pay mostly after placement.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs">
+              <Badge>Online</Badge>
+              <Badge>Offline</Badge>
+              <Badge>Recordings available</Badge>
+              <Badge>{classTime}</Badge>
+              <Badge>Next cohort: {cohortDisplay}</Badge>
             </div>
+          </div>
 
-            <div className="lg:col-span-5">
-              <div className="relative rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-                {data?.img_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={data.img_url} alt="Program preview" className="mb-4 h-48 w-full rounded-xl object-cover object-center" />
-                ) : null}
-                <h3 id="apply" className="text-lg sm:text-xl font-bold">Free Counselling Call</h3>
-                <p className="mt-1 text-gray-600 text-sm">Tell us your background and goals. We’ll map the shortest path to your first (or next) data role.</p>
-                <form className="mt-4 grid grid-cols-1 gap-3">
-                  <input className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[var(--brand-600)] focus:outline-none" placeholder="Full name" />
-                  <input className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[var(--brand-600)] focus:outline-none" placeholder="Email" type="email" />
-                  <input className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[var(--brand-600)] focus:outline-none" placeholder="Phone" type="tel" />
-                  <button type="button" className="mt-1 inline-flex items-center justify-center rounded-lg bg-[var(--brand-600)] px-4 py-2.5 font-semibold text-white hover:bg-[var(--brand-700)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-400)]">Request a Call</button>
-                  <p className="text-[11px] text-gray-500">By continuing you agree to be contacted regarding admissions.</p>
-                </form>
-              </div>
-            </div>
+          {/* Program quick cards */}
+          <div className="mt-8 grid gap-4 sm:gap-6 sm:grid-cols-2">
+            <ProgramCard
+              id="data-analyst"
+              title={dataAnalyst.title}
+              subtitle={dataAnalyst.sub_title}
+              img={dataAnalyst.img_url}
+              feeUpfront="₹7,500"
+              feeAfter="₹30,000"
+              ctaHref="#analyst"
+            />
+            <ProgramCard
+              id="data-engineering"
+              title={dataEngineering.title}
+              subtitle={dataEngineering.sub_title}
+              img={dataEngineering.img_url}
+              feeUpfront="₹10,000"
+              feeAfter="₹30,000"
+              ctaHref="#engineering"
+            />
+          </div>
+
+          {/* Hiring partners note for small partner count */}
+          <div className="mt-6 text-center text-sm text-gray-600">
+            <span className="rounded-full bg-white px-3 py-1 ring-1 ring-gray-200">Select hiring partners • growing network</span>
           </div>
         </div>
       </section>
 
-      {/* ——— KEY STATS (replace big partner counts) ——— */}
+      {/* ——— GLOBAL KEY STATS ——— */}
       <section className="border-b border-gray-100 bg-gray-50">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-10">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Stat label="Delivery Modes" value="Online + Offline" />
-            <Stat label="Duration" value={`${data?.duration_weeks ?? 12} weeks`} />
-            <Stat label="Next Cohort" value={cohort ?? "TBA"} />
-            <Stat label="Fee Plan" value="₹7,500 + ₹22,500" />
-          </div>
-          {/* If you have few partners, prefer showing logos with caption instead of a big number: */}
-          <div className="mt-6 text-center text-sm text-gray-600">
-            <span className="rounded-full bg-white px-3 py-1 ring-1 ring-gray-200">Select hiring partners • growing network</span>
+            <Stat label="Class Timing" value={classTime} />
+            <Stat label="Next Cohort" value={cohortDisplay} />
+            <Stat label="Recordings" value="Available" />
           </div>
         </div>
       </section>
@@ -94,46 +101,39 @@ export default async function Page() {
       {/* ——— SALIENT FEATURES ——— */}
       <section id="features" className="bg-white">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
-          <h2 className="text-2xl sm:text-3xl font-bold">Why this program</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold">Why these programs</h2>
           <div className="mt-6 grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <FeatureCard title="Lifetime Access" desc="Access updated content, recordings, and resources forever." />
-            <FeatureCard title="By Industry, For Industry" desc="Built and reviewed with working data professionals and hiring partners." />
-            <FeatureCard title="Resume Refactoring" desc="1:1 resume & LinkedIn revamp tailored to data roles." />
-            <FeatureCard title="Mock Interviews" desc="Regular case, SQL, and analytics interviews with feedback." />
+            <FeatureCard title="By Industry, For Industry" desc="Built and reviewed with working professionals and hiring partners." />
+            <FeatureCard title="Resume Refactoring" desc="1:1 resume & LinkedIn revamp tailored to the role." />
+            <FeatureCard title="Mock Interviews" desc="Regular case, SQL/DS, and system rounds with feedback." />
           </div>
         </div>
       </section>
 
-      {/* ——— WHAT YOU WILL LEARN (from content.json) ——— */}
-      <section id="curriculum" className="bg-white">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
-          <h2 className="text-2xl sm:text-3xl font-bold">What you will learn</h2>
-          <p className="mt-2 text-gray-700 max-w-2xl text-sm sm:text-base">Auto-loaded from <code>content.json</code> → Data Analyst.</p>
+      {/* ——— DATA ANALYST ——— */}
+      <CourseSection
+        anchor="analyst"
+        title={`${dataAnalyst.title} — Pay After Placement`}
+        subtitle={dataAnalyst.sub_title}
+        img={dataAnalyst.img_url}
+        feeUpfrontLabel="Enroll with ₹7,500"
+        feeAfterLabel="After placement: ₹30,000"
+        totalLabel="Total: ₹37,500"
+        modules={dataAnalyst.courses_content}
+      />
 
-          <div className="mt-7 space-y-6">
-            {data?.courses_content?.map((course: any, i: number) => (
-              <ModuleCard key={i} title={course.title} submodules={course.submodules} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ——— HOW PAYMENT WORKS ——— */}
-      <section id="pricing" className="bg-gray-50">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
-          <h2 className="text-2xl sm:text-3xl font-bold">How payment works</h2>
-          <ol className="mt-8 grid gap-4 sm:gap-6 md:grid-cols-3">
-            <StepCard step="01" title="Enroll with ₹7,500" desc="Secure your seat with an upfront payment." />
-            <StepCard step="02" title="Train & build" desc="Live mentorship, projects, interview prep, and referrals." />
-            <StepCard step="03" title="After placement: ₹22,500" desc="Pay the remaining fee once you accept an eligible offer." />
-          </ol>
-
-          <div className="mt-8 rounded-xl border border-[var(--brand-200)] bg-[var(--brand-50)] p-4 sm:p-5 text-[var(--brand-900)]">
-            <p className="font-semibold">Fee summary</p>
-            <p className="text-sm">Total: <strong>₹30,000</strong> (₹7,500 upfront + ₹22,500 after placement). Detailed terms are shared during admissions.</p>
-          </div>
-        </div>
-      </section>
+      {/* ——— DATA ENGINEERING ——— */}
+      <CourseSection
+        anchor="engineering"
+        title={`${dataEngineering.title} — Pay After Placement`}
+        subtitle={dataEngineering.sub_title}
+        img={dataEngineering.img_url}
+        feeUpfrontLabel="Enroll with ₹10,000"
+        feeAfterLabel="After placement: ₹30,000"
+        totalLabel="Total: ₹40,000"
+        modules={dataEngineering.courses_content}
+      />
 
       {/* ——— Testimonials (kept as-is) ——— */}
       <section className="bg-white">
@@ -147,10 +147,10 @@ export default async function Page() {
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
           <h2 className="text-2xl sm:text-3xl font-bold">Frequently asked</h2>
           <div className="mt-6 grid gap-4 sm:gap-6 md:grid-cols-2">
-            <Faq q="What are the fees?" a="Total fee is ₹30,000 — pay ₹7,500 to enroll and ₹22,500 after placement." />
-            <Faq q="Are classes online or offline?" a="Both. Attend live online sessions or join in-person where available." />
-            <Faq q="When does the next cohort start?" a={cohort ? `Next cohort: ${cohort}.` : "Cohort date TBA — join the counselling call to get notified."} />
-            <Faq q="Who is this program for?" a="Motivated learners seeking a structured, mentor-led path into data roles, including freshers and upskillers." />
+            <Faq q="Are classes online or offline?" a="Both. Attend live online sessions or join in-person where available; all sessions have recordings." />
+            <Faq q="When does the cohort start?" a={`Cohort starts ${cohortDisplay}. Classes run ${classTime}.`} />
+            <Faq q="How do fees work?" a="Data Analyst: ₹7,500 upfront + ₹30,000 after placement. Data Engineering: ₹10,000 upfront + ₹30,000 after placement." />
+            <Faq q="Do I keep access?" a="Yes, you get lifetime access to updated materials and recordings." />
           </div>
         </div>
       </section>
@@ -161,9 +161,9 @@ export default async function Page() {
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
             <p>© {new Date().getFullYear()} Your Academy. All rights reserved.</p>
             <nav className="flex flex-wrap gap-4">
+              <a href="#analyst" className="hover:text-gray-900">Data Analyst</a>
+              <a href="#engineering" className="hover:text-gray-900">Data Engineering</a>
               <a href="#features" className="hover:text-gray-900">Features</a>
-              <a href="#curriculum" className="hover:text-gray-900">Syllabus</a>
-              <a href="#pricing" className="hover:text-gray-900">Payment</a>
               <a href="#faq" className="hover:text-gray-900">FAQ</a>
             </nav>
           </div>
@@ -173,7 +173,7 @@ export default async function Page() {
   );
 }
 
-/* ——— UI Helpers ——— */
+/* ——— Building blocks ——— */
 function Badge({ children }: { children: React.ReactNode }) {
   return (
     <span className="inline-flex items-center rounded-md bg-[var(--brand-50)] px-2.5 py-1 text-[11px] font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">
@@ -191,34 +191,79 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-function StepCard({ step, title, desc }: { step: string; title: string; desc: string }) {
+function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, ctaHref }:{ id: string; title: string; subtitle?: string; img?: string; feeUpfront: string; feeAfter: string; ctaHref: string; }) {
   return (
-    <li className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
-      <div className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-50)] px-3 py-1 text-xs font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">
-        {step}
+    <div id={id} className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+      <div className="flex items-start gap-4">
+        {img ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={img} alt="Program" className="hidden sm:block h-20 w-28 rounded-md object-cover" />
+        ) : null}
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+          {subtitle ? <p className="mt-1 text-sm text-gray-700 line-clamp-3">{subtitle}</p> : null}
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-gray-700">
+            <Badge>{feeUpfront} to enroll</Badge>
+            <Badge>{feeAfter} after placement</Badge>
+          </div>
+          <a href={ctaHref} className="mt-4 inline-flex rounded-lg bg-[var(--brand-600)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[var(--brand-700)]">View details</a>
+        </div>
       </div>
-      <h3 className="mt-3 text-base sm:text-lg font-semibold text-gray-900">{title}</h3>
-      <p className="mt-2 text-sm text-gray-700">{desc}</p>
-    </li>
-  );
-}
-
-function FeatureCard({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
-      <h3 className="text-base sm:text-lg font-semibold text-gray-900">{title}</h3>
-      <p className="mt-2 text-sm text-gray-700">{desc}</p>
     </div>
   );
 }
 
-function Faq({ q, a }: { q: string; a: string }) {
+function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules }:{ anchor: string; title: string; subtitle?: string; img?: string; feeUpfrontLabel: string; feeAfterLabel: string; totalLabel: string; modules: any[]; }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5">
-      <p className="font-semibold text-gray-900">{q}</p>
-      <p className="mt-2 text-gray-700 text-sm">{a}</p>
-    </div>
+    <section id={anchor} className="bg-white">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+          <div className="lg:col-span-7">
+            <h2 className="text-2xl sm:text-3xl font-bold">{title}</h2>
+            {subtitle ? <p className="mt-2 text-gray-700">{subtitle}</p> : null}
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+              <Badge>Online</Badge>
+              <Badge>Offline</Badge>
+              <Badge>Recordings available</Badge>
+            </div>
+            <div className="mt-8 space-y-6">
+              {Array.isArray(modules) && modules.length > 0 ? (
+                modules.map((course: any, i: number) => (
+                  <ModuleCard key={i} title={course.title} submodules={course.submodules} />
+                ))
+              ) : (
+                <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 text-sm text-gray-600">Syllabus coming soon.</div>
+              )}
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+              {img ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={img} alt="Program" className="mb-4 h-44 w-full rounded-xl object-cover" />
+              ) : null}
+              <h3 className="text-lg font-bold">How payment works</h3>
+              <ol className="mt-4 space-y-3 text-sm">
+                <li className="flex items-start gap-3"><StepDot /> <div><p className="font-semibold">{feeUpfrontLabel}</p><p>Secure your seat.</p></div></li>
+                <li className="flex items-start gap-3"><StepDot /> <div><p className="font-semibold">Train & build</p><p>Live mentorship, projects, interview prep, and referrals.</p></div></li>
+                <li className="flex items-start gap-3"><StepDot /> <div><p className="font-semibold">{feeAfterLabel}</p><p>Pay the remaining amount after you accept an eligible offer.</p></div></li>
+              </ol>
+              <div className="mt-5 rounded-xl border border-[var(--brand-200)] bg-[var(--brand-50)] p-4 text-[var(--brand-900)]">
+                <p className="font-semibold">Fee summary</p>
+                <p className="text-sm">{totalLabel}</p>
+              </div>
+              <a href="#apply" className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[var(--brand-600)] px-5 py-3 font-semibold text-white hover:bg-[var(--brand-700)]">Start Free Counselling</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
+}
+
+function StepDot() {
+  return <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-600)] text-white">•</span>;
 }
 
 function ModuleCard({ title, submodules }: { title: string; submodules: any[] }) {
@@ -243,64 +288,71 @@ function ModuleCard({ title, submodules }: { title: string; submodules: any[] })
   );
 }
 
-// —— Data loader for content.json ——
-// Accepts the provided structure; also attempts to find the DA object if nested.
-async function getDAContent(): Promise<any> {
-  try {
-    const mod: any = await import("@/content.json");
-    const raw = mod.default ?? mod;
-
-    // If the object already looks like the provided snippet
-    if (raw?.title && String(raw.title).toLowerCase().includes("analyst") && raw?.courses_content) return raw;
-
-    // If it's an array of courses
-    if (Array.isArray(raw)) {
-      const found = raw.find((x: any) => String(x?.title ?? "").toLowerCase().includes("analyst"));
-      if (found) return found;
-    }
-
-    // If it's a map keyed by course names
-    const key = Object.keys(raw || {}).find((k) => k.toLowerCase().includes("analyst"));
-    if (key) return raw[key];
-  } catch (e) {
-    // ignore
-  }
-
-  // Fallback minimal object
-  return {
-    title: "Data Analyst",
-    sub_title: "Learn data analysis hands-on with projects and mentorship.",
-    duration_weeks: 12,
-    next_cohort_date: "",
-    courses_content: [
-      { title: "Foundations", submodules: [{ title: "Basics", content: ["Excel/Sheets", "Descriptive Stats", "KPIs & Dashboards"] }] },
-      { title: "SQL & Databases", submodules: [{ title: "Queries", content: ["Joins", "Windows", "Optimization"] }] },
-      { title: "Power BI", submodules: [{ title: "DAX", content: ["Time Intelligence", "Interactive Reports"] }] },
-    ],
-  };
+function FeatureCard({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900">{title}</h3>
+      <p className="mt-2 text-sm text-gray-700">{desc}</p>
+    </div>
+  );
 }
 
-function formatCohortDate(raw?: string): string | null {
-  if (!raw) return null;
-  const candidates = [raw, raw.replace(/\//g, "-")];
-  // Try common patterns: YYYY-MM-DD, YYYY-DD-MM, DD-MM-YYYY, MM-DD-YYYY
-  for (const s of candidates) {
-    const parts = s.split("-").map((p) => parseInt(p, 10));
-    if (parts.length === 3) {
-      const [a, b, c] = parts;
-      const tryOrders = [
-        { y: a, m: b, d: c }, // YYYY-MM-DD
-        { y: a, m: c, d: b }, // YYYY-DD-MM (given example)
-        { y: c, m: b, d: a }, // DD-MM-YYYY
-        { y: c, m: a, d: b }, // MM-DD-YYYY
-      ];
-      for (const o of tryOrders) {
-        const dt = new Date(o.y, (o.m ?? 1) - 1, o.d ?? 1);
-        if (!isNaN(dt.getTime())) {
-          return dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
-        }
-      }
-    }
+function Faq({ q, a }: { q: string; a: string }) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <p className="font-semibold text-gray-900">{q}</p>
+      <p className="mt-2 text-gray-700 text-sm">{a}</p>
+    </div>
+  );
+}
+
+/* ——— Data loaders ——— */
+async function getContent(): Promise<any> {
+  try {
+    const mod: any = await import("@/content.json");
+    return mod.default ?? mod;
+  } catch (e) {
+    return null;
   }
-  return null;
+}
+
+function pickTrack(raw: any, keyword: "analyst" | "engineer") {
+  const fallback = keyword === "analyst"
+    ? {
+        title: "Data Analyst",
+        sub_title: "Make businesses smarter with data.",
+        img_url: "",
+        courses_content: [],
+      }
+    : {
+        title: "Data Engineering",
+        sub_title: "Build reliable data pipelines and platforms.",
+        img_url: "",
+        courses_content: [],
+      };
+
+  if (!raw) return fallback;
+
+  // If top-level object is the track
+  if (raw?.title && String(raw.title).toLowerCase().includes(keyword)) return raw;
+
+  // If it's an array of courses
+  if (Array.isArray(raw)) {
+    const found = raw.find((x: any) => String(x?.title ?? "").toLowerCase().includes(keyword));
+    return found ?? fallback;
+  }
+
+  // If it's a map keyed by course names
+  const key = Object.keys(raw || {}).find((k) => k.toLowerCase().includes(keyword));
+  if (key) return raw[key];
+
+  return fallback;
+}
+
+function formatCohortDate(raw: string): string {
+  // Accepts formats like "24 Oct 2025", "2025-10-24", etc.
+  const tryParse = (s: string) => new Date(s);
+  const d = tryParse(raw);
+  if (!isNaN(d.getTime())) return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  return raw;
 }
