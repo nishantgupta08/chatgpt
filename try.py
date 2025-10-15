@@ -1,39 +1,38 @@
 // app/page.tsx
 // PAY AFTER PLACEMENT — Data Analyst & Data Engineering (LOUD / MODERN)
-// - Stronger "Hybrid Pay After Placement" visibility (big gradient badge + fee strip)
-// - Partners logos row (with graceful fallback to monograms)
+// - Hero: high-contrast, neon gradients, glass chips, sticky mobile CTA
 // - DA ⊂ DE section with 12w vs 20w breakdown bar
-// - Syllabus: shows ONLY main topics (module titles) + a clear Capstone/Projects card
-// - Pulls from content.json (shape: { courses: [...] } as provided)
-// - Cohort + timing + recordings
+// - Program cards show fee split + duration
+// - JSON-driven syllabus for each course when present
+// - Cohort: 24 Oct 2025 • Time: 6–8 pm IST • Recordings available
+// - Partners row and "Backed by Industry Experts" section
 
 import Testimonials from "@/components/Testimonials";
 
 export default async function Page() {
   const raw = await getContent();
-  const { analyst, engineering } = findCourses(raw);
+  const dataAnalyst = pickTrack(raw, "analyst");
+  const dataEngineering = pickTrack(raw, "engineer");
 
-  const daWeeks = Number(analyst?.duration_weeks ?? 12);
-  const deWeeks = Number(engineering?.duration_weeks ?? 20);
-
-  const cohortDate = analyst?.next_cohort_date || engineering?.next_cohort_date || "24 Oct 2025";
-  const cohortDisplay = formatCohortDate(cohortDate);
+  const cohortDisplay = formatCohortDate("24 Oct 2025");
   const classTime = "6–8 pm IST";
+  const daWeeks = 12;
+  const deWeeks = 20;
 
-  const partners: PartnerItem[] = [
-    { name: "Celebal", logo: "/logos/celebal.svg" },
-    { name: "Polestar", logo: "/logos/polestar.svg" },
-    { name: "Mandle Bulb", logo: "/logos/mandlebulb.svg" },
-    { name: "Pratham Software", logo: "/logos/pratham.svg" },
-    { name: "Neos Alpha", logo: "/logos/neosalpha.svg" },
+  const partners = [
+    { name: "Celebal" },
+    { name: "Polestar" },
+    { name: "Mandle Bulb" },
+    { name: "Praqtham Software" },
+    { name: "Neso Alpha" },
   ];
 
   const experts = [
     {
       name: "Rajat Sinha",
-      role: "Data Engineer, Shiprocket",
-      img: "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416236/Rajat_Sinha_p1lgdb.jpg",
-      linkedin: "https://www.linkedin.com/in/rajat-sinha-94aa22201/",
+      role: "Industry Expert",
+      img: "",
+      linkedin: "",
     },
     {
       name: "Soumya Awasthi",
@@ -60,36 +59,30 @@ export default async function Page() {
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_-10%,_rgba(79,70,229,0.5),_transparent_60%)]" />
           <div className="absolute inset-0 bg-[conic-gradient(from_140deg_at_50%_50%,_rgba(99,102,241,0.25),_transparent_60%)]" />
+          {/* hard darken overlay to guarantee contrast */}
           <div className="absolute inset-0 bg-[#050814]/90" />
+          {/* grid texture mask */}
           <div className="absolute inset-0 [background-image:linear-gradient(#ffffff10_1px,transparent_1px),linear-gradient(90deg,#ffffff10_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(60%_55%_at_50%_0%,_#000_45%,_transparent_75%)]" />
         </div>
 
         <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20">
           <div className="text-center text-white">
-            {/* BIG hybrid badge */}
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-gradient-to-r from-[var(--brand-600)] via-[var(--brand-400)] to-[var(--brand-600)] px-4 py-2 text-xs sm:text-sm font-semibold shadow-lg backdrop-blur">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs sm:text-sm font-semibold backdrop-blur">
               <SparkleIcon /> Hybrid Pay After Placement
             </span>
-            
+            {/* solid white heading with neon glow for readability */}
             <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white drop-shadow-[0_8px_30px_rgba(99,102,241,0.45)] sm:text-5xl md:text-6xl">
               Data Analyst <span className="opacity-90">&</span> Data Engineering Programs
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg text-white/85">
               Mentor-led. Project-first. Job-focused. Start small, pay the balance after placement.
             </p>
-
-            {/* fee strip */}
-            <div className="mx-auto mt-4 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] text-white/90 shadow-sm">
-              <span className="rounded-full bg-white/10 px-2 py-0.5">Data Analyst: ₹7,500 now + ₹30,000 after</span>
-              <span className="hidden h-3 w-px bg-white/20 sm:inline-block" />
-              <span className="rounded-full bg-white/10 px-2 py-0.5">Data Engineering: ₹10,000 now + ₹30,000 after</span>
-            </div>
-
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs">
               <Chip>Online</Chip>
               <Chip>Offline</Chip>
               <Chip>Recordings available</Chip>
-              <Chip>6–8 pm IST</Chip>
+              <Chip>{classTime}</Chip>
+              {/* Deduped: cohort info appears below in stats section */}
             </div>
 
             {/* program quicks */}
@@ -97,9 +90,9 @@ export default async function Page() {
               <ProgramCard
                 dark
                 id="data-analyst"
-                title={analyst?.title ?? "Data Analyst"}
-                subtitle={analyst?.sub_title}
-                img={analyst?.img_url}
+                title={dataAnalyst.title}
+                subtitle={dataAnalyst.sub_title}
+                img={dataAnalyst.img_url}
                 feeUpfront="₹7,500"
                 feeAfter="₹30,000"
                 duration={`${daWeeks} weeks`}
@@ -108,9 +101,9 @@ export default async function Page() {
               <ProgramCard
                 dark
                 id="data-engineering"
-                title={engineering?.title ?? "Data Engineering"}
-                subtitle={engineering?.sub_title}
-                img={engineering?.img_url}
+                title={dataEngineering.title}
+                subtitle={dataEngineering.sub_title}
+                img={dataEngineering.img_url}
                 feeUpfront="₹10,000"
                 feeAfter="₹30,000"
                 duration={`${deWeeks} weeks`}
@@ -118,8 +111,8 @@ export default async function Page() {
               />
             </div>
 
-            {/* partners logos */}
-            <div className="mt-10">
+            {/* partners row */}
+            <div className="mt-8">
               <p className="text-xs uppercase tracking-wide text-white/60">Select hiring partners</p>
               <PartnersRow items={partners} />
               <p className="mt-2 text-xs text-white/60">growing network</p>
@@ -179,7 +172,7 @@ export default async function Page() {
           <h2 className="text-3xl font-extrabold sm:text-4xl">Data Analyst ⊂ Data Engineer</h2>
           <p className="mt-2 max-w-3xl text-gray-700">The Analyst track is the foundation of the Engineering track. Complete the first {daWeeks} weeks for Analyst outcomes; continue to {deWeeks} weeks to master engineering depth.</p>
 
-            {/* segmented bar 12 / 20 */}
+          {/* segmented bar 12 / 20 */}
           <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="text-sm font-semibold text-gray-900">Timeline</div>
             <div className="mt-3 grid grid-cols-[repeat(20,minmax(0,1fr))] overflow-hidden rounded-xl">
@@ -201,26 +194,26 @@ export default async function Page() {
       {/* ——— DATA ANALYST ——— */}
       <CourseSection
         anchor="analyst"
-        title={`${analyst?.title ?? "Data Analyst"} — Pay After Placement`}
-        subtitle={analyst?.sub_title}
-        img={analyst?.img_url}
+        title={`${dataAnalyst.title} — Pay After Placement`}
+        subtitle={dataAnalyst.sub_title}
+        img={dataAnalyst.img_url}
         feeUpfrontLabel="Enroll with ₹7,500"
         feeAfterLabel="After placement: ₹30,000"
         totalLabel="Total: ₹37,500"
-        modules={analyst?.courses_content ?? []}
+        modules={dataAnalyst.courses_content}
         duration={`${daWeeks} weeks`}
       />
 
       {/* ——— DATA ENGINEERING ——— */}
       <CourseSection
         anchor="engineering"
-        title={`${engineering?.title ?? "Data Engineering"} — Pay After Placement`}
-        subtitle={engineering?.sub_title}
-        img={engineering?.img_url}
+        title={`${dataEngineering.title} — Pay After Placement`}
+        subtitle={dataEngineering.sub_title}
+        img={dataEngineering.img_url}
         feeUpfrontLabel="Enroll with ₹10,000"
         feeAfterLabel="After placement: ₹30,000"
         totalLabel="Total: ₹40,000"
-        modules={engineering?.courses_content ?? []}
+        modules={dataEngineering.courses_content}
         duration={`${deWeeks} weeks`}
       />
 
@@ -318,10 +311,6 @@ function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, duration,
 }
 
 function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules, duration }:{ anchor: string; title: string; subtitle?: string; img?: string; feeUpfrontLabel: string; feeAfterLabel: string; totalLabel: string; modules: any[]; duration?: string; }) {
-  // Extract main-topic modules and any Capstone/Projects content
-  const mainTopics = Array.isArray(modules) ? modules.map((m: any) => String(m?.title ?? "Module")) : [];
-  const capstoneBullets: string[] = collectCapstone(modules);
-
   return (
     <section id={anchor} className="relative bg-white">
       <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-gray-50 to-transparent" />
@@ -338,27 +327,15 @@ function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfter
               <Badge>Offline</Badge>
               <Badge>Recordings available</Badge>
             </div>
-
-            {/* MAIN TOPICS ONLY */}
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {mainTopics.map((t, i) => (
-                <div key={i} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-                  <p className="font-semibold text-gray-900">{t}</p>
-                </div>
-              ))}
+            <div className="mt-8 space-y-6">
+              {Array.isArray(modules) && modules.length > 0 ? (
+                modules.map((course: any, i: number) => (
+                  <ModuleCard key={i} title={course.title} submodules={course.submodules} />
+                ))
+              ) : (
+                <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 text-sm text-gray-600">Syllabus coming soon.</div>
+              )}
             </div>
-
-            {/* Capstone / Projects */}
-            {capstoneBullets.length > 0 && (
-              <div className="mt-8 rounded-2xl border border-[var(--brand-200)] bg-[var(--brand-50)] p-5 text-[var(--brand-900)]">
-                <p className="text-lg font-bold">Capstone / Projects</p>
-                <ul className="mt-2 list-disc pl-5 text-sm">
-                  {capstoneBullets.map((c, i) => (
-                    <li key={i}>{c}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
 
           <div className="lg:col-span-5">
@@ -411,13 +388,118 @@ function PillCard({ title, points }: { title: string; points: string[] }) {
   );
 }
 
-function PartnersRow({ items }: { items: PartnerItem[] }) {
+function ModuleCard({ title, submodules }: { title: string; submodules: any[] }) {
   return (
-    <div className="mt-3 flex flex-wrap items-center justify-center gap-6">
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+      <div className="mt-3 space-y-3">
+        {Array.isArray(submodules) && submodules.map((sm: any, idx: number) => (
+          <details key={idx} className="group rounded-lg border border-gray-100 p-3 open:bg-gray-50 transition">
+            <summary className="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-800">
+              {sm.title ?? `Topic ${idx + 1}`}<svg className="ml-3 h-4 w-4 shrink-0 transition group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.127l3.71-3.896a.75.75 0 111.08 1.04l-4.24 4.46a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" /></svg>
+            </summary>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
+              {Array.isArray(sm?.content) && sm.content.map((c: string, i: number) => (
+                <li key={i}>{c}</li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FeatureCard({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="relative rounded-2xl bg-gradient-to-b from-[var(--brand-100)] to-transparent p-[1.2px]">
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900">{title}</h3>
+        <p className="mt-2 text-sm text-gray-700">{desc}</p>
+      </div>
+    </div>
+  );
+}
+
+function Faq({ q, a, dark }: { q: string; a: string; dark?: boolean }) {
+  const base = dark
+    ? "rounded-2xl border border-white/10 bg-white/5 p-5 text-white/90"
+    : "rounded-2xl border border-gray-200 bg-white p-5";
+  const ans = dark ? "mt-2 text-sm text-white/80" : "mt-2 text-sm text-gray-700";
+  return (
+    <div className={`${base} transition hover:bg-white/10`}>
+      <p className="font-semibold">{q}</p>
+      <p className={ans}>{a}</p>
+    </div>
+  );
+}
+
+function PartnersRow({ items }: { items: { name: string; logo?: string }[] }) {
+  return (
+    <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
       {items.map((p, i) => (
-        <div key={i} className="flex h-8 items-center opacity-90 transition hover:opacity-100">
-          {p.logo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={p.logo} alt={p.name} className="h-8 w-auto" />
-          ) : (
-            <span className="inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs text-w
+        <span key={i} className="inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs text-white/85 backdrop-blur">
+          {p.name}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ExpertCard({ name, role, img, linkedin }: { name: string; role?: string; img?: string; linkedin?: string }) {
+  return (
+    <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      {img ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={img} alt={name} className="h-14 w-14 rounded-full object-cover" />
+      ) : (
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand-100)] text-[var(--brand-700)] font-semibold">
+          {name.split(" ").map((n) => n[0]).join("")}
+        </div>
+      )}
+      <div className="min-w-0">
+        <p className="truncate text-base font-semibold text-gray-900">{name}</p>
+        {role ? <p className="truncate text-sm text-gray-600">{role}</p> : null}
+        {linkedin ? (
+          <a href={linkedin} className="mt-1 inline-flex text-xs font-medium text-[var(--brand-700)] hover:underline">LinkedIn</a>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+/* ——— Data loaders ——— */
+async function getContent(): Promise<any> {
+  try {
+    const mod: any = await import("@/content.json");
+    return mod.default ?? mod;
+  } catch (e) {
+    return null;
+  }
+}
+
+function pickTrack(raw: any, keyword: "analyst" | "engineer") {
+  const fallback = keyword === "analyst"
+    ? { title: "Data Analyst", sub_title: "Make businesses smarter with data.", img_url: "", courses_content: [] }
+    : { title: "Data Engineering", sub_title: "Build reliable data pipelines and platforms.", img_url: "", courses_content: [] };
+
+  if (!raw) return fallback;
+
+  if (raw?.title && String(raw.title).toLowerCase().includes(keyword)) return raw;
+
+  if (Array.isArray(raw)) {
+    const found = raw.find((x: any) => String(x?.title ?? "").toLowerCase().includes(keyword));
+    return found ?? fallback;
+  }
+
+  const key = Object.keys(raw || {}).find((k) => k.toLowerCase().includes(keyword));
+  if (key) return raw[key];
+
+  return fallback;
+}
+
+function formatCohortDate(raw: string): string {
+  const d = new Date(raw);
+  if (!isNaN(d.getTime())) return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  return raw;
+}
