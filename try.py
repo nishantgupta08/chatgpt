@@ -1,11 +1,13 @@
 // app/page.tsx
 // PAY AFTER PLACEMENT — Data Analyst & Data Engineering (LOUD / MODERN)
 // - Hero: high-contrast, neon gradients, glass chips, sticky mobile CTA
+// - "Hybrid Pay After Placement" BIG badge for visibility
 // - DA ⊂ DE section with 12w vs 20w breakdown bar
 // - Program cards show fee split + duration
-// - JSON-driven syllabus for each course when present
+// - JSON-driven syllabus for each course (auto from content.json → courses[])
+// - Syllabus shows only MAIN TOPICS + explicit Capstone/Projects card
 // - Cohort: 24 Oct 2025 • Time: 6–8 pm IST • Recordings available
-// - Partners row and "Backed by Industry Experts" section
+// - Partners logos row + "Backed by Industry Experts" section
 
 import Testimonials from "@/components/Testimonials";
 
@@ -16,23 +18,24 @@ export default async function Page() {
 
   const cohortDisplay = formatCohortDate("24 Oct 2025");
   const classTime = "6–8 pm IST";
-  const daWeeks = 12;
-  const deWeeks = 20;
+  const daWeeks = Number(dataAnalyst?.duration_weeks ?? 12);
+  const deWeeks = Number(dataEngineering?.duration_weeks ?? 20);
 
+  // Replace logo paths with your real files in /public/logos/*.svg|png
   const partners = [
-    { name: "Celebal" },
-    { name: "Polestar" },
-    { name: "Mandle Bulb" },
-    { name: "Praqtham Software" },
-    { name: "Neso Alpha" },
+    { name: "Celebal", logo: "/logos/celebal.svg" },
+    { name: "Polestar", logo: "/logos/polestar.svg" },
+    { name: "Mandle Bulb", logo: "/logos/mandle-bulb.svg" },
+    { name: "Pratham Software", logo: "/logos/pratham-software.svg" },
+    { name: "Neos Alpha", logo: "/logos/neos-alpha.svg" },
   ];
 
   const experts = [
     {
       name: "Rajat Sinha",
-      role: "Industry Expert",
-      img: "",
-      linkedin: "",
+      role: "Data Engineer, Shiprocket",
+      img: "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416236/Rajat_Sinha_p1lgdb.jpg",
+      linkedin: "https://www.linkedin.com/in/rajat-sinha-94aa22201/",
     },
     {
       name: "Soumya Awasthi",
@@ -67,10 +70,11 @@ export default async function Page() {
 
         <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20">
           <div className="text-center text-white">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs sm:text-sm font-semibold backdrop-blur">
+            {/* BIG hybrid badge */}
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-4 py-1.5 text-sm font-bold uppercase tracking-wide shadow-lg backdrop-blur md:text-base">
               <SparkleIcon /> Hybrid Pay After Placement
-            </span>
-            {/* solid white heading with neon glow for readability */}
+            </div>
+
             <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white drop-shadow-[0_8px_30px_rgba(99,102,241,0.45)] sm:text-5xl md:text-6xl">
               Data Analyst <span className="opacity-90">&</span> Data Engineering Programs
             </h1>
@@ -82,7 +86,6 @@ export default async function Page() {
               <Chip>Offline</Chip>
               <Chip>Recordings available</Chip>
               <Chip>{classTime}</Chip>
-              {/* Deduped: cohort info appears below in stats section */}
             </div>
 
             {/* program quicks */}
@@ -111,7 +114,7 @@ export default async function Page() {
               />
             </div>
 
-            {/* partners row */}
+            {/* partners logos */}
             <div className="mt-8">
               <p className="text-xs uppercase tracking-wide text-white/60">Select hiring partners</p>
               <PartnersRow items={partners} />
@@ -172,14 +175,14 @@ export default async function Page() {
           <h2 className="text-3xl font-extrabold sm:text-4xl">Data Analyst ⊂ Data Engineer</h2>
           <p className="mt-2 max-w-3xl text-gray-700">The Analyst track is the foundation of the Engineering track. Complete the first {daWeeks} weeks for Analyst outcomes; continue to {deWeeks} weeks to master engineering depth.</p>
 
-          {/* segmented bar 12 / 20 */}
+        {/* segmented bar 12 / 20 */}
           <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="text-sm font-semibold text-gray-900">Timeline</div>
             <div className="mt-3 grid grid-cols-[repeat(20,minmax(0,1fr))] overflow-hidden rounded-xl">
               {Array.from({ length: daWeeks }).map((_, i) => (
                 <div key={`da-${i}`} className="h-3 bg-[var(--brand-600)]" />
               ))}
-              {Array.from({ length: deWeeks - daWeeks }).map((_, i) => (
+              {Array.from({ length: Math.max(deWeeks - daWeeks, 0) }).map((_, i) => (
                 <div key={`de-${i}`} className="h-3 bg-[var(--brand-800)]" />
               ))}
             </div>
@@ -311,6 +314,7 @@ function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, duration,
 }
 
 function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules, duration }:{ anchor: string; title: string; subtitle?: string; img?: string; feeUpfrontLabel: string; feeAfterLabel: string; totalLabel: string; modules: any[]; duration?: string; }) {
+  const { outline, capstone } = condenseModules(modules);
   return (
     <section id={anchor} className="relative bg-white">
       <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-gray-50 to-transparent" />
@@ -327,15 +331,24 @@ function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfter
               <Badge>Offline</Badge>
               <Badge>Recordings available</Badge>
             </div>
-            <div className="mt-8 space-y-6">
-              {Array.isArray(modules) && modules.length > 0 ? (
-                modules.map((course: any, i: number) => (
-                  <ModuleCard key={i} title={course.title} submodules={course.submodules} />
+
+            {/* MAIN TOPICS */}
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+              {outline.length > 0 ? (
+                outline.map((m: any, i: number) => (
+                  <OutlineCard key={i} title={m.title} topics={m.topics} />
                 ))
               ) : (
                 <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 text-sm text-gray-600">Syllabus coming soon.</div>
               )}
             </div>
+
+            {/* CAPSTONE / PROJECTS */}
+            {capstone.length > 0 && (
+              <div className="mt-8">
+                <CapstoneCard bullets={capstone} />
+              </div>
+            )}
           </div>
 
           <div className="lg:col-span-5">
@@ -363,6 +376,34 @@ function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfter
   );
 }
 
+function OutlineCard({ title, topics }: { title: string; topics: string[] }) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+      <ul className="mt-3 space-y-1 text-sm text-gray-700">
+        {topics.map((t, i) => (
+          <li key={i} className="flex items-start gap-2"><span className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand-600)]" />{t}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function CapstoneCard({ bullets }: { bullets: string[] }) {
+  return (
+    <div className="relative rounded-2xl bg-gradient-to-r from-[var(--brand-600)] to-[var(--brand-400)] p-[1.5px]">
+      <div className="rounded-2xl bg-white p-5 sm:p-6">
+        <h3 className="text-lg font-extrabold text-gray-900">Capstone Projects</h3>
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-800">
+          {bullets.map((b, i) => (
+            <li key={i}>{b}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function StepDot() {
   return <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-600)] text-white">•</span>;
 }
@@ -375,36 +416,40 @@ function Badge({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PillCard({ title, points }: { title: string; points: string[] }) {
+function PartnersRow({ items }: { items: { name: string; logo?: string }[] }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-      <ul className="mt-3 space-y-2 text-sm text-gray-700">
-        {points.map((p, i) => (
-          <li key={i} className="flex items-start gap-2"><span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand-600)]" /> {p}</li>
-        ))}
-      </ul>
+    <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
+      {items.map((p, i) => (
+        <div key={i} className="flex h-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 px-3 backdrop-blur">
+          {p.logo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={p.logo} alt={p.name} className="max-h-6 w-auto opacity-90" />
+          ) : (
+            <span className="text-xs text-white/85">{p.name}</span>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
 
-function ModuleCard({ title, submodules }: { title: string; submodules: any[] }) {
+function ExpertCard({ name, role, img, linkedin }: { name: string; role?: string; img?: string; linkedin?: string }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-      <div className="mt-3 space-y-3">
-        {Array.isArray(submodules) && submodules.map((sm: any, idx: number) => (
-          <details key={idx} className="group rounded-lg border border-gray-100 p-3 open:bg-gray-50 transition">
-            <summary className="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-800">
-              {sm.title ?? `Topic ${idx + 1}`}<svg className="ml-3 h-4 w-4 shrink-0 transition group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.127l3.71-3.896a.75.75 0 111.08 1.04l-4.24 4.46a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" /></svg>
-            </summary>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
-              {Array.isArray(sm?.content) && sm.content.map((c: string, i: number) => (
-                <li key={i}>{c}</li>
-              ))}
-            </ul>
-          </details>
-        ))}
+    <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      {img ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={img} alt={name} className="h-14 w-14 rounded-full object-cover" />
+      ) : (
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand-100)] text-[var(--brand-700)] font-semibold">
+          {name.split(" ").map((n) => n[0]).join("")}
+        </div>
+      )}
+      <div className="min-w-0">
+        <p className="truncate text-base font-semibold text-gray-900">{name}</p>
+        {role ? <p className="truncate text-sm text-gray-600">{role}</p> : null}
+        {linkedin ? (
+          <a href={linkedin} className="mt-1 inline-flex text-xs font-medium text-[var(--brand-700)] hover:underline">LinkedIn</a>
+        ) : null}
       </div>
     </div>
   );
@@ -434,45 +479,14 @@ function Faq({ q, a, dark }: { q: string; a: string; dark?: boolean }) {
   );
 }
 
-function PartnersRow({ items }: { items: { name: string; logo?: string }[] }) {
-  return (
-    <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
-      {items.map((p, i) => (
-        <span key={i} className="inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs text-white/85 backdrop-blur">
-          {p.name}
-        </span>
-      ))}
-    </div>
-  );
-}
-
-function ExpertCard({ name, role, img, linkedin }: { name: string; role?: string; img?: string; linkedin?: string }) {
-  return (
-    <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-      {img ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={img} alt={name} className="h-14 w-14 rounded-full object-cover" />
-      ) : (
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand-100)] text-[var(--brand-700)] font-semibold">
-          {name.split(" ").map((n) => n[0]).join("")}
-        </div>
-      )}
-      <div className="min-w-0">
-        <p className="truncate text-base font-semibold text-gray-900">{name}</p>
-        {role ? <p className="truncate text-sm text-gray-600">{role}</p> : null}
-        {linkedin ? (
-          <a href={linkedin} className="mt-1 inline-flex text-xs font-medium text-[var(--brand-700)] hover:underline">LinkedIn</a>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-/* ——— Data loaders ——— */
+/* ——— Data helpers ——— */
 async function getContent(): Promise<any> {
   try {
     const mod: any = await import("@/content.json");
-    return mod.default ?? mod;
+    const data = mod.default ?? mod;
+    // If the JSON wraps in { courses: [...] }, unwrap it
+    if (data?.courses && Array.isArray(data.courses)) return data.courses;
+    return data;
   } catch (e) {
     return null;
   }
@@ -480,18 +494,21 @@ async function getContent(): Promise<any> {
 
 function pickTrack(raw: any, keyword: "analyst" | "engineer") {
   const fallback = keyword === "analyst"
-    ? { title: "Data Analyst", sub_title: "Make businesses smarter with data.", img_url: "", courses_content: [] }
-    : { title: "Data Engineering", sub_title: "Build reliable data pipelines and platforms.", img_url: "", courses_content: [] };
+    ? { title: "Data Analyst", sub_title: "Make businesses smarter with data.", img_url: "", courses_content: [], duration_weeks: 12 }
+    : { title: "Data Engineering", sub_title: "Build reliable data pipelines and platforms.", img_url: "", courses_content: [], duration_weeks: 20 };
 
   if (!raw) return fallback;
 
+  // If top-level object is the track
   if (raw?.title && String(raw.title).toLowerCase().includes(keyword)) return raw;
 
+  // If it's an array of courses (our case)
   if (Array.isArray(raw)) {
     const found = raw.find((x: any) => String(x?.title ?? "").toLowerCase().includes(keyword));
     return found ?? fallback;
   }
 
+  // If it's a map keyed by course names
   const key = Object.keys(raw || {}).find((k) => k.toLowerCase().includes(keyword));
   if (key) return raw[key];
 
@@ -502,4 +519,30 @@ function formatCohortDate(raw: string): string {
   const d = new Date(raw);
   if (!isNaN(d.getTime())) return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
   return raw;
+}
+
+function condenseModules(modules: any[]): { outline: { title: string; topics: string[] }[]; capstone: string[] } {
+  const outline: { title: string; topics: string[] }[] = [];
+  const cap: string[] = [];
+
+  if (!Array.isArray(modules)) return { outline, capstone: cap };
+
+  for (const m of modules) {
+    const subs = Array.isArray(m?.submodules) ? m.submodules : [];
+    // capture capstone/projects
+    const capSub = subs.find((s: any) => /capstone/i.test(String(s?.title))) || subs.find((s: any) => /project/i.test(String(s?.title)));
+    if (capSub && Array.isArray(capSub.content)) {
+      for (const c of capSub.content) if (cap.length < 8) cap.push(String(c));
+    }
+
+    // MAIN topics = submodule titles excluding prerequisites/projects/capstone
+    const mains = subs
+      .filter((s: any) => !/prereq|project|capstone/i.test(String(s?.title)))
+      .map((s: any) => String(s?.title))
+      .slice(0, 6);
+
+    outline.push({ title: String(m?.title ?? "Module"), topics: mains });
+  }
+
+  return { outline, capstone: cap };
 }
