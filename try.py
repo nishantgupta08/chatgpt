@@ -1,1087 +1,423 @@
-{
-  "homepage": {
-    "hero": {
-      "tag_line": {
-        "normal_text": "Never Stop",
-        "highlighted_text": "Learning"
-      },
-      "heading": "Empowering Careers In DATA and",
-      "underline_heading": " Design",
-      "sub_heading": "Let's Sculpt YOUR Path To Success, YOUR Way !"
-    },
-    "features": [
-      "Lifetime Access to Live Classes",
-      "By the Industry For the Industry",
-      "Resume Refactoring & Mock Interviews",
-      "Affordability meets Quality"
-    ],
-    "about_us": {
-      "title": "Welcome to DataPlay",
-      "heading": "Your Compass On The",
-      "highlighted_heading": "Data Science",
-      "remaining_heading": "Journey.",
-      "video_url": "https://www.youtube.com/embed/Eq_kHFBaoe0?si=RReygUU9r968XBVO",
-      "details": [
-        "At DataPlay, we believe that success isn't one-size-fits-all—it's personal. Like Arjuna guided on his path, we aim to help you find yours, combining academic wisdom with real-world insight.",
-        "Whether you're just starting or deepening your journey, our supportive ecosystem—built on individuality, passion, and purpose—guides you toward becoming not just job-ready, but truly fulfilled.",
-        "Through tools like DPPs and a vibrant community, we help you learn, grow, and thrive in your own unique way. Welcome to a space where your brilliance can truly flourish. ✨"
-      ]
-    },
-    "courses": {
-      "title": "Industry Expert Certified",
-      "sub_title": "Your ultimate comprehensive and tailored solutions.",
-      "courses": [
-        {
-          "id": 1,
-          "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759480655/Group_217_youx1q.png",
-          "highlighted_title": "DATA ANALYST",
-          "title": "Data Analyst",
-          "features": [
-            "Business insights",
-            "Communication-first"
-          ]
-        },
-        {
-          "id": 2,
-          "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759480378/rd_Umage_u6r6np.png",
-          "highlighted_title": "DATA ENGINEERING",
-          "title": "Data Engineering",
-          "features": [
-            "Production data pipelines",
-            "Reliability at scale"
-          ]
-        },
-        {
-          "id": 3,
-          "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759480380/Group_218_uvhvtw.png",
-          "highlighted_title": "WEB DEVELOPMENT",
-          "title": "Web Development",
-          "features": [
-            "Ship a real app end-to-end",
-            "Deploy like a pro"
-          ]
-        }
-      ]
-    },
-    "mentors": {
-      "title": "Our Mentors",
-      "sub_title": "Guiding minds towards brilliance and success.",
-      "mentors": [
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759594855/Nishant_final-removebg-preview_szf9zb.png",
-          "name": "Nishant Gupta",
-          "current_company": "Ex Lead Data Scientist @ Mediacorp Singapore",
-          "company_details_2": "",
-          "description": "With 9 years of experience, he excels at simplifying complex concepts, ensuring comprehensive understanding from the very roots.",
-          "linkdin_profile": ""
-        },
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759594860/Mahima_final-removebg-preview_eztyfm.png",
-          "name": "Mahima Gupta",
-          "current_company": "Data Scientist @ Bangalore",
-          "company_details_2": "",
-          "description": "With 5 years of expertise, she adeptly identifies students' weak points, introducing effective techniques to help them excel by addressing their shortcomings",
-          "linkdin_profile": ""
-        }
-      ]
-    },
-    "testimonial": {
-      "title": "Our Students Speak",
-      "subtitle": "Transformative Testimonials from our Champions",
-      "testimonials": [
-        {
-          "isTypeVideo": true,
-          "video_url": "https://www.youtube.com/embed/0z0sKK3050M",
-          "description": "",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416150/Satya_oow5jb.png",
-            "linkdin_profile": "https://www.linkedin.com/in/satya-sourav-nanda-3998a6244/",
-            "name": "Satya Sourav Nanda",
-            "designation": "Data Analyst"
-          },
-          "transformation": {
-            "old_title": "Passout MS(Maths)",
-            "old_designation": "NIT Rourkela",
-            "new_title": "Data Analyst",
-            "new_designation": "Diligent"
-          }
-        },
-        {
-          "isTypeVideo": false,
-          "video_url": "",
-          "description": "I got to learn many new things in the data science fellowship.They take the time to ensure every student understands the material and are always willing to provide extra support when needed. Their positive attitude and encouragement create a great learning environment.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759479340/Screenshot_2025-10-03_134457_ije7g7.png",
-            "linkdin_profile": "https://www.linkedin.com/in/akella-dattatreyulu-9a969020a/#/",
-            "name": "Akella Dattatreyulu",
-            "designation": "Associate Data Scientist"
-          },
-          "transformation": {
-            "old_title": "BTech(Maths)",
-            "old_designation": "NIT Durgapur",
-            "new_title": "Associate Data Scientst",
-            "new_designation": "Softsensor.ai"
-          }
-        },
-        {
-          "isTypeVideo": false,
-          "video_url": "",
-          "description": "I highly recommend DataPlay for anyone pursuing a career in data analysis and data science. The mentors are exceptionally dedicated, ensuring every student understands the concepts. The inclusive and engaging classroom environment fosters positive learning. The curriculum's focus on practical knowledge over theory helps in grasping real-world applications. Overall, my experience at DataPlay has been excellent.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416151/Amisha_hsanlk.jpg",
-            "linkdin_profile": "https://www.linkedin.com/in/amisha-nagiya-a22a311b1/",
-            "name": "Amisha Nagiya",
-            "designation": "Data Analyst"
-          },
-          "transformation": {
-            "old_title": "BTech CS",
-            "old_designation": "IPS Academy",
-            "new_title": "Data Analyst",
-            "new_designation": "Fabrik8 Lifestyle LLP"
-          }
-        },
-        {
-          "isTypeVideo": false,
-          "video_url": "",
-          "description": "Nishant Sir and Mahima Ma'am of Data Play are dedicated educators and they genuinely care about students’ future. They are exceptionally hard working and it reflects in their well crafted course material and daily practice sheets. Mahima Ma'am’s simple and easy to learn approach and Nishant Sir’s practical teaching methods ensure that each and every student grasps the subject. They foster a positive learning environment by building connections with their students, motivating them to work hard and excel. We are really grateful for DataPlay's exceptional commitment to Data Science education.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416149/Ayush_rsxz1f.jpg",
-            "linkdin_profile": "https://www.linkedin.com/in/ayush-suthar-41811a1b8/",
-            "name": "Ayush Suthar",
-            "designation": "Data Analyst"
-          },
-          "transformation": {
-            "old_title": "BTech CS",
-            "old_designation": "JECRC University",
-            "new_title": "Data Analyst",
-            "new_designation": "Cognitive Stars"
-          }
-        },
-        {
-          "isTypeVideo": false,
-          "video_url": "",
-          "description": "I enrolled in multiple courses earlier for Data science but I found Dataplay data science course to be the most comprehensive. Every topic is covered in depth with implementation on real life projects. PPTs are short, clear and concise. Now I am confident in solving data science problems and cracking desired companies for data science roles.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759417697/Screenshot_2025-10-02_203751_zjh5g5.png",
-            "linkdin_profile": "https://www.linkedin.com/in/goutammeena/",
-            "name": "Goutam Meena",
-            "designation": "Data Analyst"
-          },
-          "transformation": {
-            "old_title": "MCA",
-            "old_designation": "DSVV, Haridwar",
-            "new_title": "Data Analyst",
-            "new_designation": "Bayslope Solutions"
-          }
-        },
-        {
-          "isTypeVideo": true,
-          "video_url": "https://www.youtube.com/embed/8zdIhzvzjdk?si=3AB3iRXiM2DrMJI3",
-          "description": "The sessions from DataPlay's ML classes have been outstanding. The content is well-structured, and the clarity in explanations makes even complex topics easy to grasp. Each session adds real value, and the learning experience has been truly enriching.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759420105/Screenshot_2025-10-02_211744_yv3zxi.png",
-            "linkdin_profile": "https://www.linkedin.com/in/dhruv-sanghvi-36b05b22a/",
-            "name": "Dhruv Sanghvi",
-            "designation": "Data Scientist"
-          },
-          "transformation": {
-            "old_title": "IMTech (CS)",
-            "old_designation": "IIIT, Gwalior",
-            "new_title": "Data Scientist",
-            "new_designation": "Fibe"
-          }
-        },
-        {
-          "isTypeVideo": false,
-          "video_url": "",
-          "description": "I got to learn many new things in the data science Course.They take the time to ensure every student understands the material and are always willing to provide extra support when needed. Their positive attitude and encouragement create a great learning environment.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759420246/Aman_Soni_fiqzlp.jpg",
-            "linkdin_profile": "https://www.linkedin.com/in/aman-soni-3121051b8/",
-            "name": "Aman Soni",
-            "designation": "AI Engineer"
-          },
-          "transformation": {
-            "old_title": "BTech(CS)",
-            "old_designation": "JECRC University",
-            "new_title": "AI Engineer",
-            "new_designation": "Celebal Technologies"
-          }
-        },
-        {
-          "isTypeVideo": false,
-          "video_url": "",
-          "description": "One fine day, I applied for the training and internship program at DataPlay and that was seriously one of the best things I've ever done. The mentors there, Nishant sir, Mahima ma'am and Soumya ma'am helped me build my concepts from scratch, guided me patiently whenever I had the stupidest of doubts and made me believe that I can do it, that there is a clear path ahead, that I can become a good AI engineer even if I am from a different background.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1760331924/1719160228267_b9xi4d.jpg",
-            "linkdin_profile": "https://www.linkedin.com/in/nathanmenon14/",
-            "name": "Nathan Christopher Menon",
-            "designation": "MS(AI),Aston University"
-          },
-          "transformation": {
-            "old_title": "BTech(Aerospace Engineering)",
-            "old_designation": "Hindustan University",
-            "new_title": "MS(AI)",
-            "new_designation": "Aston University"
-          }
-        },
-        {
-          "isTypeVideo": true,
-          "video_url": "https://www.youtube.com/embed/BgS_40tcL3Y?si=2nW8aqaq6h75vm1d",
-          "description": "Dataplay has really been a amazing experience. the way concepts are taught here, clarification of doubts and interaction for projects has helped me a lot to learn.We can also go through the recordings any time needed for further clarification. It was joyful to learn and practice here.",
-          "person_detail": {
-            "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759745882/Screenshot_2025-10-06_at_3.47.50_PM_hn8ror.png",
-            "linkdin_profile": "https://www.linkedin.com/in/prateek-agrawal03/",
-            "name": "Prateek Agarwal",
-            "designation": "Cyber Security Expert"
-          },
-          "transformation": {
-            "old_title": "BE(CS)",
-            "old_designation": "MBM University, Jodhpur",
-            "new_title": "Cyber Security Expert",
-            "new_designation": "MiniOrange"
-          }
-        }
-      ]
-    },
-    "who_can_apply": {
-      "title": "Who Can Apply?",
-      "sub_title_1": "Absolutely ",
-      "highlighted_title": "Everyone!",
-      "sub_title_2": "All Backgrounds, All Levels,",
-      "paragraph": "Whether you're a high school grad, college graduate, or industry expert. DataPlay is your learning playground!"
-    },
-    "gallery": {
-      "title": "Our Gallery",
-      "sub_title": "Visualizing knowledge through our gallery.",
-      "gallery": [
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416317/IMG-20231124-WA0015_fsvbbb.jpg",
-          "title": "Balaji College",
-          "width": 800,
-          "height": 600,
-          "span": "col-span-6 sm:col-span-7 lg:col-span-4",
-          "rowSpan": "row-span-1"
-        },
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416329/IMG20240825162617_igtxmm.jpg",
-          "title": "Certificate Ceremony",
-          "width": 800,
-          "height": 600,
-          "span": "col-span-6 sm:col-span-5 lg:col-span-4",
-          "rowSpan": "row-span-1"
-        },
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416375/IMG_20250827_132209_kiyjyr.jpg",
-          "title": "SKIT Jaipur",
-          "width": 800,
-          "height": 600,
-          "span": "col-span-6 sm:col-span-5 lg:col-span-4",
-          "rowSpan": "row-span-1"
-        },
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416340/IMG_4473-1_mnhgee.jpg",
-          "title": "MNIT Jaipur",
-          "width": 1200,
-          "height": 900,
-          "span": "col-span-6 sm:col-span-7 lg:col-span-6",
-          "rowSpan": "row-span-1"
-        },
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416307/DSC03361_ut0jh0.jpg",
-          "title": "LNMIIT Jaipur",
-          "width": 600,
-          "height": 450,
-          "span": "col-span-6 sm:col-span-7 lg:col-span-3",
-          "rowSpan": "row-span-1"
-        },
-        {
-          "img": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416301/1728655307393_b1tpyk.jpg",
-          "title": "IIIT Gwalior",
-          "width": 600,
-          "height": 450,
-          "span": "col-span-6 sm:col-span-5 lg:col-span-3",
-          "rowSpan": "row-span-1"
-        }
-      ]
-    }
-  },
-  "workshops": {
-    "title": "Campus Workshops",
-    "subtitle": "Real sessions. Real feedback from colleges.",
-    "items": [
-      {
-        "college": "SKIT Jaipur",
-        "city": "Jaipur",
-        "date": "2025-02-20",
-        "cover": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416375/IMG_20250827_132209_kiyjyr.jpg",
-        "speakers": [
-          "Nishant Gupta",
-          "Mahima Gupta"
-        ],
-        "linkedin": {
-          "url": "https://www.linkedin.com/feed/update/urn:li:activity:7367830589644705792",
-          "urn": "urn:li:ugcPost:7123456789012345678"
-        }
-      },
-      {
-        "college": "IIIT Gwalior",
-        "city": "Gwalior",
-        "date": "2024-12-01",
-        "cover": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416301/1728655307393_b1tpyk.jpg",
-        "speakers": [
-          "Nishant Gupta",
-          "Mahima Gupta"
-        ],
-        "linkedin": {
-          "url": "",
-          "urn": "urn:li:ugcPost:7123456789012345678"
-        }
-      },
-      {
-        "college": "MNIT Jaipur",
-        "city": "Jaipur",
-        "date": "2024-12-01",
-        "cover": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416340/IMG_4473-1_mnhgee.jpg",
-        "speakers": [
-          "Nishant Gupta",
-          "Mahima Gupta"
-        ],
-        "linkedin": {
-          "url": "https://www.linkedin.com/posts/data-play_%F0%9D%90%84%F0%9D%90%B1%F0%9D%90%9C%F0%9D%90%A2%F0%9D%90%AD%F0%9D%90%A2%F0%9D%90%A7%F0%9D%90%A0-%F0%9D%90%83%F0%9D%90%9A%F0%9D%90%B2-%F0%9D%90%9A%F0%9D%90%AD-malaviya-activity-7263230876228952064-7ujp?utm_source=share&utm_medium=member_desktop&rcm=ACoAAByP_hcBKyWLga98n0mNfd0eghs9ZOBha3w",
-          "urn": "urn:li:ugcPost:7123456789012345678"
-        }
-      },
-      {
-        "college": "DataPlay Certification",
-        "city": "Jaipur",
-        "date": "2024-08-01",
-        "cover": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416329/IMG20240825162617_igtxmm.jpg",
-        "speakers": [
-          "Nishant Gupta",
-          "Mahima Gupta"
-        ],
-        "linkedin": {
-          "url": "",
-          "urn": "urn:li:ugcPost:7123456789012345678"
-        }
-      },
-      {
-        "college": "Vardhman International School",
-        "city": "Jaipur",
-        "date": "2024-05-01",
-        "cover": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416334/IMG-20240721-WA0004_erug8s.jpg",
-        "speakers": [
-          "Nishant Gupta",
-          "Mahima Gupta"
-        ],
-        "linkedin": {
-          "url": "",
-          "urn": "urn:li:ugcPost:7123456789012345678"
-        }
-      },
-      {
-        "college": "LNMNIT Jaipur",
-        "city": "Jaipur",
-        "date": "2024-12-14",
-        "cover": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416307/DSC03361_ut0jh0.jpg",
-        "speakers": [
-          "Nishant Gupta",
-          "Mahima Gupta"
-        ],
-        "linkedin": {
-          "url": "https://www.linkedin.com/feed/update/urn:li:activity:7264995622108172288",
-          "urn": "urn:li:ugcPost:7123456789012345678"
-        }
-      },
-      {
-        "college": "Mahaveer College Jaipur",
-        "city": "Jaipur",
-        "date": "2025-10-15",
-        "cover": "",
-        "speakers": [
-          "Nishant Gupta",
-          "Kushwant Singh"
-        ],
-        "linkedin": {
-          "url": "https://www.linkedin.com/feed/update/urn:li:activity:7264995622108172288",
-          "urn": "urn:li:ugcPost:7123456789012345678"
-        }
-      }
+// app/page.tsx
+// PAY AFTER PLACEMENT — Data Analyst & Data Engineering (LOUD / MODERN)
+// - Stronger "Hybrid Pay After Placement" visibility (big gradient badge + fee strip)
+// - Partners logos row (with graceful fallback to monograms)
+// - DA ⊂ DE section with 12w vs 20w breakdown bar
+// - Syllabus: shows ONLY main topics (module titles) + a clear Capstone/Projects card
+// - Pulls from content.json (shape: { courses: [...] } as provided)
+// - Cohort + timing + recordings
 
-    ]
-  },
-  "courses": [
+import Testimonials from "@/components/Testimonials";
+
+export default async function Page() {
+  const raw = await getContent();
+  const { analyst, engineering } = findCourses(raw);
+
+  const daWeeks = Number(analyst?.duration_weeks ?? 12);
+  const deWeeks = Number(engineering?.duration_weeks ?? 20);
+
+  const cohortDate = analyst?.next_cohort_date || engineering?.next_cohort_date || "24 Oct 2025";
+  const cohortDisplay = formatCohortDate(cohortDate);
+  const classTime = "6–8 pm IST";
+
+  const partners: PartnerItem[] = [
+    { name: "Celebal", logo: "/logos/celebal.svg" },
+    { name: "Polestar", logo: "/logos/polestar.svg" },
+    { name: "Mandle Bulb", logo: "/logos/mandlebulb.svg" },
+    { name: "Pratham Software", logo: "/logos/pratham.svg" },
+    { name: "Neos Alpha", logo: "/logos/neosalpha.svg" },
+  ];
+
+  const experts = [
     {
-      "id": 1,
-      "title": "Data Analyst",
-      "sub_title": "Make businesses smarter with data. In this hands-on, project-first course, you’ll learn to wrangle messy datasets, build dashboards people actually use, and present insights that drive action. No fluff—just the skills hiring managers ask for.",
-      "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759480655/Group_217_youx1q.png",
-      "duration_weeks":12,
-      "next_cohort_date":"2025-24-10",
-      "courses_content": [
-        {
-          "title": "Data Foundations & Excel Analytics",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "Basic mathematics",
-                "Computer literacy"
-              ]
-            },
-            {
-              "title": "Statistical Foundation",
-              "content": [
-                "Descriptive statistics (mean, median, mode, variance, standard deviation)",
-                "Data distributions and outlier identification",
-                "Correlation vs causation concepts",
-                "Introduction to hypothesis testing basics"
-              ]
-            },
-            {
-              "title": "Excel Mastery",
-              "content": [
-                "Advanced Excel functions (VLOOKUP, INDEX-MATCH, SUMIFS)",
-                "Pivot tables, pivot charts, and slicers",
-                "Data validation and conditional formatting",
-                "Goal Seek and Solver for optimization"
-              ]
-            },
-            {
-              "title": "Data Understanding & Quality",
-              "content": [
-                "Data types identification (numerical, categorical, temporal)",
-                "Missing value patterns and handling strategies",
-                "Data cleaning techniques and standardization",
-                "Creating data quality reports"
-              ]
-            },
-            {
-              "title": "Data Transformation",
-              "content": [
-                "Normalization and standardization methods",
-                "Calculated fields and derived metrics",
-                "Aggregation and grouping techniques",
-                "Feature engineering fundamentals"
-              ]
-            },
-            {
-              "title": "Business Metrics & KPIs",
-              "content": [
-                "KPI development and selection criteria",
-                "Dashboard design principles and best practices",
-                "Variance analysis and trend identification",
-                "Business intelligence fundamentals"
-              ]
-            },
-            {
-              "title": "Projects",
-              "content": [
-                "Gender prediction analysis using demographic datasets",
-                "Student survey response statistical analysis with Excel dashboards"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "SQL & Database Management",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "Basic logic",
-                "Completion of Module 01"
-              ]
-            },
-            {
-              "title": "Database Fundamentals",
-              "content": [
-                "Relational database concepts and ACID properties",
-                "Entity-relationship diagrams and normalization (1NF–3NF)",
-                "Database design patterns and best practices",
-                "Introduction to database management systems"
-              ]
-            },
-            {
-              "title": "Core SQL Operations",
-              "content": [
-                "Data Definition Language (DDL): CREATE, ALTER, DROP",
-                "Data Manipulation Language (DML): SELECT, INSERT, UPDATE, DELETE",
-                "Data types, constraints, and indexing strategies",
-                "Transaction management and rollback procedures"
-              ]
-            },
-            {
-              "title": "Advanced SQL Querying",
-              "content": [
-                "Complex joins (INNER, OUTER, CROSS, SELF joins)",
-                "Subqueries, correlated subqueries, and EXISTS",
-                "UNION, INTERSECT, and EXCEPT operations",
-                "Query optimization and execution plans"
-              ]
-            },
-            {
-              "title": "Window Functions & Analytics",
-              "content": [
-                "Ranking functions (ROW_NUMBER, RANK, DENSE_RANK)",
-                "Aggregate window functions and partitioning",
-                "LEAD/LAG for time series analysis",
-                "Statistical functions and percentiles"
-              ]
-            },
-            {
-              "title": "Database Design Implementation",
-              "content": [
-                "Common Table Expressions (CTEs) and recursive queries",
-                "Stored procedures, functions, and triggers",
-                "View creation and materialized views",
-                "Performance tuning and index optimization"
-              ]
-            },
-            {
-              "title": "Project",
-              "content": [
-                "Multi-table student information system with data cleaning pipelines and analytical reporting queries"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Business Intelligence & Power BI",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "SQL knowledge",
-                "Basic statistics"
-              ]
-            },
-            {
-              "title": "Power BI Fundamentals",
-              "content": [
-                "Power BI ecosystem (Desktop, Service, Mobile)",
-                "Data source connections and Power Query basics",
-                "Data transformation and preparation techniques",
-                "Introduction to data modeling concepts"
-              ]
-            },
-            {
-              "title": "Data Modeling & Relationships",
-              "content": [
-                "Star and snowflake schema design",
-                "Relationship types and cardinality settings",
-                "Data model optimization techniques",
-                "Calculated columns vs measures"
-              ]
-            },
-            {
-              "title": "DAX Functions & Advanced Analytics",
-              "content": [
-                "DAX syntax and row vs filter context",
-                "Time intelligence (YTD, MTD, SAMEPERIOD)",
-                "Advanced DAX (CALCULATE, FILTER, ALL, RELATED)",
-                "Iterators and statistical measures"
-              ]
-            },
-            {
-              "title": "Dashboard Design Principles",
-              "content": [
-                "Chart selection and data storytelling",
-                "Color theory and accessibility",
-                "Interactive elements, slicers, drill-through",
-                "Mobile-responsive design strategies"
-              ]
-            },
-            {
-              "title": "Interactive Report Creation",
-              "content": [
-                "Multi-page dashboard development",
-                "Parameter-driven reports and dynamic filtering",
-                "Performance optimization and sharing",
-                "Security and row-level security (RLS)"
-              ]
-            },
-            {
-              "title": "Projects",
-              "content": [
-                "Student feedback sentiment analysis dashboard",
-                "Google Reviews word cloud and rating trend analysis",
-                "Executive-level multi-page reporting solution"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Python for Data Science",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "Basic programming logic",
-                "Mathematical foundation"
-              ]
-            },
-            {
-              "title": "Python Programming Foundation",
-              "content": [
-                "Syntax, variables, and data types",
-                "Control structures (loops, conditionals, functions)",
-                "Object-oriented programming basics",
-                "Error handling and debugging techniques"
-              ]
-            },
-            {
-              "title": "Data Manipulation Libraries",
-              "content": [
-                "NumPy for numerical computing and arrays",
-                "Pandas for data manipulation and analysis",
-                "Loading data from CSV/JSON/databases",
-                "DataFrame operations, indexing, and grouping"
-              ]
-            },
-            {
-              "title": "Data Processing & Cleaning",
-              "content": [
-                "Missing data detection and imputation",
-                "Data type conversions and validation",
-                "String manipulation and regex",
-                "Data quality assessment and profiling"
-              ]
-            },
-            {
-              "title": "Statistical Analysis & Visualization",
-              "content": [
-                "Descriptive statistics with Pandas/NumPy",
-                "Statistical testing with SciPy",
-                "Matplotlib fundamentals and customization",
-                "Seaborn for statistical visualizations"
-              ]
-            },
-            {
-              "title": "Exploratory Data Analysis",
-              "content": [
-                "Univariate and bivariate analysis",
-                "Correlation and feature relationships",
-                "Distribution analysis and normality testing",
-                "Advanced plotting with Plotly"
-              ]
-            },
-            {
-              "title": "Industry Standards & Best Practices",
-              "content": [
-                "PEP 8 standards and documentation",
-                "Version control with Git and GitHub",
-                "Modular programming and code organization",
-                "Testing strategies and code reviews"
-              ]
-            },
-            {
-              "title": "Projects",
-              "content": [
-                "Government rainfall data preprocessing and trend analysis",
-                "WhatsApp chat pattern analysis with sentiment detection",
-                "Automated reporting system with scheduling"
-              ]
-            }
-          ]
-        }
-      ],
-      "right_side_video_url": "",
-      "user_section": [
-        {
-          "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416237/Soumya_Awasthi_bebpm3.jpg",
-          "name": "Soumya Awasthi",
-          "linkdin_url": "https://www.linkedin.com/in/soumyaawasthi08/",
-          "designation_name": "Associate Analytical Engineer",
-          "company_name": "Gartner",
-          "company_business_link": "https://www.linkedin.com/company/gartner/",
-          "details": "This course builds real analytical thinking, not just tool skills. The tool stack reflects what we use in the industry. I highly recommend this course at DataPlay as they use real projects, not dummy datasets."
-        }
-      ]
+      name: "Rajat Sinha",
+      role: "Data Engineer, Shiprocket",
+      img: "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416236/Rajat_Sinha_p1lgdb.jpg",
+      linkedin: "https://www.linkedin.com/in/rajat-sinha-94aa22201/",
     },
     {
-      "id": 2,
-      "title": "Data Engineering",
-      "sub_title": "Be the person who makes data usable. In this hands-on, project-first course, you’ll learn to design, build, and operate modern data pipelines that feed dashboards, ML, and AI—cleanly and at scale.",
-      "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759480378/rd_Umage_u6r6np.png",
-      "duration_weeks":20,
-      "next_cohort_date":"2025-24-10",
-      "courses_content": [
-        {
-          "title": "Data Foundations & Excel Analytics",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "Basic mathematics",
-                "Computer literacy"
-              ]
-            },
-            {
-              "title": "Statistical Foundation",
-              "content": [
-                "Descriptive statistics (mean, median, mode, variance, standard deviation)",
-                "Data distributions and outlier identification",
-                "Correlation vs causation concepts",
-                "Introduction to hypothesis testing basics"
-              ]
-            },
-            {
-              "title": "Excel Mastery",
-              "content": [
-                "Advanced Excel functions (VLOOKUP, INDEX-MATCH, SUMIFS)",
-                "Pivot tables, pivot charts, and slicers",
-                "Data validation and conditional formatting",
-                "Goal Seek and Solver for optimization"
-              ]
-            },
-            {
-              "title": "Data Understanding & Quality",
-              "content": [
-                "Data types identification (numerical, categorical, temporal)",
-                "Missing value patterns and handling strategies",
-                "Data cleaning techniques and standardization",
-                "Creating data quality reports"
-              ]
-            },
-            {
-              "title": "Data Transformation",
-              "content": [
-                "Normalization and standardization methods",
-                "Calculated fields and derived metrics",
-                "Aggregation and grouping techniques",
-                "Feature engineering fundamentals"
-              ]
-            },
-            {
-              "title": "Business Metrics & KPIs",
-              "content": [
-                "KPI development and selection criteria",
-                "Dashboard design principles and best practices",
-                "Variance analysis and trend identification",
-                "Business intelligence fundamentals"
-              ]
-            },
-            {
-              "title": "Projects",
-              "content": [
-                "Gender prediction analysis using demographic datasets",
-                "Student survey response statistical analysis with Excel dashboards"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "SQL & Database Management",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "Basic logic",
-                "Completion of Module 01"
-              ]
-            },
-            {
-              "title": "Database Fundamentals",
-              "content": [
-                "Relational database concepts and ACID properties",
-                "Entity-relationship diagrams and normalization (1NF–3NF)",
-                "Database design patterns and best practices",
-                "Introduction to database management systems"
-              ]
-            },
-            {
-              "title": "Core SQL Operations",
-              "content": [
-                "Data Definition Language (DDL): CREATE, ALTER, DROP",
-                "Data Manipulation Language (DML): SELECT, INSERT, UPDATE, DELETE",
-                "Data types, constraints, and indexing strategies",
-                "Transaction management and rollback procedures"
-              ]
-            },
-            {
-              "title": "Advanced SQL Querying",
-              "content": [
-                "Complex joins (INNER, OUTER, CROSS, SELF joins)",
-                "Subqueries, correlated subqueries, and EXISTS",
-                "UNION, INTERSECT, and EXCEPT operations",
-                "Query optimization and execution plans"
-              ]
-            },
-            {
-              "title": "Window Functions & Analytics",
-              "content": [
-                "Ranking functions (ROW_NUMBER, RANK, DENSE_RANK)",
-                "Aggregate window functions and partitioning",
-                "LEAD/LAG for time series analysis",
-                "Statistical functions and percentiles"
-              ]
-            },
-            {
-              "title": "Database Design Implementation",
-              "content": [
-                "Common Table Expressions (CTEs) and recursive queries",
-                "Stored procedures, functions, and triggers",
-                "View creation and materialized views",
-                "Performance tuning and index optimization"
-              ]
-            },
-            {
-              "title": "Project",
-              "content": [
-                "Multi-table student information system with data cleaning pipelines and analytical reporting queries"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Business Intelligence & Power BI",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "SQL knowledge",
-                "Basic statistics"
-              ]
-            },
-            {
-              "title": "Power BI Fundamentals",
-              "content": [
-                "Power BI ecosystem (Desktop, Service, Mobile)",
-                "Data source connections and Power Query basics",
-                "Data transformation and preparation techniques",
-                "Introduction to data modeling concepts"
-              ]
-            },
-            {
-              "title": "Data Modeling & Relationships",
-              "content": [
-                "Star and snowflake schema design",
-                "Relationship types and cardinality settings",
-                "Data model optimization techniques",
-                "Calculated columns vs measures"
-              ]
-            },
-            {
-              "title": "DAX Functions & Advanced Analytics",
-              "content": [
-                "DAX syntax and row vs filter context",
-                "Time intelligence (YTD, MTD, SAMEPERIOD)",
-                "Advanced DAX (CALCULATE, FILTER, ALL, RELATED)",
-                "Iterators and statistical measures"
-              ]
-            },
-            {
-              "title": "Dashboard Design Principles",
-              "content": [
-                "Chart selection and data storytelling",
-                "Color theory and accessibility",
-                "Interactive elements, slicers, drill-through",
-                "Mobile-responsive design strategies"
-              ]
-            },
-            {
-              "title": "Interactive Report Creation",
-              "content": [
-                "Multi-page dashboard development",
-                "Parameter-driven reports and dynamic filtering",
-                "Performance optimization and sharing",
-                "Security and row-level security (RLS)"
-              ]
-            },
-            {
-              "title": "Projects",
-              "content": [
-                "Student feedback sentiment analysis dashboard",
-                "Google Reviews word cloud and rating trend analysis",
-                "Executive-level multi-page reporting solution"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Python for Data Science",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "Basic programming logic",
-                "Mathematical foundation"
-              ]
-            },
-            {
-              "title": "Python Programming Foundation",
-              "content": [
-                "Syntax, variables, and data types",
-                "Control structures (loops, conditionals, functions)",
-                "Object-oriented programming basics",
-                "Error handling and debugging techniques"
-              ]
-            },
-            {
-              "title": "Data Manipulation Libraries",
-              "content": [
-                "NumPy for numerical computing and arrays",
-                "Pandas for data manipulation and analysis",
-                "Loading data from CSV/JSON/databases",
-                "DataFrame operations, indexing, and grouping"
-              ]
-            },
-            {
-              "title": "Data Processing & Cleaning",
-              "content": [
-                "Missing data detection and imputation",
-                "Data type conversions and validation",
-                "String manipulation and regex",
-                "Data quality assessment and profiling"
-              ]
-            },
-            {
-              "title": "Statistical Analysis & Visualization",
-              "content": [
-                "Descriptive statistics with Pandas/NumPy",
-                "Statistical testing with SciPy",
-                "Matplotlib fundamentals and customization",
-                "Seaborn for statistical visualizations"
-              ]
-            },
-            {
-              "title": "Exploratory Data Analysis",
-              "content": [
-                "Univariate and bivariate analysis",
-                "Correlation and feature relationships",
-                "Distribution analysis and normality testing",
-                "Advanced plotting with Plotly"
-              ]
-            },
-            {
-              "title": "Industry Standards & Best Practices",
-              "content": [
-                "PEP 8 standards and documentation",
-                "Version control with Git and GitHub",
-                "Modular programming and code organization",
-                "Testing strategies and code reviews"
-              ]
-            },
-            {
-              "title": "Projects",
-              "content": [
-                "Government rainfall data preprocessing and trend analysis",
-                "WhatsApp chat pattern analysis with sentiment detection",
-                "Automated reporting system with scheduling"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Data Engineering & Big Data Platforms",
-          "submodules": [
-            {
-              "title": "Prerequisites",
-              "content": [
-                "Python proficiency",
-                "SQL expertise",
-                "Cloud basics"
-              ]
-            },
-            {
-              "title": "Pipeline Architecture & Design",
-              "content": [
-                "ETL vs ELT paradigms and use cases",
-                "Batch vs stream processing architectures",
-                "Lambda and Kappa architecture patterns",
-                "Pipeline design principles and best practices"
-              ]
-            },
-            {
-              "title": "Big Data Foundations",
-              "content": [
-                "Apache Spark architecture and distributed computing",
-                "PySpark DataFrames and SQL operations",
-                "Spark optimization and performance tuning",
-                "Databricks platform and cluster management"
-              ]
-            },
-            {
-              "title": "Orchestration & Automation",
-              "content": [
-                "Apache Airflow workflow management",
-                "DAG creation, scheduling, and dependencies",
-                "Error handling, retries, and monitoring",
-                "Data quality validation and testing frameworks"
-              ]
-            },
-            {
-              "title": "DevOps & Cloud Integration",
-              "content": [
-                "Docker containerization for data apps",
-                "CI/CD pipelines with GitHub Actions",
-                "Infrastructure as Code principles",
-                "Azure/AWS data services integration"
-              ]
-            },
-            {
-              "title": "Advanced Data Processing",
-              "content": [
-                "Real-time streaming with Structured Streaming",
-                "Data lake vs data warehouse concepts",
-                "Parquet, Delta Lake, and Iceberg formats",
-                "Data partitioning and optimization strategies"
-              ]
-            },
-            {
-              "title": "Data Governance & Security",
-              "content": [
-                "Governance and security considerations",
-                "Monitoring, logging, and alerting",
-                "Cost optimization strategies",
-                "Performance benchmarking and scalability testing"
-              ]
-            },
-            {
-              "title": "Capstone Project",
-              "content": [
-                "End-to-end cloud data pipeline design and implementation",
-                "Multi-source data ingestion (APIs, databases, files)",
-                "Real-time processing with batch analytics integration",
-                "Automated testing, deployment, and monitoring setup"
-              ]
-            }
-          ]
-        }
-      ],
-      "right_side_video_url": "",
-      "user_section": [
-        {
-          "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416236/Rajat_Sinha_p1lgdb.jpg",
-          "name": "Rajat Sinha",
-          "linkdin_url": "https://www.linkedin.com/in/rajat-sinha-94aa22201/",
-          "designation_name": "Data Engineer",
-          "company_name": "Shiprocket",
-          "company_business_link": "https://www.linkedin.com/company/shiprocket/",
-          "details": "They’re not just teaching tools — they’re teaching scalable thinking. They’re teaching proper orchestration and workflow management. I highly recommend this course at DataPlay."
-        }
-      ]
+      name: "Soumya Awasthi",
+      role: "Associate Analytical Engineer, Gartner",
+      img: "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416237/Soumya_Awasthi_bebpm3.jpg",
+      linkedin: "https://www.linkedin.com/in/soumyaawasthi08/",
     },
-    {
-      "id": 3,
-      "title": "Web Development",
-      "sub_title": "Turn ideas into live websites. In this hands-on, project-first course, you’ll learn modern frontend & backend skills to ship production-ready web apps—fast, clean, and user-friendly.",
-      "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759480380/Group_218_uvhvtw.png",
-      "courses_content": [],
-      "right_side_video_url": "",
-      "user_section": [
-        {
-          "img_url": "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759645401/Screenshot_2025-10-05_at_11.52.11_AM_ybbunx.png",
-          "name": "Anurag Srivastava",
-          "linkdin_url": "https://www.linkedin.com/in/anurag-srivastava-9a7429192/",
-          "designation_name": "Software Developer",
-          "company_name": "Stealth Startup",
-          "company_business_link": "https://www.linkedin.com/company/stealth-startup-community/",
-          "details": "DataPlay's Web Development course genuinely has industry-relevant—solid fundamentals, modern stack, and hands-on projects that mirror real work. I’m happy to vouch for it: clear instruction, strong mentorship, and a portfolio boost that’s immediately useful on the job."
+  ];
+
+  return (
+    <main className="min-h-screen bg-white text-gray-900">
+      {/* Theme tokens — map to your real palette in globals.css */}
+      <style>{`
+        :root {
+          --brand-50:#eef2ff; --brand-100:#e0e7ff; --brand-200:#c7d2fe; --brand-300:#a5b4fc;
+          --brand-400:#818cf8; --brand-500:#6366f1; --brand-600:#4f46e5; --brand-700:#4338ca; --brand-800:#3730a3; --brand-900:#312e81;
+          --ink:#0b1220; --ink-2:#0a0f1d;
         }
-      ]
-    }
-  ]
+      `}</style>
+
+      {/* ——— HERO ——— */}
+      <section className="relative overflow-hidden bg-[#050814]">
+        {/* background paint */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_-10%,_rgba(79,70,229,0.5),_transparent_60%)]" />
+          <div className="absolute inset-0 bg-[conic-gradient(from_140deg_at_50%_50%,_rgba(99,102,241,0.25),_transparent_60%)]" />
+          <div className="absolute inset-0 bg-[#050814]/90" />
+          <div className="absolute inset-0 [background-image:linear-gradient(#ffffff10_1px,transparent_1px),linear-gradient(90deg,#ffffff10_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(60%_55%_at_50%_0%,_#000_45%,_transparent_75%)]" />
+        </div>
+
+        <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20">
+          <div className="text-center text-white">
+            {/* BIG hybrid badge */}
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-gradient-to-r from-[var(--brand-600)] via-[var(--brand-400)] to-[var(--brand-600)] px-4 py-2 text-xs sm:text-sm font-semibold shadow-lg backdrop-blur">
+              <SparkleIcon /> Hybrid Pay After Placement
+            </span>
+            
+            <h1 className="mt-4 text-4xl font-extrabold leading-tight text-white drop-shadow-[0_8px_30px_rgba(99,102,241,0.45)] sm:text-5xl md:text-6xl">
+              Data Analyst <span className="opacity-90">&</span> Data Engineering Programs
+            </h1>
+            <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg text-white/85">
+              Mentor-led. Project-first. Job-focused. Start small, pay the balance after placement.
+            </p>
+
+            {/* fee strip */}
+            <div className="mx-auto mt-4 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] text-white/90 shadow-sm">
+              <span className="rounded-full bg-white/10 px-2 py-0.5">Data Analyst: ₹7,500 now + ₹30,000 after</span>
+              <span className="hidden h-3 w-px bg-white/20 sm:inline-block" />
+              <span className="rounded-full bg-white/10 px-2 py-0.5">Data Engineering: ₹10,000 now + ₹30,000 after</span>
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs">
+              <Chip>Online</Chip>
+              <Chip>Offline</Chip>
+              <Chip>Recordings available</Chip>
+              <Chip>6–8 pm IST</Chip>
+            </div>
+
+            {/* program quicks */}
+            <div className="mt-10 grid gap-5 sm:grid-cols-2">
+              <ProgramCard
+                dark
+                id="data-analyst"
+                title={analyst?.title ?? "Data Analyst"}
+                subtitle={analyst?.sub_title}
+                img={analyst?.img_url}
+                feeUpfront="₹7,500"
+                feeAfter="₹30,000"
+                duration={`${daWeeks} weeks`}
+                ctaHref="#analyst"
+              />
+              <ProgramCard
+                dark
+                id="data-engineering"
+                title={engineering?.title ?? "Data Engineering"}
+                subtitle={engineering?.sub_title}
+                img={engineering?.img_url}
+                feeUpfront="₹10,000"
+                feeAfter="₹30,000"
+                duration={`${deWeeks} weeks`}
+                ctaHref="#engineering"
+              />
+            </div>
+
+            {/* partners logos */}
+            <div className="mt-10">
+              <p className="text-xs uppercase tracking-wide text-white/60">Select hiring partners</p>
+              <PartnersRow items={partners} />
+              <p className="mt-2 text-xs text-white/60">growing network</p>
+            </div>
+          </div>
+        </div>
+
+        {/* sticky mobile CTA */}
+        <div className="fixed inset-x-0 bottom-3 z-30 mx-auto w-[92%] sm:hidden">
+          <div className="rounded-2xl border border-white/15 bg-white/10 p-2 backdrop-blur">
+            <a href="#apply" className="block w-full rounded-xl bg-gradient-to-r from-[var(--brand-600)] to-[var(--brand-400)] px-5 py-3 text-center font-semibold text-white shadow">Start Free Counselling</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ——— GLOBAL KEY STATS ——— */}
+      <section className="bg-[#0b1220]">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-10">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Stat dark label="Delivery Modes" value="Online + Offline" />
+            <Stat dark label="Class Timing" value={classTime} />
+            <Stat dark label="Next Cohort" value={cohortDisplay} />
+            <Stat dark label="Recordings" value="Available" />
+          </div>
+        </div>
+      </section>
+
+      {/* ——— FEATURES ——— */}
+      <section id="features" className="relative bg-white">
+        <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-[#0b1220] to-transparent opacity-80" />
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Why these programs</h2>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <FeatureCard title="Lifetime Access" desc="Content updates, recordings, templates — forever." />
+            <FeatureCard title="By Industry, For Industry" desc="Built with hiring managers & working pros." />
+            <FeatureCard title="Resume Refactoring" desc="1:1 resume/LinkedIn overhaul tailored to role." />
+            <FeatureCard title="Mock Interviews" desc="Regular analytics & system rounds with feedback." />
+          </div>
+        </div>
+      </section>
+
+      {/* ——— EXPERTS ——— */}
+      <section id="experts" className="bg-gray-50">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Backed by Industry Experts</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {experts.map((e, i) => (
+              <ExpertCard key={i} {...e} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ——— DA ⊂ DE (dissection) ——— */}
+      <section id="subset" className="bg-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Data Analyst ⊂ Data Engineer</h2>
+          <p className="mt-2 max-w-3xl text-gray-700">The Analyst track is the foundation of the Engineering track. Complete the first {daWeeks} weeks for Analyst outcomes; continue to {deWeeks} weeks to master engineering depth.</p>
+
+            {/* segmented bar 12 / 20 */}
+          <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="text-sm font-semibold text-gray-900">Timeline</div>
+            <div className="mt-3 grid grid-cols-[repeat(20,minmax(0,1fr))] overflow-hidden rounded-xl">
+              {Array.from({ length: daWeeks }).map((_, i) => (
+                <div key={`da-${i}`} className="h-3 bg-[var(--brand-600)]" />
+              ))}
+              {Array.from({ length: deWeeks - daWeeks }).map((_, i) => (
+                <div key={`de-${i}`} className="h-3 bg-[var(--brand-800)]" />
+              ))}
+            </div>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 text-sm text-gray-700">
+              <div className="flex items-start gap-2"><span className="mt-1 inline-block h-2 w-2 rounded bg-[var(--brand-600)]" /><p><b>Weeks 1–{daWeeks}:</b> Analyst foundations — Excel/BI, SQL essentials, stats & storytelling, Python for analysis.</p></div>
+              <div className="flex items-start gap-2"><span className="mt-1 inline-block h-2 w-2 rounded bg-[var(--brand-800)]" /><p><b>Weeks {daWeeks + 1}–{deWeeks}:</b> Engineering depth — ETL/ELT, orchestration, cloud, modeling at scale, streaming basics.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ——— DATA ANALYST ——— */}
+      <CourseSection
+        anchor="analyst"
+        title={`${analyst?.title ?? "Data Analyst"} — Pay After Placement`}
+        subtitle={analyst?.sub_title}
+        img={analyst?.img_url}
+        feeUpfrontLabel="Enroll with ₹7,500"
+        feeAfterLabel="After placement: ₹30,000"
+        totalLabel="Total: ₹37,500"
+        modules={analyst?.courses_content ?? []}
+        duration={`${daWeeks} weeks`}
+      />
+
+      {/* ——— DATA ENGINEERING ——— */}
+      <CourseSection
+        anchor="engineering"
+        title={`${engineering?.title ?? "Data Engineering"} — Pay After Placement`}
+        subtitle={engineering?.sub_title}
+        img={engineering?.img_url}
+        feeUpfrontLabel="Enroll with ₹10,000"
+        feeAfterLabel="After placement: ₹30,000"
+        totalLabel="Total: ₹40,000"
+        modules={engineering?.courses_content ?? []}
+        duration={`${deWeeks} weeks`}
+      />
+
+      {/* ——— Testimonials (kept as-is) ——— */}
+      <section className="bg-white">
+        <div className="container mx-auto max-w-7xl px-0 py-16">
+          <Testimonials />
+        </div>
+      </section>
+
+      {/* ——— FAQ ——— */}
+      <section id="faq" className="relative bg-[#0b1220] text-white">
+        <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-white to-transparent opacity-70" />
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Frequently asked</h2>
+          <div className="mt-6 grid gap-4 sm:gap-6 md:grid-cols-2">
+            <Faq dark q="Are classes online or offline?" a="Both. Attend live online sessions or join in-person where available; all sessions have recordings." />
+            <Faq dark q="When does the cohort start?" a={`Cohort starts ${cohortDisplay}. Classes run ${classTime}.`} />
+            <Faq dark q="How do fees work?" a="Data Analyst: ₹7,500 upfront + ₹30,000 after placement. Data Engineering: ₹10,000 upfront + ₹30,000 after placement." />
+            <Faq dark q="Do I keep access?" a="Yes, you get lifetime access to updated materials and recordings." />
+          </div>
+        </div>
+      </section>
+
+      {/* ——— Footer ——— */}
+      <footer className="bg-[#0b1220] text-white/80">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-8 text-sm">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
+            <p>© {new Date().getFullYear()} Your Academy. All rights reserved.</p>
+            <nav className="flex flex-wrap gap-4">
+              <a href="#subset" className="hover:text-white">DA ⊂ DE</a>
+              <a href="#analyst" className="hover:text-white">Data Analyst</a>
+              <a href="#engineering" className="hover:text-white">Data Engineering</a>
+              <a href="#features" className="hover:text-white">Features</a>
+              <a href="#experts" className="hover:text-white">Experts</a>
+              <a href="#faq" className="hover:text-white">FAQ</a>
+            </nav>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
 }
+
+/* ——— Building blocks ——— */
+function SparkleIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="opacity-90">
+      <path d="M12 3l1.8 4.5L18 9.3l-4.2 1.8L12 15l-1.8-3.9L6 9.3l4.2-1.8L12 3z" stroke="currentColor" strokeWidth="1.5"/>
+    </svg>
+  );
+}
+
+function Chip({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur hover:bg-white/15">
+      {children}
+    </span>
+  );
+}
+
+function Stat({ label, value, dark }: { label: string; value: string; dark?: boolean }) {
+  const base = dark
+    ? "rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 text-center text-white/90 shadow-sm hover:bg-white/7"
+    : "rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 text-center shadow-sm hover:shadow-md";
+  const valueCls = dark ? "text-2xl sm:text-3xl font-extrabold text-white" : "text-2xl sm:text-3xl font-extrabold text-[var(--brand-700)]";
+  const labelCls = dark ? "mt-1 text-sm text-white/70" : "mt-1 text-sm text-gray-600";
+  return (
+    <div className={`${base} transition-transform duration-200 hover:-translate-y-0.5`}>
+      <p className={valueCls}>{value}</p>
+      <p className={labelCls}>{label}</p>
+    </div>
+  );
+}
+
+function ProgramCard({ id, title, subtitle, img, feeUpfront, feeAfter, duration, ctaHref, dark }:{ id: string; title: string; subtitle?: string; img?: string; feeUpfront: string; feeAfter: string; duration?: string; ctaHref: string; dark?: boolean; }) {
+  return (
+    <div id={id} className="relative rounded-2xl bg-gradient-to-b from-white/20 to-white/5 p-[1.2px] backdrop-blur">
+      <div className={`relative rounded-2xl ${dark ? "bg-white/10 text-white" : "bg-white text-gray-900"} p-5 sm:p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg`}>
+        {img ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={img} alt="Program" className="mb-4 h-24 w-full rounded-xl object-cover" />
+        ) : null}
+        <h3 className="text-lg font-semibold">{title}</h3>
+        {subtitle ? <p className={`mt-1 text-sm ${dark ? "text-white/80" : "text-gray-700"}`}>{subtitle}</p> : null}
+        <div className={`mt-3 flex flex-wrap items-center gap-2 text-xs ${dark ? "text-white/90" : "text-gray-700"}`}>
+          {duration ? <span className="rounded-full border border-current/20 px-2.5 py-1">{duration}</span> : null}
+          <span className="rounded-full border border-current/20 px-2.5 py-1">{feeUpfront} to enroll</span>
+          <span className="rounded-full border border-current/20 px-2.5 py-1">{feeAfter} after placement</span>
+        </div>
+        <a href={ctaHref} className="mt-4 inline-flex rounded-lg bg-gradient-to-r from-[var(--brand-600)] to-[var(--brand-400)] px-4 py-2.5 text-sm font-semibold text-white shadow hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[var(--brand-400)]">View details</a>
+      </div>
+    </div>
+  );
+}
+
+function CourseSection({ anchor, title, subtitle, img, feeUpfrontLabel, feeAfterLabel, totalLabel, modules, duration }:{ anchor: string; title: string; subtitle?: string; img?: string; feeUpfrontLabel: string; feeAfterLabel: string; totalLabel: string; modules: any[]; duration?: string; }) {
+  // Extract main-topic modules and any Capstone/Projects content
+  const mainTopics = Array.isArray(modules) ? modules.map((m: any) => String(m?.title ?? "Module")) : [];
+  const capstoneBullets: string[] = collectCapstone(modules);
+
+  return (
+    <section id={anchor} className="relative bg-white">
+      <div className="absolute inset-x-0 -top-10 -z-10 h-20 bg-gradient-to-b from-gray-50 to-transparent" />
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+          <div className="lg:col-span-7">
+            <div className="flex flex-wrap items-center gap-3">
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{title}</h2>
+              {duration ? <span className="inline-flex items-center rounded-full bg-[var(--brand-50)] px-3 py-1 text-xs font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">{duration}</span> : null}
+            </div>
+            {subtitle ? <p className="mt-2 text-gray-700">{subtitle}</p> : null}
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+              <Badge>Online</Badge>
+              <Badge>Offline</Badge>
+              <Badge>Recordings available</Badge>
+            </div>
+
+            {/* MAIN TOPICS ONLY */}
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {mainTopics.map((t, i) => (
+                <div key={i} className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+                  <p className="font-semibold text-gray-900">{t}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Capstone / Projects */}
+            {capstoneBullets.length > 0 && (
+              <div className="mt-8 rounded-2xl border border-[var(--brand-200)] bg-[var(--brand-50)] p-5 text-[var(--brand-900)]">
+                <p className="text-lg font-bold">Capstone / Projects</p>
+                <ul className="mt-2 list-disc pl-5 text-sm">
+                  {capstoneBullets.map((c, i) => (
+                    <li key={i}>{c}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <div className="lg:col-span-5">
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm ring-1 ring-transparent transition hover:shadow-lg">
+              {img ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={img} alt="Program" className="mb-4 h-44 w-full rounded-xl object-cover" />
+              ) : null}
+              <h3 className="text-lg font-bold">How payment works</h3>
+              <ol className="mt-4 space-y-3 text-sm">
+                <li className="flex items-start gap-3"><StepDot /> <div><p className="font-semibold">{feeUpfrontLabel}</p><p>Secure your seat.</p></div></li>
+                <li className="flex items-start gap-3"><StepDot /> <div><p className="font-semibold">Train & build</p><p>Live mentorship, projects, interview prep, and referrals.</p></div></li>
+                <li className="flex items-start gap-3"><StepDot /> <div><p className="font-semibold">{feeAfterLabel}</p><p>Pay the remaining amount after you accept an eligible offer.</p></div></li>
+              </ol>
+              <div className="mt-5 rounded-xl border border-[var(--brand-200)] bg-[var(--brand-50)] p-4 text-[var(--brand-900)]">
+                <p className="font-semibold">Fee summary</p>
+                <p className="text-sm">{totalLabel}</p>
+              </div>
+              <a href="#apply" className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[var(--brand-600)] to-[var(--brand-400)] px-5 py-3 font-semibold text-white shadow hover:opacity-95">Start Free Counselling</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StepDot() {
+  return <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-600)] text-white">•</span>;
+}
+
+function Badge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-md bg-[var(--brand-50)] px-2.5 py-1 text-[11px] font-semibold text-[var(--brand-700)] ring-1 ring-inset ring-[var(--brand-200)]">
+      {children}
+    </span>
+  );
+}
+
+function PillCard({ title, points }: { title: string; points: string[] }) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+      <ul className="mt-3 space-y-2 text-sm text-gray-700">
+        {points.map((p, i) => (
+          <li key={i} className="flex items-start gap-2"><span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand-600)]" /> {p}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function PartnersRow({ items }: { items: PartnerItem[] }) {
+  return (
+    <div className="mt-3 flex flex-wrap items-center justify-center gap-6">
+      {items.map((p, i) => (
+        <div key={i} className="flex h-8 items-center opacity-90 transition hover:opacity-100">
+          {p.logo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={p.logo} alt={p.name} className="h-8 w-auto" />
+          ) : (
+            <span className="inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs text-w
