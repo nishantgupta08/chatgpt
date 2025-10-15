@@ -5,6 +5,7 @@
 // - Program cards show fee split + duration
 // - JSON-driven syllabus for each course when present
 // - Cohort: 24 Oct 2025 • Time: 6–8 pm IST • Recordings available
+// - Partners row and "Backed by Industry Experts" section
 
 import Testimonials from "@/components/Testimonials";
 
@@ -17,6 +18,29 @@ export default async function Page() {
   const classTime = "6–8 pm IST";
   const daWeeks = 12;
   const deWeeks = 20;
+
+  const partners = [
+    { name: "Celebal" },
+    { name: "Polestar" },
+    { name: "Mandle Bulb" },
+    { name: "Praqtham Software" },
+    { name: "Neso Alpha" },
+  ];
+
+  const experts = [
+    {
+      name: "Rajat Sinha",
+      role: "Industry Expert",
+      img: "",
+      linkedin: "",
+    },
+    {
+      name: "Soumya Awasthi",
+      role: "Associate Analytical Engineer, Gartner",
+      img: "https://res.cloudinary.com/dd0e4iwau/image/upload/v1759416237/Soumya_Awasthi_bebpm3.jpg",
+      linkedin: "https://www.linkedin.com/in/soumyaawasthi08/",
+    },
+  ];
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
@@ -58,7 +82,7 @@ export default async function Page() {
               <Chip>Offline</Chip>
               <Chip>Recordings available</Chip>
               <Chip>{classTime}</Chip>
-              <Chip>Next cohort: {cohortDisplay}</Chip>
+              {/* Deduped: cohort info appears below in stats section */}
             </div>
 
             {/* program quicks */}
@@ -87,7 +111,12 @@ export default async function Page() {
               />
             </div>
 
-            <p className="mt-6 text-sm text-white/70">Select hiring partners • growing network</p>
+            {/* partners row */}
+            <div className="mt-8">
+              <p className="text-xs uppercase tracking-wide text-white/60">Select hiring partners</p>
+              <PartnersRow items={partners} />
+              <p className="mt-2 text-xs text-white/60">growing network</p>
+            </div>
           </div>
         </div>
 
@@ -125,8 +154,20 @@ export default async function Page() {
         </div>
       </section>
 
+      {/* ——— EXPERTS ——— */}
+      <section id="experts" className="bg-gray-50">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Backed by Industry Experts</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {experts.map((e, i) => (
+              <ExpertCard key={i} {...e} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ——— DA ⊂ DE (dissection) ——— */}
-      <section id="subset" className="bg-gray-50">
+      <section id="subset" className="bg-white">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Data Analyst ⊂ Data Engineer</h2>
           <p className="mt-2 max-w-3xl text-gray-700">The Analyst track is the foundation of the Engineering track. Complete the first {daWeeks} weeks for Analyst outcomes; continue to {deWeeks} weeks to master engineering depth.</p>
@@ -135,11 +176,9 @@ export default async function Page() {
           <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="text-sm font-semibold text-gray-900">Timeline</div>
             <div className="mt-3 grid grid-cols-[repeat(20,minmax(0,1fr))] overflow-hidden rounded-xl">
-              {/* 12 brand segments */}
               {Array.from({ length: daWeeks }).map((_, i) => (
                 <div key={`da-${i}`} className="h-3 bg-[var(--brand-600)]" />
               ))}
-              {/* remaining 8 darker segments */}
               {Array.from({ length: deWeeks - daWeeks }).map((_, i) => (
                 <div key={`de-${i}`} className="h-3 bg-[var(--brand-800)]" />
               ))}
@@ -148,17 +187,6 @@ export default async function Page() {
               <div className="flex items-start gap-2"><span className="mt-1 inline-block h-2 w-2 rounded bg-[var(--brand-600)]" /><p><b>Weeks 1–{daWeeks}:</b> Analyst foundations — Excel/BI, SQL essentials, stats & storytelling, Python for analysis.</p></div>
               <div className="flex items-start gap-2"><span className="mt-1 inline-block h-2 w-2 rounded bg-[var(--brand-800)]" /><p><b>Weeks {daWeeks + 1}–{deWeeks}:</b> Engineering depth — ETL/ELT, orchestration, cloud, modeling at scale, streaming basics.</p></div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ——— DA vs DE (comparison) ——— */}
-      <section id="compare" className="bg-white">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16">
-          <h2 className="text-3xl font-extrabold sm:text-4xl">Which path suits you?</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <PillCard title={`Data Analyst • ${daWeeks} weeks`} points={["Insights, dashboards, decision support","Excel/SQL/BI, Python (pandas)","Cleaning, analysis, reporting","KPI dashboards, A/B reads","Great for communicators close to business"]} />
-            <PillCard title={`Data Engineer • ${deWeeks} weeks`} points={["Pipelines, models, reliability","SQL, Python/Scala, ETL/ELT, Cloud","Ingestion, transforms, orchestration","Batch/stream, DWH modeling","Great for builders who like scale"]} />
           </div>
         </div>
       </section>
@@ -220,6 +248,7 @@ export default async function Page() {
               <a href="#analyst" className="hover:text-white">Data Analyst</a>
               <a href="#engineering" className="hover:text-white">Data Engineering</a>
               <a href="#features" className="hover:text-white">Features</a>
+              <a href="#experts" className="hover:text-white">Experts</a>
               <a href="#faq" className="hover:text-white">FAQ</a>
             </nav>
           </div>
@@ -401,6 +430,40 @@ function Faq({ q, a, dark }: { q: string; a: string; dark?: boolean }) {
     <div className={`${base} transition hover:bg-white/10`}>
       <p className="font-semibold">{q}</p>
       <p className={ans}>{a}</p>
+    </div>
+  );
+}
+
+function PartnersRow({ items }: { items: { name: string; logo?: string }[] }) {
+  return (
+    <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+      {items.map((p, i) => (
+        <span key={i} className="inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs text-white/85 backdrop-blur">
+          {p.name}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ExpertCard({ name, role, img, linkedin }: { name: string; role?: string; img?: string; linkedin?: string }) {
+  return (
+    <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      {img ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={img} alt={name} className="h-14 w-14 rounded-full object-cover" />
+      ) : (
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand-100)] text-[var(--brand-700)] font-semibold">
+          {name.split(" ").map((n) => n[0]).join("")}
+        </div>
+      )}
+      <div className="min-w-0">
+        <p className="truncate text-base font-semibold text-gray-900">{name}</p>
+        {role ? <p className="truncate text-sm text-gray-600">{role}</p> : null}
+        {linkedin ? (
+          <a href={linkedin} className="mt-1 inline-flex text-xs font-medium text-[var(--brand-700)] hover:underline">LinkedIn</a>
+        ) : null}
+      </div>
     </div>
   );
 }
