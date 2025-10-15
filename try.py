@@ -30,9 +30,9 @@ export default async function Page() {
       `}</style>
 
       {/* ——— HERO ——— */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden bg-[#050814]">
         {/* background paint */}
-        <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_-10%,_rgba(79,70,229,0.5),_transparent_60%)]" />
           <div className="absolute inset-0 bg-[conic-gradient(from_140deg_at_50%_50%,_rgba(99,102,241,0.25),_transparent_60%)]" />
           {/* hard darken overlay to guarantee contrast */}
@@ -41,7 +41,7 @@ export default async function Page() {
           <div className="absolute inset-0 [background-image:linear-gradient(#ffffff10_1px,transparent_1px),linear-gradient(90deg,#ffffff10_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(60%_55%_at_50%_0%,_#000_45%,_transparent_75%)]" />
         </div>
 
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20">
+        <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20">
           <div className="text-center text-white">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs sm:text-sm font-semibold backdrop-blur">
               <SparkleIcon /> Hybrid Pay After Placement
@@ -134,7 +134,7 @@ export default async function Page() {
           {/* segmented bar 12 / 20 */}
           <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="text-sm font-semibold text-gray-900">Timeline</div>
-            <div className="mt-3 grid grid-cols-20 overflow-hidden rounded-xl">
+            <div className="mt-3 grid grid-cols-[repeat(20,minmax(0,1fr))] overflow-hidden rounded-xl">
               {/* 12 brand segments */}
               {Array.from({ length: daWeeks }).map((_, i) => (
                 <div key={`da-${i}`} className="h-3 bg-[var(--brand-600)]" />
