@@ -1,5 +1,5 @@
 // app/landing/page.tsx
-// TypeScript rewrite — no `any`, JSON-typed syllabus, bold UI.
+// TypeScript rewrite — JSON-typed syllabus, bold UI, dynamic mentors from content.json
 
 import Testimonials from "@/components/Testimonials";
 import EnrollForm from "@/components/EnrollForm"; // client component (has onSubmit, WA opt-in default)
@@ -51,12 +51,43 @@ export interface Expert {
   role?: string;
   img?: string;
   linkedin?: string;
+  description?: string;
 }
 
-// content.json can be either an array of courses or an object with { courses, experts }
-export type ContentRoot = { courses: Course[]; experts?: Expert[] } | Course[];
+// Minimal shape for nested mentors in homepage.mentors.mentors
+export interface MentorRaw {
+  img?: string;
+  name?: string;
+  current_company?: string; // e.g. "Data Engineer @ Shiprocket"
+  description?: string;
+  linkdin_profile?: string;
+  // alternates seen elsewhere
+  full_name?: string;
+  title?: string;
+  designation?: string;
+  designation_name?: string;
+  company?: string;
+  company_name?: string;
+  details?: string;
+  linkedin?: string;
+  linkedin_url?: string;
+  linkdin_url?: string;
+  image?: string;
+  photo?: string;
+  avatar?: string;
+  img_url?: string;
+}
 
-function isWrapped(root: ContentRoot): root is { courses: Course[]; experts?: Expert[] } {
+export type ContentRoot =
+  | {
+      homepage?: { mentors?: { mentors?: MentorRaw[] } };
+      mentors?: MentorRaw[];
+      experts?: Expert[];
+      courses: Course[];
+    }
+  | Course[];
+
+function isWrapped(root: ContentRoot): root is Exclude<ContentRoot, Course[]> {
   return (root as { courses?: unknown }).courses !== undefined;
 }
 
@@ -155,11 +186,18 @@ function condenseModules(modules: Module[]): { outline: OutlineItem[]; capstone:
   return { outline, capstone };
 }
 
+/* ===========================
+   Mentor extraction (typed)
+=========================== */
+function asRecord(x: unknown): x is Record<string, unknown> {
+  return typeof x === "object" && x !== null;
+}
+
 function sanitizeExperts(raw: unknown): Expert[] {
   if (!Array.isArray(raw)) return [];
   return raw
     .map((item) => {
-      const e = item as Partial<Expert>;
+      const e = item as Partial<Expert> & { description?: unknown };
       const name = e.name ? String(e.name) : "";
       if (!name) return null;
       return {
@@ -167,35 +205,47 @@ function sanitizeExperts(raw: unknown): Expert[] {
         role: e.role ? String(e.role) : undefined,
         img: e.img ? String(e.img) : undefined,
         linkedin: e.linkedin ? String(e.linkedin) : undefined,
+        description: e.description ? String(e.description) : undefined,
       } as Expert;
     })
     .filter((x): x is Expert => Boolean(x));
 }
 
-// Normalize mentors objects that may come from content.json under a top-level `mentors` key.
-// Supports common alternative field names used in existing JSONs.
 function sanitizeMentors(raw: unknown): Expert[] {
   if (!Array.isArray(raw)) return [];
   return (raw as unknown[])
     .map((m) => {
-      const obj = m as Record<string, unknown>;
+      const obj = asRecord(m) ? (m as MentorRaw) : ({} as MentorRaw);
       const name = obj.name ?? obj.full_name ?? obj.title;
-      const role = obj.role ?? obj.designation ?? obj.designation_name ?? obj.current_company; // include current_company
-      const company = obj.company ?? obj.company_name ?? obj.current_company;
+      const roleRaw = obj.role ?? obj.designation ?? obj.designation_name ?? obj.current_company;
+      const companyRaw = obj.company ?? obj.company_name ?? obj.current_company;
       const img = obj.img ?? obj.image ?? obj.photo ?? obj.avatar ?? obj.img_url;
-      const linkedin = obj.linkedin ?? obj.linkedin_url ?? obj.linkdin_url ?? obj.linkdin_profile; // include linkdin_profile variant
+      const linkedin = obj.linkedin ?? obj.linkedin_url ?? obj.linkdin_url ?? obj.linkdin_profile;
+      const description = obj.description ?? obj.details;
 
       const nameStr = name ? String(name) : "";
       if (!nameStr) return null;
 
-      const rolePieces = [role ? String(role) : "", company ? String(company) : ""].filter(Boolean);
-      const roleStr = rolePieces.length > 0 ? rolePieces.join(rolePieces.length === 2 ? ", " : "") : undefined;
+      // Build a clean role string. If role already contains '@', don't append company.
+      const rolePieces: string[] = [];
+      if (roleRaw) rolePieces.push(String(roleRaw));
+      const roleAlreadyHasAt = roleRaw ? String(roleRaw).includes("@") : false;
+      if (companyRaw && !roleAlreadyHasAt) rolePieces.push(String(companyRaw));
+      let role = rolePieces.join(roleAlreadyHasAt ? " " : ", ");
+
+      // De-duplicate comma-separated parts (e.g., "Data Engineer, Shiprocket, Shiprocket")
+      if (role) {
+        const parts = role.split(/,\s*/);
+        const unique = Array.from(new Set(parts));
+        role = unique.join(", ");
+      }
 
       return {
         name: nameStr,
-        role: roleStr,
+        role: role || undefined,
         img: img ? String(img) : undefined,
         linkedin: linkedin ? String(linkedin) : undefined,
+        description: description ? String(description) : undefined,
       } as Expert;
     })
     .filter((x): x is Expert => Boolean(x));
@@ -211,28 +261,22 @@ function extractExperts(raw: ContentRoot): Expert[] {
 
   // Fallback 1: top-level `mentors` array
   if (isWrapped(raw)) {
-    const mentors = (raw as { mentors?: unknown }).mentors;
-    const expertsFromMentors = sanitizeMentors(mentors);
-    if (expertsFromMentors.length > 0) return expertsFromMentors;
+    const mentorsTop = (raw as { mentors?: unknown }).mentors;
+    const expertsFromMentorsTop = sanitizeMentors(mentorsTop);
+    if (expertsFromMentorsTop.length > 0) return expertsFromMentorsTop;
   }
 
   // Fallback 2: nested `homepage.mentors.mentors` (as in provided content.json)
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const nested = (raw as any)?.homepage?.mentors?.mentors as unknown;
-    const expertsFromHomepage = sanitizeMentors(nested);
-    // Prevent duplicate role entries (e.g., designation appearing twice)
-    const cleanedExperts = expertsFromHomepage.map((e) => {
-      if (e.role) {
-        const parts = e.role.split(/,\s*/);
-        const unique = Array.from(new Set(parts));
-        return { ...e, role: unique.join(", ") };
+  if (isWrapped(raw)) {
+    const homepage = (raw as { homepage?: unknown }).homepage;
+    if (asRecord(homepage)) {
+      const mentorsWrap = (homepage as { mentors?: unknown }).mentors;
+      if (asRecord(mentorsWrap)) {
+        const nested = (mentorsWrap as { mentors?: unknown }).mentors;
+        const expertsFromHomepage = sanitizeMentors(nested);
+        if (expertsFromHomepage.length > 0) return expertsFromHomepage;
       }
-      return e;
-    });
-    if (cleanedExperts.length > 0) return cleanedExperts;
-  } catch {
-    // ignore shape errors and fall through
+    }
   }
 
   return [];
@@ -262,9 +306,8 @@ export default function Page(): JSX.Element {
     { name: "Neos Alpha", logo: "https://res.cloudinary.com/dd0e4iwau/image/upload/v1760618477/neos_alpha_ly4os5.jpg" },
   ];
 
-  // Dynamic experts from content.json (top-level `experts` array). Falls back to empty if missing.
-  const expertsFromJson = extractExperts(CONTENT);
-  const experts: Expert[] = expertsFromJson;
+  // Dynamic experts from content.json (experts/mentors or homepage.mentors.mentors)
+  const experts: Expert[] = extractExperts(CONTENT);
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
@@ -304,13 +347,6 @@ export default function Page(): JSX.Element {
                 Industry-led. Project-first. Job-focused. Start with a small
                 enrollment, pay the balance after placement.
               </p>
-
-              {/* <div className="mt-5 flex flex-wrap items-center gap-2 text-[11px] sm:text-xs">
-                <Chip>Online</Chip>
-                <Chip>Offline</Chip>
-                <Chip>Recordings available</Chip>
-                <Chip>{classTime}</Chip>
-              </div> */}
 
               {/* View Syllabus — single button with dropdown */}
               <div className="mt-6 flex">
@@ -417,7 +453,7 @@ export default function Page(): JSX.Element {
             </div>
           ) : (
             <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-600">
-              Experts coming soon. Add a top-level `experts` array to <code>app/assets/content.json</code> with fields: {`{ name, role?, img?, linkedin? }`}.
+              Mentor profiles coming soon. Add them under <code>homepage.mentors.mentors</code> in <code>app/assets/content.json</code> with fields: {`{ name, img?, description?, linkdin_profile? }`}.
             </div>
           )}
         </div>
