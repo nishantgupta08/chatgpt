@@ -7,6 +7,7 @@ import Testimonials from "@/components/Testimonials";
 import EnrollForm from "@/components/EnrollForm";
 import contentJson from "../assets/content.json";
 import { JSX } from "react";
+import image from '../assets/hero-img3.png'
 
 /* ===========================
    Types
@@ -58,6 +59,7 @@ export interface Expert {
 
 /* Minimal mentor raw shape used in your content.json */
 interface MentorRaw {
+  role: string | undefined;
   img?: string;
   name?: string;
   current_company?: string;
@@ -213,7 +215,7 @@ function sanitizeMentors(raw: unknown): Expert[] {
   if (!Array.isArray(raw)) return [];
   return (raw as unknown[])
     .map((m) => {
-      const obj = asRecord(m) ? (m as MentorRaw) : ({} as MentorRaw);
+      const obj = asRecord(m) ? (m as unknown as MentorRaw) : ({} as MentorRaw);
       const name = obj.name ?? obj.full_name ?? obj.title;
       const roleRaw = obj.role ?? obj.designation ?? obj.designation_name ?? obj.current_company;
       const companyRaw = obj.company ?? obj.company_name ?? obj.current_company;
@@ -468,7 +470,7 @@ export default function Page(): JSX.Element {
       </section>
 
       {/* INDIA MAP + ENROLLED STUDENTS */}
-      <IndiaLearnersMap students={ENROLLED} mapSrc="/india-map.svg" />
+      <IndiaLearnersMap students={ENROLLED} mapSrc="../india-map.svg" />
 
       {/* DA ⊂ DE */}
       <section id="subset" className="bg-white">
@@ -862,7 +864,7 @@ export function IndiaLearnersMap({ students, mapSrc = "/india-map.svg" }: { stud
         <div className="relative mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
           {/* map image */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={mapSrc} alt="India map" className="pointer-events-none mx-auto w-full max-w-[880px] opacity-95" />
+          <img src="../im.jpg`" alt="India map" className="pointer-events-none mx-auto w-full max-w-[880px] opacity-95" />
 
           {/* overlay pins — we use a positioned container that matches the image box via padding-bottom trick */}
           <div className="pointer-events-none relative -mt-[calc(100%+16px)] h-0 w-full pb-[100%] sm:pb-[70%]">
