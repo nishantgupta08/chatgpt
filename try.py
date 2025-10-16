@@ -172,9 +172,78 @@ function sanitizeExperts(raw: unknown): Expert[] {
     .filter((x): x is Expert => Boolean(x));
 }
 
+// Normalize mentors objects that may come from content.json under a top-level `mentors` key.
+// Supports common alternative field names used in existing JSONs.
+function sanitizeMentors(raw: unknown): Expert[] {
+  if (!Array.isArray(raw)) return [];
+  return (raw as unknown[])
+    .map((m) => {
+      const obj = m as Record<string, unknown>;
+      const name = obj.name ?? obj.full_name ?? obj.title;
+      const role = obj.role ?? obj.designation ?? obj.designation_name ?? obj.current_company; // include current_company
+      const company = obj.company ?? obj.company_name ?? obj.current_company;
+      const img = obj.img ?? obj.image ?? obj.photo ?? obj.avatar ?? obj.img_url;
+      const linkedin = obj.linkedin ?? obj.linkedin_url ?? obj.linkdin_url ?? obj.linkdin_profile; // include linkdin_profile variant
+
+      const nameStr = name ? String(name) : "";
+      if (!nameStr) return null;
+
+      const rolePieces = [role ? String(role) : "", company ? String(company) : ""].filter(Boolean);
+      const roleStr = rolePieces.length > 0 ? rolePieces.join(rolePieces.length === 2 ? ", " : "") : undefined;
+
+      return {
+        name: nameStr,
+        role: roleStr,
+        img: img ? String(img) : undefined,
+        linkedin: linkedin ? String(linkedin) : undefined,
+      } as Expert;
+    })
+    .filter((x): x is Expert => Boolean(x));
+}
+
 function extractExperts(raw: ContentRoot): Expert[] {
+  // Preferred: top-level `experts` array
   if (isWrapped(raw)) {
     const fromTop = (raw as { experts?: unknown }).experts;
+    const expertsTop = sanitizeExperts(fromTop);
+    if (expertsTop.length > 0) return expertsTop;
+  }
+
+  // Fallback 1: top-level `mentors` array
+  if (isWrapped(raw)) {
+    const mentors = (raw as { mentors?: unknown }).mentors;
+    const expertsFromMentors = sanitizeMentors(mentors);
+    if (expertsFromMentors.length > 0) return expertsFromMentors;
+  }
+
+  // Fallback 2: nested `homepage.mentors.mentors` (as in provided content.json)
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const nested = (raw as any)?.homepage?.mentors?.mentors as unknown;
+    const expertsFromHomepage = sanitizeMentors(nested);
+    if (expertsFromHomepage.length > 0) return expertsFromHomepage;
+  } catch {
+    // ignore shape errors and fall through
+  }
+
+  return [];
+}(raw: ContentRoot): Expert[] {
+  // Preferred: top-level `experts` array
+  if (isWrapped(raw)) {
+    const fromTop = (raw as { experts?: unknown }).experts;
+    const expertsTop = sanitizeExperts(fromTop);
+    if (expertsTop.length > 0) return expertsTop;
+  }
+
+  // Fallback: top-level `mentors` array
+  if (isWrapped(raw)) {
+    const mentors = (raw as { mentors?: unknown }).mentors;
+    const expertsFromMentors = sanitizeMentors(mentors);
+    if (expertsFromMentors.length > 0) return expertsFromMentors;
+  }
+
+  return [];
+}).experts;
     const expertsTop = sanitizeExperts(fromTop);
     if (expertsTop.length > 0) return expertsTop;
   }
