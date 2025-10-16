@@ -1,6 +1,19 @@
 function extractExperts(raw: ContentRoot): Expert[] {
-  
-  // Fallback 2: nested `homepage.mentors.mentors` (as in provided content.json)
+  // Preferred: top-level `experts` array
+  if (isWrapped(raw)) {
+    const fromTop = (raw as { experts?: unknown }).experts;
+    const expertsTop = sanitizeExperts(fromTop);
+    if (expertsTop.length > 0) return expertsTop;
+  }
+
+  // Fallback 1: top-level `mentors` array
+  if (isWrapped(raw)) {
+    const mentors = (raw as { mentors?: unknown }).mentors;
+    const expertsFromMentors = sanitizeMentors(mentors);
+    if (expertsFromMentors.length > 0) return expertsFromMentors;
+  }
+
+  // Fallback 2: nested `homepage.mentors.mentors`
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const nested = (raw as any)?.homepage?.mentors?.mentors as unknown;
@@ -10,22 +23,5 @@ function extractExperts(raw: ContentRoot): Expert[] {
     // ignore shape errors and fall through
   }
 
-  return [];
-}
-
-(raw: ContentRoot): Expert[] {
-
-  {
-    const mentors = (raw as { mentors?: unknown }).mentors;
-    const expertsFromMentors = sanitizeMentors(mentors);
-    if (expertsFromMentors.length > 0) return expertsFromMentors;
-  }
-
-  return [];
-}.experts;
-    const expertsTop = sanitizeExperts(fromTop);
-    if (expertsTop.length > 0) return expertsTop;
-  }
-  // If not present at the top level, try to derive none (fallback handled at callsite)
   return [];
 }
